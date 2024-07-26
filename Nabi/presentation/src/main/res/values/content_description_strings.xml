@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- fragment_sign_provider -->
+    <string name="sign_provider_title">타이틀 이미지</string>
+    <string name="sign_provider_btn_kakao_login">카카오 로그인 버튼</string>
+    <string name="sign_provider_btn_naver_login">네이버 로그인 버튼</string>
+    <string name="sign_provider_btn_google_login">구글 로그인 버튼</string>
+</resources>
