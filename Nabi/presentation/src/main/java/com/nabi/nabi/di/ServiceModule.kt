@@ -1,9 +1,6 @@
 package com.nabi.nabi.di
 
-import com.nabi.data.repository.AuthRepositoryImpl
 import com.nabi.data.service.AuthService
-import com.nabi.domain.repository.AuthRepository
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

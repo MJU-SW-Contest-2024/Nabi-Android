@@ -7,7 +7,6 @@ import com.nabi.domain.model.auth.NicknameInfo
 import com.nabi.domain.model.auth.SignInInfo
 import com.nabi.domain.repository.AuthRepository
 import javax.inject.Inject
-import kotlin.reflect.typeOf
 
 class AuthRepositoryImpl @Inject constructor(
     private val authRemoteDataSource: AuthRemoteDataSource

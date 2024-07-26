@@ -6,7 +6,6 @@ import com.nabi.data.model.auth.NicknameResponseDTO
 import com.nabi.data.model.auth.SignInRequestDTO
 import com.nabi.data.model.auth.SignInResponseDTO
 import com.nabi.data.service.AuthService
-import org.json.JSONObject
 import javax.inject.Inject
 
 class AuthRemoteDataSourceImpl @Inject constructor(
