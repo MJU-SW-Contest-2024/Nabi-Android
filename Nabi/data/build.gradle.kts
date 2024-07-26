@@ -61,4 +61,7 @@ dependencies {
 
     // LoggerUtils
     implementation(libs.logger)
+
+    // Kakao Login
+    implementation(libs.v2.user)
 }
