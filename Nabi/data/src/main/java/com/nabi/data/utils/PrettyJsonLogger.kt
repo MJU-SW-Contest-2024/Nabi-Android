@@ -1,4 +1,4 @@
-package com.nabi.nabi.utils
+package com.nabi.data.utils
 
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
