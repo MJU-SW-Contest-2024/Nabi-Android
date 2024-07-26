@@ -1,7 +1,13 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
+
+val properties = gradleLocalProperties(rootDir, providers)
 
 android {
     namespace = "com.nabi.nabi"
@@ -13,8 +19,9 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "BASE_URL", "\"${properties.getProperty("BASE_URL")}\"")
     }
 
     buildTypes {
@@ -33,9 +40,17 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        viewBinding = true
+        dataBinding = true
+        buildConfig = true
+    }
 }
 
 dependencies {
+
+    implementation(project(":data"))
+    implementation(project(":domain"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -45,4 +60,30 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // Hilt
+    implementation(libs.hilt.android)
+    kapt(libs.dagger.hilt.compiler)
+
+    // Glide
+    implementation(libs.glide)
+
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    // LoggingInterceptor
+    implementation(libs.logging.interceptor)
+    implementation(libs.okhttp)
+
+    // ViewModel
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+
+    // DataStore
+    implementation(libs.androidx.datastore.preferences)
+
+    // LoggerUtils
+    implementation(libs.logger)
 }
