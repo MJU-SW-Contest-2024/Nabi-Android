@@ -8,7 +8,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SignActivity: BaseActivity<ActivitySignBinding>(R.layout.activity_sign) {
-    private val signViewModel: SignViewModel by viewModels()
 
     override fun initView() {
         val ft = supportFragmentManager.beginTransaction()

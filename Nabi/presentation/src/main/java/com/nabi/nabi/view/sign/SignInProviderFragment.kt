@@ -1,6 +1,6 @@
 package com.nabi.nabi.view.sign
 
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.nabi.data.service.KakaoAuthService
 import com.nabi.data.utils.LoggerUtils
 import com.nabi.nabi.R
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class SignInProviderFragment: BaseFragment<FragmentSignProviderBinding>(R.layout.fragment_sign_provider) {
-    private val signViewModel: SignViewModel by activityViewModels()
+    private val signViewModel: SignInViewModel by viewModels()
 
     @Inject
     lateinit var kakaoAuthService: KakaoAuthService
