@@ -2,4 +2,8 @@
     <string name="app_name">Nabi</string>
     <string name="text_done">확인</string>
     <string name="text_nickname_condition">* 한글, 영어 최대 14자 이내 작성\n* 공백 입력 불가능\n* 입력한 닉네임은 대화에 사용될 예정입니다</string>
+
+    <string name="text_my_diary">나의 일기</string>
+    <string name="text_add_diary">일기 쓰기</string>
+    <string name="text_talk">대화하기</string>
 </resources>
