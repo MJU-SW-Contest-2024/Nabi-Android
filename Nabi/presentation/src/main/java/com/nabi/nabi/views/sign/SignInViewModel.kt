@@ -1,4 +1,4 @@
-package com.nabi.nabi.view.sign
+package com.nabi.nabi.views.sign
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     private val signInUseCase: SignInUseCase
-): ViewModel() {
+) : ViewModel() {
 
     private val _loginState = MutableLiveData<UiState<Unit>>(UiState.Loading)
     val loginState: LiveData<UiState<Unit>> get() = _loginState
@@ -26,9 +26,10 @@ class SignInViewModel @Inject constructor(
         _loginState.value = UiState.Loading
 
         viewModelScope.launch {
-            signInUseCase(idToken, provider
+            signInUseCase(
+                idToken, provider
             ).onSuccess {
-                runBlocking(Dispatchers.IO){
+                runBlocking(Dispatchers.IO) {
                     application.dataStore.setAuthProvider(provider)
                     application.dataStore.setAccessToken(it.accessToken)
                 }

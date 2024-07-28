@@ -1,7 +1,9 @@
 package com.nabi.nabi.di
 
 import com.nabi.data.datasource.AuthRemoteDataSource
+import com.nabi.data.datasource.HomeRemoteDataSource
 import com.nabi.data.datasourceImpl.AuthRemoteDataSourceImpl
+import com.nabi.data.datasourceImpl.HomeRemoteDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,4 +17,8 @@ abstract class DataSourceModule {
     @Binds
     @Singleton
     abstract fun bindsAuthRemoteDataSource(authRemoteDataSourceImpl: AuthRemoteDataSourceImpl): AuthRemoteDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindsHomeRemoteDataSource(homeRemoteDataSourceImpl: HomeRemoteDataSourceImpl): HomeRemoteDataSource
 }
