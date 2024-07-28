@@ -1,4 +1,4 @@
-package com.nabi.nabi.view.sign
+package com.nabi.nabi.views.sign
 
 import androidx.fragment.app.viewModels
 import com.nabi.data.service.KakaoAuthService

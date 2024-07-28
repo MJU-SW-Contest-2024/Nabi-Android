@@ -1,4 +1,4 @@
-package com.nabi.nabi.view.home
+package com.nabi.nabi.views.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

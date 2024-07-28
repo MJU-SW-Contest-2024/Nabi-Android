@@ -1,4 +1,4 @@
-package com.nabi.nabi.view.home
+package com.nabi.nabi.views.home
 
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager

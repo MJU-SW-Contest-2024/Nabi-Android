@@ -1,4 +1,4 @@
-package com.nabi.nabi.view.sign
+package com.nabi.nabi.views.sign
 
 import android.content.Intent
 import android.text.InputFilter
@@ -8,7 +8,7 @@ import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.databinding.FragmentSignNicknameBinding
 import com.nabi.nabi.utils.UiState
-import com.nabi.nabi.view.home.MainActivity
+import com.nabi.nabi.views.home.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.regex.Pattern
 
