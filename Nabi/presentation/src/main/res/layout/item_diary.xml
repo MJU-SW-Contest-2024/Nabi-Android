@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/shape_radius_20"
+        android:backgroundTint="@color/gray3">
+
+        <TextView
+            android:id="@+id/tv_diary"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:padding="10dp"
+
+            android:text="오늘의 일기"
+            android:textColor="#272727"
+            android:ellipsize="end"
+            android:maxLines="8"
+            android:textSize="12sp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
