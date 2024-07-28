@@ -1,6 +1,5 @@
 package com.nabi.nabi.view.sign
 
-import androidx.activity.viewModels
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseActivity
 import com.nabi.nabi.databinding.ActivitySignBinding
