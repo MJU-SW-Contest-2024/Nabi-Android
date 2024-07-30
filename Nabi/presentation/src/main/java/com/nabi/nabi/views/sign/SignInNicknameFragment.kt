@@ -8,7 +8,7 @@ import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.databinding.FragmentSignNicknameBinding
 import com.nabi.nabi.utils.UiState
-import com.nabi.nabi.views.home.MainActivity
+import com.nabi.nabi.views.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.regex.Pattern
 

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/primary">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="48dp"
+            android:src="@drawable/ic_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_select_date"
+            style="@style/heading4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="날짜 선택"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/iv_back"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_back" />
+
+        <TextView
+            android:id="@+id/tv_today_date"
+            style="@style/heading1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="56dp"
+            android:text="2024년 7월 29일"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_select_date" />
+
+        <TextView
+            android:id="@+id/tv_today_lunar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="음력 2024년 0월 00일"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_today_date" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_calendar"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/shape_radius_top_20"
+            android:backgroundTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_today_lunar" />
+
+        <TextView
+            android:id="@+id/tv_select_year"
+            style="@style/heading2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="48dp"
+            android:text="2024"
+            android:textColor="#383838"
+
+            app:layout_constraintStart_toStartOf="@id/cl_calendar"
+            app:layout_constraintTop_toTopOf="@id/cl_calendar" />
+
+        <ImageView
+            android:id="@+id/iv_select_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:src="@drawable/ic_right"
+
+            app:layout_constraintBottom_toBottomOf="@id/tv_select_year"
+            app:layout_constraintStart_toEndOf="@id/tv_select_year"
+            app:layout_constraintTop_toTopOf="@id/tv_select_year" />
+
+        <TextView
+            android:id="@+id/tv_select_month"
+            style="@style/heading2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="32dp"
+            android:text="July"
+            android:textColor="#383838"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_select_year" />
+
+        <ImageView
+            android:id="@+id/iv_left_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:src="@drawable/ic_left"
+
+            app:layout_constraintBottom_toBottomOf="@id/tv_select_month"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_select_month" />
+
+        <ImageView
+            android:id="@+id/iv_right_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/ic_right"
+
+            app:layout_constraintBottom_toBottomOf="@id/tv_select_month"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_select_month" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_calendar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="20dp"
+
+            app:layout_constraintTop_toBottomOf="@id/tv_select_month" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_done"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="48dp"
+            android:background="@drawable/shape_radius_50"
+            android:backgroundTint="@color/black"
+
+            android:text="@string/text_done"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

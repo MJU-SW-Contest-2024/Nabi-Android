@@ -1,25 +1,23 @@
 package com.nabi.nabi.views.home
 
-import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nabi.data.utils.LoggerUtils
 import com.nabi.nabi.R
-import com.nabi.nabi.base.BaseActivity
-import com.nabi.nabi.databinding.ActivityMainBinding
+import com.nabi.nabi.base.BaseFragment
+import com.nabi.nabi.databinding.FragmentHomeBinding
 import com.nabi.nabi.utils.UiState
+import com.nabi.nabi.views.addDiary.SelectDateFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
+class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private lateinit var mainRvAdapter: MainRvAdapter
     private val viewModel: MainViewModel by viewModels()
 
     override fun initView() {
         viewModel.fetchData()
-
         setDiaryRv()
-        initListener()
-        setObserver()
     }
 
     private fun setDiaryRv() {
@@ -28,7 +26,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         binding.rvDiary.apply {
             adapter = mainRvAdapter
             layoutManager =
-                LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        }
+    }
+
+    override fun initListener() {
+        super.initListener()
+
+        binding.btnAddDiary.setOnClickListener {
+            val ft = requireActivity().supportFragmentManager.beginTransaction()
+            ft.replace(R.id.fl_main, SelectDateFragment())
+            ft.addToBackStack("home")
+            ft.commit()
         }
     }
 

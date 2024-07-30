@@ -15,18 +15,19 @@
 
         <TextView
             android:id="@+id/tv_diary"
+            style="@style/body1"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:padding="10dp"
+            android:layout_height="match_parent"
 
-            android:text="오늘의 일기"
-            android:textColor="#272727"
             android:ellipsize="end"
-            android:maxLines="8"
+            android:maxLines="10"
+            android:padding="10dp"
+            android:text="오늘의 일기"
+            android:textColor="@color/black"
             android:textSize="12sp"
 
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
