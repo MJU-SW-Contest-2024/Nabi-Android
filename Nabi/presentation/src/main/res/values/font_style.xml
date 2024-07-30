@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Headings -->
+    <!--
+        font-weight : font
+
+        400 : Normal or Regular
+        500 : Medium
+        600 : Semi Bold
+        700 : Bold
+    -->
+
+    <!-- Heading -->
     <style name="heading1">
         <item name="fontFamily">@font/pretendard_bold</item>
         <item name="android:includeFontPadding">false</item>
@@ -29,10 +38,19 @@
         <item name="lineHeight">22sp</item>
     </style>
 
+    <!-- Body -->
     <style name="body1">
         <item name="fontFamily">@font/pretendard_medium</item>
         <item name="android:includeFontPadding">false</item>
         <item name="android:textSize">16sp</item>
+        <item name="lineHeight">22sp</item>
+    </style>
+
+    <!-- ETC : <피그마-디자인 시스템>에 정의되지 않은 Typography 임시 정의 -->
+    <style name="pretendard_semi_bold_18px">
+        <item name="fontFamily">@font/pretendard_semi_bold</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">18sp</item>
         <item name="lineHeight">22sp</item>
     </style>
 
