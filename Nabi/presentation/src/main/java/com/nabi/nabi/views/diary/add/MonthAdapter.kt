@@ -1,4 +1,4 @@
-package com.nabi.nabi.views.addDiary
+package com.nabi.nabi.views.diary.add
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -9,9 +9,28 @@ import com.nabi.nabi.databinding.ItemMonthBinding
 import java.util.Calendar
 import java.util.Date
 
-class MonthAdapter(private var currentMonthOffset: Int) :
+class MonthAdapter(
+    private var currentMonthOffset: Int,
+    private var selectedDate: Date?
+) :
     RecyclerView.Adapter<MonthAdapter.MonthView>() {
     private var calendar = Calendar.getInstance()
+    private var diaryList: Set<String> = emptySet()
+
+    interface OnDateSelectedListener {
+        fun onDateSelected(date: Date)
+    }
+
+    private var dateSelectedListener: OnDateSelectedListener? = null
+
+    fun setOnDateSelectedListener(listener: OnDateSelectedListener) {
+        dateSelectedListener = listener
+    }
+
+    fun updateSelectedDate(date: Date?) {
+        selectedDate = date
+        notifyDataSetChanged()
+    }
 
     inner class MonthView(val binding: ItemMonthBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -27,7 +46,6 @@ class MonthAdapter(private var currentMonthOffset: Int) :
         calendar.add(Calendar.MONTH, currentMonthOffset)
 
         val currentMonth = calendar.get(Calendar.MONTH) + 1
-        val currentYear = calendar.get(Calendar.YEAR)
 
         val dayList: MutableList<Date> = MutableList(6 * 7) { Date() }
         calendar.add(Calendar.DAY_OF_MONTH, 1 - calendar.get(Calendar.DAY_OF_WEEK))
@@ -39,12 +57,20 @@ class MonthAdapter(private var currentMonthOffset: Int) :
         }
 
         val dayListManager = GridLayoutManager(holder.binding.root.context, 7)
-        val dayListAdapter = DayAdapter(currentMonth, dayList)
+        val dayListAdapter = DayAdapter(currentMonth, dayList) { selectedDate ->
+            dateSelectedListener?.onDateSelected(selectedDate)
+        }.apply {
+            setDiaryDates(diaryList)
+            setSelectedDate(selectedDate)
+        }
+
 
         holder.binding.itemMonthDayList.apply {
             layoutManager = dayListManager
             adapter = dayListAdapter
         }
+
+        dayListAdapter.setDiaryDates(diaryList)
     }
 
     override fun getItemCount(): Int {
@@ -53,6 +79,11 @@ class MonthAdapter(private var currentMonthOffset: Int) :
 
     fun updateCurrentMonth(monthOffset: Int) {
         currentMonthOffset += monthOffset
+        notifyDataSetChanged()
+    }
+
+    fun updateDiaryDates(dates: List<String>) {
+        this.diaryList = dates.toSet()
         notifyDataSetChanged()
     }
 }
