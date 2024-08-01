@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nabi.domain.model.home.RecentFiveDiary
 import com.nabi.nabi.databinding.ItemDiaryBinding
 
-class MainRvAdapter : RecyclerView.Adapter<MainRvAdapter.ActivityViewHolder>() {
+class HomeRvAdapter : RecyclerView.Adapter<HomeRvAdapter.ActivityViewHolder>() {
     private var dataList: List<String> = mutableListOf()
 
     inner class ActivityViewHolder(private val binding: ItemDiaryBinding) :
@@ -22,12 +22,12 @@ class MainRvAdapter : RecyclerView.Adapter<MainRvAdapter.ActivityViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): MainRvAdapter.ActivityViewHolder {
+    ): HomeRvAdapter.ActivityViewHolder {
         val binding = ItemDiaryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ActivityViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: MainRvAdapter.ActivityViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: HomeRvAdapter.ActivityViewHolder, position: Int) {
         holder.bind(dataList[position])
     }
 

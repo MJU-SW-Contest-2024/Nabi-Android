@@ -1,10 +1,12 @@
 package com.nabi.nabi.di
 
 import com.nabi.data.datasource.AuthRemoteDataSource
+import com.nabi.data.datasource.DiaryRemoteDataSource
 import com.nabi.data.datasource.HomeRemoteDataSource
 import com.nabi.data.datasource.NotificationRemoteDataSource
 import com.nabi.data.datasource.UserRemoteDataSource
 import com.nabi.data.datasourceImpl.AuthRemoteDataSourceImpl
+import com.nabi.data.datasourceImpl.DiaryRemoteDataSourceImpl
 import com.nabi.data.datasourceImpl.HomeRemoteDataSourceImpl
 import com.nabi.data.datasourceImpl.NotificationRemoteDataSourceImpl
 import com.nabi.data.datasourceImpl.UserRemoteDataSourceImpl
@@ -33,4 +35,8 @@ abstract class DataSourceModule {
     @Binds
     @Singleton
     abstract fun bindsUserRemoteDataSource(userRemoteDataSourceImpl: UserRemoteDataSourceImpl): UserRemoteDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindsDiaryRemoteDataSource(diaryRemoteDataSourceImpl: DiaryRemoteDataSourceImpl): DiaryRemoteDataSource
 }

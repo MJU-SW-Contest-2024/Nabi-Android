@@ -96,4 +96,7 @@ dependencies {
 
     // WorkManager
     implementation(libs.androidx.work.runtime.ktx)
+
+    // ViewPager2
+    implementation("androidx.viewpager2:viewpager2:1.1.0")
 }

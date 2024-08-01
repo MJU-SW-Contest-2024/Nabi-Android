@@ -7,13 +7,13 @@ import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.databinding.FragmentHomeBinding
 import com.nabi.nabi.utils.UiState
-import com.nabi.nabi.views.addDiary.SelectDateFragment
+import com.nabi.nabi.views.diary.add.SelectDateFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
-    private lateinit var mainRvAdapter: MainRvAdapter
-    private val viewModel: MainViewModel by viewModels()
+    private lateinit var homeRvAdapter: HomeRvAdapter
+    private val viewModel: HomeViewModel by viewModels()
 
     override fun initView() {
         viewModel.fetchData()
@@ -21,10 +21,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     private fun setDiaryRv() {
-        mainRvAdapter = MainRvAdapter()
+        homeRvAdapter = HomeRvAdapter()
 
         binding.rvDiary.apply {
-            adapter = mainRvAdapter
+            adapter = homeRvAdapter
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
@@ -54,7 +54,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
                 is UiState.Success -> {
                     val diaryList = it.data.recentFiveDiaries
-                    mainRvAdapter.setData(diaryList)
+                    homeRvAdapter.setData(diaryList)
                     binding.tvNickname.text = "${it.data.nickname} 님"
                     binding.tvDiaryDay.text = "일기 작성 ${it.data.consecutiveWritingDays}일 째"
                 }

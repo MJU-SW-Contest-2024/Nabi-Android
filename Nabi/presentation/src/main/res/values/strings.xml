@@ -6,4 +6,6 @@
     <string name="text_my_diary">나의 일기</string>
     <string name="text_add_diary">일기 쓰기</string>
     <string name="text_talk">대화하기</string>
+
+    <string name="text_select_date">날짜 선택</string>
 </resources>
