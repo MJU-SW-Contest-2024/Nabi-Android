@@ -9,8 +9,10 @@ import dagger.hilt.android.AndroidEntryPoint
 class SignActivity: BaseActivity<ActivitySignBinding>(R.layout.activity_sign) {
 
     override fun initView() {
+        val isLoginSuccess = intent.getBooleanExtra("isLoginSuccess", false)
+
         val ft = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fl_sign, SignInProviderFragment())
+        ft.replace(R.id.fl_sign, if(isLoginSuccess) SignInNicknameFragment() else SignInProviderFragment())
         ft.commit()
     }
 }

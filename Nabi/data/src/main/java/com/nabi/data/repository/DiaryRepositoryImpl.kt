@@ -3,9 +3,6 @@ package com.nabi.data.repository
 import android.util.Log
 import com.nabi.data.datasource.DiaryRemoteDataSource
 import com.nabi.data.mapper.DiaryMapper
-import com.nabi.data.model.auth.SignInRequestDTO
-import com.nabi.data.model.diary.ResponseMonthDiaryDTO
-import com.nabi.domain.model.auth.SignInInfo
 import com.nabi.domain.model.diary.MonthDiaryInfo
 import com.nabi.domain.repository.DiaryRepository
 import javax.inject.Inject

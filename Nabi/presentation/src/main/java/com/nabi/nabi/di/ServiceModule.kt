@@ -3,6 +3,8 @@ package com.nabi.nabi.di
 import com.nabi.data.service.AuthService
 import com.nabi.data.service.DiaryService
 import com.nabi.data.service.HomeService
+import com.nabi.data.service.NotificationService
+import com.nabi.data.service.UserService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,6 +25,16 @@ object ServiceModule {
     @Singleton
     fun providesHomeService(retrofit: Retrofit): HomeService =
         retrofit.create(HomeService::class.java)
+
+    @Provides
+    @Singleton
+    fun providesNotificationService(retrofit: Retrofit): NotificationService =
+        retrofit.create(NotificationService::class.java)
+
+    @Provides
+    @Singleton
+    fun providesUserService(retrofit: Retrofit): UserService =
+        retrofit.create(UserService::class.java)
 
     @Provides
     @Singleton
