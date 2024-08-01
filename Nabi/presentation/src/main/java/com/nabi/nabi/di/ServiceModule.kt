@@ -1,6 +1,7 @@
 package com.nabi.nabi.di
 
 import com.nabi.data.service.AuthService
+import com.nabi.data.service.DiaryService
 import com.nabi.data.service.HomeService
 import dagger.Module
 import dagger.Provides
@@ -22,4 +23,9 @@ object ServiceModule {
     @Singleton
     fun providesHomeService(retrofit: Retrofit): HomeService =
         retrofit.create(HomeService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideDiaryService(retrofit: Retrofit): DiaryService =
+        retrofit.create(DiaryService::class.java)
 }
