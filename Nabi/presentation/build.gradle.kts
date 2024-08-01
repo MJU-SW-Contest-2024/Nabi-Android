@@ -89,4 +89,6 @@ dependencies {
 
     // Kakao Login
     implementation(libs.v2.user)
+
+    implementation("androidx.viewpager2:viewpager2:1.1.0")
 }

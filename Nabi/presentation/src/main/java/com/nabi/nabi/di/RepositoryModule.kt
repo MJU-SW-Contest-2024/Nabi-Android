@@ -1,8 +1,10 @@
 package com.nabi.nabi.di
 
 import com.nabi.data.repository.AuthRepositoryImpl
+import com.nabi.data.repository.DiaryRepositoryImpl
 import com.nabi.data.repository.HomeRepositoryImpl
 import com.nabi.domain.repository.AuthRepository
+import com.nabi.domain.repository.DiaryRepository
 import com.nabi.domain.repository.HomeRepository
 import dagger.Binds
 import dagger.Module
@@ -20,4 +22,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindsHomeRepository(homeRepositoryImpl: HomeRepositoryImpl): HomeRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindsDiaryRepository(diaryRepositoryImpl: DiaryRepositoryImpl): DiaryRepository
 }
