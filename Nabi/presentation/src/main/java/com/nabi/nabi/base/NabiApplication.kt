@@ -2,10 +2,8 @@ package com.nabi.nabi.base
 
 import android.app.Application
 import com.kakao.sdk.common.KakaoSdk
-import com.nabi.domain.repository.DataStoreRepository
 import com.nabi.nabi.BuildConfig
 import dagger.hilt.android.HiltAndroidApp
-import javax.inject.Inject
 
 @HiltAndroidApp
 class NabiApplication : Application() {

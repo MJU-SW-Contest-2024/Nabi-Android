@@ -1,7 +1,6 @@
 package com.nabi.domain.usecase.diary
 
 import com.nabi.domain.model.diary.MonthDiaryInfo
-import com.nabi.domain.model.home.HomeInfo
 import com.nabi.domain.repository.DiaryRepository
 
 class DiaryUseCase(private val repository: DiaryRepository) {
