@@ -30,6 +30,7 @@ class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start)
     @Inject lateinit var dataStoreRepository: DataStoreRepository
 
     override fun initView() {
+        moveActivity(true)
         viewModel.fetchMyInfo()
     }
 
@@ -93,6 +94,7 @@ class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start)
         if(isValid && !viewModel.isRegister){
             intent.putExtra("isLoginSuccess", true)
         }
+        intent.putExtra("isLoginSuccess", true)
 
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)

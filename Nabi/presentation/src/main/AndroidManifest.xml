@@ -28,7 +28,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".views.sign.SignActivity"/>
+        <activity
+            android:name=".views.sign.SignActivity"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity android:name=".views.MainActivity"/>
 

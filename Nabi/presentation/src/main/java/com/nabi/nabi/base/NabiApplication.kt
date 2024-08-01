@@ -13,9 +13,6 @@ class NabiApplication : Application() {
         lateinit var application: NabiApplication
     }
 
-    @Inject
-    lateinit var dataStore: DataStoreRepository
-
     override fun onCreate() {
         super.onCreate()
 

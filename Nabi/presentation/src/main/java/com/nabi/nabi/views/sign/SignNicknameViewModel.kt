@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nabi.domain.repository.DataStoreRepository
 import com.nabi.domain.usecase.auth.SetNicknameUseCase
 import com.nabi.nabi.base.NabiApplication.Companion.application
 import com.nabi.nabi.utils.UiState
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignNicknameViewModel @Inject constructor(
-    private val setNicknameUseCase: SetNicknameUseCase
+    private val setNicknameUseCase: SetNicknameUseCase,
+    private val dataStoreRepository: DataStoreRepository
 ): ViewModel() {
 
     private val _nickState = MutableLiveData<UiState<Unit>>(UiState.Loading)
@@ -24,7 +26,7 @@ class SignNicknameViewModel @Inject constructor(
 
         viewModelScope.launch {
             setNicknameUseCase(
-                application.dataStore.getAccessToken().getOrNull().orEmpty(),
+                dataStoreRepository.getAccessToken().getOrNull().orEmpty(),
                 nick
             ).onSuccess {
                 _nickState.value = UiState.Success(Unit)
