@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
 }
 
 val properties = gradleLocalProperties(rootDir, providers)
@@ -89,4 +90,10 @@ dependencies {
 
     // Kakao Login
     implementation(libs.v2.user)
+
+    // FCM
+    implementation(libs.firebase.messaging)
+
+    // WorkManager
+    implementation(libs.androidx.work.runtime.ktx)
 }
