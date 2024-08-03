@@ -41,6 +41,7 @@
                     android:layout_gravity="center"/>
 
                 <ImageButton
+                    android:id="@+id/ib_search"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:contentDescription="@null"

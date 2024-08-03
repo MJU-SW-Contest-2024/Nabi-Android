@@ -5,6 +5,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.databinding.FragmentSelectDiaryBinding
+import com.nabi.nabi.views.MainActivity
+import com.nabi.nabi.views.diary.search.SearchDiaryFragment
 import com.skydoves.balloon.ArrowPositionRules
 import com.skydoves.balloon.Balloon
 import com.skydoves.balloon.BalloonAnimation
@@ -40,6 +42,10 @@ class SelectDiaryFragment: BaseFragment<FragmentSelectDiaryBinding>(R.layout.fra
                 updateCurrentMonthText(position)
             }
         })
+
+        binding.ibSearch.setOnClickListener {
+            (requireActivity() as MainActivity).replaceFragment(SearchDiaryFragment(), true)
+        }
 
         binding.ibBack.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
