@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -18,7 +19,7 @@
             android:layout_marginTop="40dp"
 
             android:fontFamily="@font/pretendard_medium"
-            android:text="lilili 님"
+            tools:text="lilili 님"
             android:textColor="@color/black"
             android:textSize="24sp"
 
@@ -31,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:text="일기 작성 nn일 째"
+            tools:text="일기 작성 nn일 째"
             android:textColor="@color/gray1"
             android:textSize="14sp"
 
@@ -46,6 +47,7 @@
             android:layout_marginTop="8dp"
 
             android:background="@drawable/shape_circle"
+            android:contentDescription="@null"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_diary_day" />
@@ -82,6 +84,7 @@
             android:id="@+id/iv_detail_diary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@null"
             android:src="@drawable/ic_right"
 
             app:layout_constraintBottom_toBottomOf="@id/tv_my_diary"

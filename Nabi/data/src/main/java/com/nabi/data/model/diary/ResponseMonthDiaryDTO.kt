@@ -13,5 +13,7 @@ data class ResponseMonthDiaryDTO(
     @SerializedName("emotion")
     val emotion: String,
     @SerializedName("nickname")
-    val nickname: String
+    val nickname: String,
+    @SerializedName("isBookmarked")
+    val isBookmarked: Boolean
 )

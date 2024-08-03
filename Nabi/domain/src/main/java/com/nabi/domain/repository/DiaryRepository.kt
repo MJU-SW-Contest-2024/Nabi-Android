@@ -1,7 +1,7 @@
 package com.nabi.domain.repository
 
-import com.nabi.domain.model.diary.MonthDiaryInfo
+import com.nabi.domain.model.diary.DiaryInfo
 
 interface DiaryRepository {
-    suspend fun checkMonthDiary(accessToken: String, year: Int, month: Int): Result<List<MonthDiaryInfo>>
+    suspend fun getMonthlyDiary(accessToken: String, year: Int, month: Int): Result<List<DiaryInfo>>
 }

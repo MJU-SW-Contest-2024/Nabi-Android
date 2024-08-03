@@ -7,7 +7,8 @@ import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.databinding.FragmentHomeBinding
 import com.nabi.nabi.utils.UiState
-import com.nabi.nabi.views.diary.add.SelectDateFragment
+import com.nabi.nabi.views.diary.add.AddDiarySelectDateFragment
+import com.nabi.nabi.views.diary.view.SelectDiaryFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -35,8 +36,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         binding.btnAddDiary.setOnClickListener {
             val ft = requireActivity().supportFragmentManager.beginTransaction()
-            ft.replace(R.id.fl_main, SelectDateFragment())
+            ft.replace(R.id.fl_main, AddDiarySelectDateFragment())
             ft.addToBackStack("home")
+            ft.commit()
+        }
+
+        binding.ivDetailDiary.setOnClickListener {
+            val ft = requireActivity().supportFragmentManager.beginTransaction()
+            ft.replace(R.id.fl_main, SelectDiaryFragment())
+            ft.addToBackStack(null)
             ft.commit()
         }
     }

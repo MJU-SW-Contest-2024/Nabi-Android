@@ -99,4 +99,7 @@ dependencies {
 
     // ViewPager2
     implementation("androidx.viewpager2:viewpager2:1.1.0")
+
+    // Tooltip - Balloon
+    implementation("com.github.skydoves:balloon:1.4.6")
 }

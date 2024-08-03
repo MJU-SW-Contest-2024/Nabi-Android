@@ -15,11 +15,11 @@ import java.util.Date
 import java.util.Locale
 
 @AndroidEntryPoint
-class SelectDateFragment : BaseFragment<FragmentSelectDateBinding>(R.layout.fragment_select_date),
-    MonthAdapter.OnDateSelectedListener {
-    private lateinit var monthAdapter: MonthAdapter
+class AddDiarySelectDateFragment : BaseFragment<FragmentSelectDateBinding>(R.layout.fragment_select_date),
+    AddDiaryMonthAdapter.OnDateSelectedListener {
+    private lateinit var monthAdapter: AddDiaryMonthAdapter
     private lateinit var monthListManager: LinearLayoutManager
-    private val viewModel: DiaryViewModel by viewModels()
+    private val viewModel: AddDiaryViewModel by viewModels()
     private val calendar = Calendar.getInstance()
 
     @SuppressLint("NotifyDataSetChanged")
@@ -72,7 +72,7 @@ class SelectDateFragment : BaseFragment<FragmentSelectDateBinding>(R.layout.frag
 
     override fun initListener() {
         val today = Calendar.getInstance().time
-        monthAdapter = MonthAdapter(0, today)
+        monthAdapter = AddDiaryMonthAdapter(0, today)
         monthAdapter.setOnDateSelectedListener(this)
         
 

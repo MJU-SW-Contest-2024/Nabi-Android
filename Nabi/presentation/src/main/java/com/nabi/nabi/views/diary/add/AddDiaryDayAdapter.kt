@@ -14,12 +14,12 @@ import java.util.Date
 import java.util.Locale
 
 @Suppress("DEPRECATION")
-class DayAdapter(
+class AddDiaryDayAdapter(
     private val currentMonth: Int,
     private val dayList: MutableList<Date>,
     private val onDateSelected: (Date) -> Unit,
 ) :
-    RecyclerView.Adapter<DayAdapter.DayView>() {
+    RecyclerView.Adapter<AddDiaryDayAdapter.DayView>() {
     private val ROW = 6
     private var diaryDates: Set<String> = emptySet()
     private var selectedDate: Date? = null

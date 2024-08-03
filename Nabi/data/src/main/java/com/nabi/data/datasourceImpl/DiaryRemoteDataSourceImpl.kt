@@ -9,7 +9,7 @@ import javax.inject.Inject
 class DiaryRemoteDataSourceImpl @Inject constructor(
     private val diaryService: DiaryService
 ) : DiaryRemoteDataSource {
-    override suspend fun checkMonthDiary(
+    override suspend fun getMonthlyDiary(
         accessToken: String,
         year: Int,
         month: Int

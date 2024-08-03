@@ -9,11 +9,11 @@ import com.nabi.nabi.databinding.ItemMonthBinding
 import java.util.Calendar
 import java.util.Date
 
-class MonthAdapter(
+class AddDiaryMonthAdapter(
     private var currentMonthOffset: Int,
     private var selectedDate: Date?
 ) :
-    RecyclerView.Adapter<MonthAdapter.MonthView>() {
+    RecyclerView.Adapter<AddDiaryMonthAdapter.MonthView>() {
     private var calendar = Calendar.getInstance()
     private var diaryList: Set<String> = emptySet()
 
@@ -57,7 +57,7 @@ class MonthAdapter(
         }
 
         val dayListManager = GridLayoutManager(holder.binding.root.context, 7)
-        val dayListAdapter = DayAdapter(currentMonth, dayList) { selectedDate ->
+        val dayListAdapter = AddDiaryDayAdapter(currentMonth, dayList) { selectedDate ->
             dateSelectedListener?.onDateSelected(selectedDate)
         }.apply {
             setDiaryDates(diaryList)
