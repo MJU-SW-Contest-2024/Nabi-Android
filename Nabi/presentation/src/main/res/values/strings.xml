@@ -8,4 +8,18 @@
     <string name="text_talk">대화하기</string>
 
     <string name="text_select_date">날짜 선택</string>
+
+    <!-- 달력 -->
+    <string name="text_week_monday">M</string>
+    <string name="text_week_tuesday">T</string>
+    <string name="text_week_wednesday">W</string>
+    <string name="text_week_thursday">T</string>
+    <string name="text_week_friday">F</string>
+    <string name="text_week_saturday">S</string>
+    <string name="text_week_sunday">S</string>
+
+    <!-- 일기 보기 - 날짜 선택 페이지 -->
+    <string name="text_move_statistics">내 감정 통계 보러가기</string>
+    <string name="text_select_diary_title">일기 보기</string>
+
 </resources>

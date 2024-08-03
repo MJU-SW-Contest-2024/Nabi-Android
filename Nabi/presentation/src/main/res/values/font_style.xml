@@ -54,4 +54,18 @@
         <item name="lineHeight">22sp</item>
     </style>
 
+    <style name="button_bold_16px">
+        <item name="fontFamily">@font/pretendard_bold</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="lineHeight">22sp</item>
+    </style>
+
+    <style name="weekdays_bold_10px">
+        <item name="fontFamily">@font/pretendard_bold</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">10sp</item>
+        <item name="lineHeight">22sp</item>
+    </style>
+
 </resources>
