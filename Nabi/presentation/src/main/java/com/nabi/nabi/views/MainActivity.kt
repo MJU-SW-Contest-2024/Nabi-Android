@@ -1,5 +1,6 @@
 package com.nabi.nabi.views
 
+import androidx.fragment.app.Fragment
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseActivity
 import com.nabi.nabi.databinding.ActivityMainBinding
@@ -15,8 +16,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             requestPermissions(Constants.FCM_PERMISSIONS)
         }
 
+        replaceFragment(HomeFragment(), false)
+    }
+
+    fun replaceFragment(fragment: Fragment, isAddToBackStack: Boolean){
         val ft = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fl_main, HomeFragment())
+        ft.replace(R.id.fl_main, fragment)
+        if(isAddToBackStack) ft.addToBackStack(null)
         ft.commit()
     }
 }
