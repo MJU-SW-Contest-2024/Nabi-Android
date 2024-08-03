@@ -5,4 +5,5 @@ data class PageableInfo(
     val totalElements: Int,
     val elementSize: Int,
     val currentPageNumber: Int,
+    val isLastPage: Boolean
 )
