@@ -3,7 +3,6 @@ package com.nabi.nabi.views.diary.search
 import android.text.InputFilter
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment

@@ -13,7 +13,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.nabi.data.utils.LoggerUtils
 import com.nabi.domain.model.diary.SearchDiary
 import com.nabi.nabi.R
 import com.nabi.nabi.databinding.ItemSearchDiaryBinding

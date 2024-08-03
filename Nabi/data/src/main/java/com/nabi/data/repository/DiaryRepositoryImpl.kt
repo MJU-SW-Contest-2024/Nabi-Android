@@ -1,6 +1,5 @@
 package com.nabi.data.repository
 
-import android.util.Log
 import com.nabi.data.datasource.DiaryRemoteDataSource
 import com.nabi.data.mapper.DiaryMapper
 import com.nabi.domain.model.PageableInfo

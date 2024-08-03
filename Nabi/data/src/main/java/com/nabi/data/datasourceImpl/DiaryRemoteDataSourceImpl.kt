@@ -2,7 +2,6 @@ package com.nabi.data.datasourceImpl
 
 import com.nabi.data.datasource.DiaryRemoteDataSource
 import com.nabi.data.model.BaseResponse
-import com.nabi.data.model.Pageable
 import com.nabi.data.model.PageableResponse
 import com.nabi.data.model.diary.ResponseMonthDiaryDTO
 import com.nabi.data.model.diary.SearchDiaryResponseDTO
