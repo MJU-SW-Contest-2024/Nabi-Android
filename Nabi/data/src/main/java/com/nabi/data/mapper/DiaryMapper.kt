@@ -1,22 +1,20 @@
 package com.nabi.data.mapper
 
 import com.nabi.data.model.diary.ResponseMonthDiaryDTO
-import com.nabi.domain.model.diary.MonthDiaryInfo
+import com.nabi.domain.model.diary.DiaryInfo
 
 object DiaryMapper {
-    fun mapperToResponseEntity(items: List<ResponseMonthDiaryDTO>): List<MonthDiaryInfo> {
-        val diaryList = mutableListOf<MonthDiaryInfo>()
 
-        for (item in items) {
-            val day = item.diaryEntryDate.split("-").last()
-
-            diaryList.add(
-                MonthDiaryInfo(
-                    diaryEntryDate = day
-                )
+    fun mapperToResponseEntity(items: List<ResponseMonthDiaryDTO>): List<DiaryInfo> {
+        return items.map {
+            DiaryInfo(
+                content = it.content,
+                diaryEntryDate = it.diaryEntryDate,
+                diaryId = it.diaryId,
+                emotion = it.emotion,
+                isBookmarked = it.isBookmarked,
+                nickname = it.nickname
             )
         }
-
-        return diaryList
     }
 }

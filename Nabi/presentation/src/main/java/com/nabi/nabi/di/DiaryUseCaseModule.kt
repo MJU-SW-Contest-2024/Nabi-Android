@@ -1,7 +1,7 @@
 package com.nabi.nabi.di
 
 import com.nabi.domain.repository.DiaryRepository
-import com.nabi.domain.usecase.diary.DiaryUseCase
+import com.nabi.domain.usecase.diary.GetMonthlyDiaryUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,7 +16,7 @@ object DiaryUseCaseModule {
     @Singleton
     fun provideDiaryUseCase(
         repository: DiaryRepository
-    ): DiaryUseCase {
-        return DiaryUseCase(repository = repository)
+    ): GetMonthlyDiaryUseCase {
+        return GetMonthlyDiaryUseCase(repository = repository)
     }
 }
