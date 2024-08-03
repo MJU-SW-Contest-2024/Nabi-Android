@@ -23,10 +23,19 @@ class SearchDiaryViewModel @Inject constructor(
     private val sort = ""
     private var isFinish = false
 
+    private var _searchWord = MutableLiveData<String>("")
+    val searchWord: LiveData<String> get() = _searchWord
+
     private val _diaryState = MutableLiveData<UiState<List<SearchDiary>>>(UiState.Loading)
     val diaryState: LiveData<UiState<List<SearchDiary>>> get() = _diaryState
 
-    fun fetchData(content: String) {
+    fun fetchData(content: String = searchWord.value!!) {
+        if(searchWord.value != content) {
+            _searchWord.value = content
+            page = 0
+            isFinish = false
+        }
+
         if(isFinish) return
 
         _diaryState.value = UiState.Loading
@@ -36,7 +45,8 @@ class SearchDiaryViewModel @Inject constructor(
 
             searchDiaryUseCase(accessToken, content, page, size, sort)
                 .onSuccess {
-                    isFinish = it.first.totalPages != page
+                    isFinish = it.first.isLastPage
+                    page++
 
                     _diaryState.value = UiState.Success(it.second)
                 }.onFailure { e ->
