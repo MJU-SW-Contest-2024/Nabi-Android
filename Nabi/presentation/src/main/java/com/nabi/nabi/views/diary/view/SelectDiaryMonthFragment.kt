@@ -44,6 +44,7 @@ class SelectDiaryMonthFragment: BaseFragment<FragmentSelectDiaryMonthBinding>(R.
 
         binding.rvCalendarDays.layoutManager = GridLayoutManager(requireContext(), 7)
         binding.rvCalendarDays.adapter = dayAdapter
+        binding.rvCalendarDays.itemAnimator = null
 
         viewModel.fetchData(month = dateMonthFormat.format(date.time).toInt(), year = dateYearFormat.format(date.time).toInt())
     }
@@ -75,9 +76,10 @@ class SelectDiaryMonthFragment: BaseFragment<FragmentSelectDiaryMonthBinding>(R.
             if (day == "previous" || day == "next") {
                 result.add(day to null)
             } else {
+                val dayWithLeadingZero = day.padStart(2, '0')  // day 앞에 0을 붙여 두 자리로 맞춤
                 val matchedDiaryInfo = diaryInfos.find { diaryInfo ->
                     val entryDate = diaryInfo?.diaryEntryDate
-                    entryDate?.let { datePattern.find(it)?.groupValues?.get(1) == day } ?: false
+                    entryDate?.let { datePattern.find(it)?.groupValues?.get(1) == dayWithLeadingZero } ?: false
                 }
                 result.add(day to matchedDiaryInfo)
             }
@@ -85,6 +87,7 @@ class SelectDiaryMonthFragment: BaseFragment<FragmentSelectDiaryMonthBinding>(R.
 
         return result
     }
+
 
 
     override fun setObserver() {

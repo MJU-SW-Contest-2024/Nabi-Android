@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.nabi.data.utils.LoggerUtils
 import com.nabi.domain.model.diary.DiaryInfo
 import com.nabi.nabi.R
 import com.nabi.nabi.databinding.ItemSelectDiaryDayBinding
@@ -47,9 +48,11 @@ class SelectDiaryDayCalendarAdapter() : ListAdapter<Pair<String, DiaryInfo?>, Se
                     "우울" -> R.drawable.img_sadness
                     "화남" -> R.drawable.img_anger
                     "불안" -> R.drawable.img_anxiety
-                    else -> R.drawable.img_boredom
+                    "지루" -> R.drawable.img_boredom
+                    else -> R.drawable.shape_radius_50_with_stroke // todo 감정 데이터 Null 경우 임시로 처리
                 }
                 binding.ivDiaryCheck.setImageResource(resourceId)
+                if(it.emotion.isNullOrEmpty()) binding.ivDiaryCheck.alpha = 0.2f // todo 감정 데이터 Null 경우 임시로 처리
             }
         }
 

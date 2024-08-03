@@ -2,10 +2,14 @@ package com.nabi.nabi.views.diary.search
 
 import android.text.InputFilter
 import android.view.inputmethod.EditorInfo
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
+import com.nabi.nabi.custom.CustomDecoration
 import com.nabi.nabi.databinding.FragmentSearchDiaryBinding
 import com.nabi.nabi.utils.UiState
 import dagger.hilt.android.AndroidEntryPoint
@@ -14,6 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class SearchDiaryFragment: BaseFragment<FragmentSearchDiaryBinding>(R.layout.fragment_search_diary) {
     private val viewModel: SearchDiaryViewModel by viewModels()
     private lateinit var searchDiaryAdapter: SearchDiaryAdapter
+    private var isLoading = false
 
     override fun initView() {
         setEditTextFilter()
@@ -23,6 +28,7 @@ class SearchDiaryFragment: BaseFragment<FragmentSearchDiaryBinding>(R.layout.fra
     private fun setSearchDiaryAdapter(){
         searchDiaryAdapter = SearchDiaryAdapter()
         binding.rvSearchDiaryResult.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvSearchDiaryResult.addItemDecoration(CustomDecoration(0.5f, ContextCompat.getColor(requireContext(), R.color.gray2)))
         binding.rvSearchDiaryResult.adapter = searchDiaryAdapter
     }
 
@@ -62,10 +68,35 @@ class SearchDiaryFragment: BaseFragment<FragmentSearchDiaryBinding>(R.layout.fra
             if(binding.etSearchDiary.text.length >= 2) viewModel.fetchData(binding.etSearchDiary.text.toString())
             else showToast("2글자 이상 입력해주세요")
         }
+
+        binding.rvSearchDiaryResult.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                val lastVisibleItemPos = layoutManager.findLastVisibleItemPosition()
+                val itemTotalCount = recyclerView.adapter?.itemCount ?: 0
+
+                if (lastVisibleItemPos >= itemTotalCount - 6) {
+                    if(!isLoading){
+                        isLoading = true
+                        viewModel.fetchData()
+                    }
+                }
+            }
+        })
+
     }
 
     override fun setObserver() {
         super.setObserver()
+
+        viewModel.searchWord.observe(viewLifecycleOwner){
+            if(it.isNotEmpty()){
+                searchDiaryAdapter.searchWord = binding.etSearchDiary.text.toString()
+                searchDiaryAdapter.submitList(emptyList())
+            }
+        }
 
         viewModel.diaryState.observe(viewLifecycleOwner){
             when(it){
@@ -74,8 +105,11 @@ class SearchDiaryFragment: BaseFragment<FragmentSearchDiaryBinding>(R.layout.fra
                     showToast("검색 실패: ${it.message}")
                 }
                 is UiState.Success -> {
-                    searchDiaryAdapter.searchWord = binding.etSearchDiary.text.toString()
-                    searchDiaryAdapter.submitList(it.data)
+                    isLoading = false
+
+                    val temp = searchDiaryAdapter.currentList.toMutableList()
+                    temp.addAll(it.data)
+                    searchDiaryAdapter.submitList(temp)
                 }
             }
         }

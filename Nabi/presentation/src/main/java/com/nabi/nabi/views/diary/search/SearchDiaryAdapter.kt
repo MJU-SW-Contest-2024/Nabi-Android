@@ -23,7 +23,7 @@ class SearchDiaryAdapter : ListAdapter<SearchDiary, SearchDiaryAdapter.SearchRes
     companion object {
         private val diaryDiffUtil = object : DiffUtil.ItemCallback<SearchDiary>() {
             override fun areItemsTheSame(oldItem: SearchDiary, newItem: SearchDiary): Boolean =
-                oldItem === newItem
+                oldItem.diaryId == newItem.diaryId
 
             override fun areContentsTheSame(oldItem: SearchDiary, newItem: SearchDiary): Boolean =
                 oldItem == newItem
@@ -43,12 +43,6 @@ class SearchDiaryAdapter : ListAdapter<SearchDiary, SearchDiaryAdapter.SearchRes
         fun bind(item: SearchDiary) {
             binding.tvSearchDiaryDate.text = item.diaryEntryDate
             applyStyleAndColorToText(binding.tvContent, "... ${item.previewContent} ...", searchWord)
-
-            if (bindingAdapterPosition == itemCount - 1) {
-                binding.divider.visibility = View.GONE
-            } else {
-                binding.divider.visibility = View.VISIBLE
-            }
         }
 
         private fun applyStyleAndColorToText(
