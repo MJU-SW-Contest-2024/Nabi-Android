@@ -1,16 +1,7 @@
 package com.nabi.nabi.views.diary.view
 
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.ViewParentCompat
-import androidx.core.view.get
-import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.PagerSnapHelper
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.nabi.data.utils.LoggerUtils
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.databinding.FragmentSelectDiaryBinding
