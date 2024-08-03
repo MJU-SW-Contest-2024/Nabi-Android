@@ -54,8 +54,8 @@ class DiaryRepositoryImpl @Inject constructor(
                         Result.failure(Exception("Search Diary Data is null"))
                     }
                     else {
-                        val pageableInfo = PageableInfo(totalPages = data.totalPages, totalElements = data.totalElements, elementSize = data.size, currentPageNumber = data.number)
-                        val searchDiaryList = data.content.map { SearchDiary(it.previewContent, it.diaryEntryDate) }
+                        val pageableInfo = PageableInfo(totalPages = data.totalPages, totalElements = data.totalElements, elementSize = data.size, currentPageNumber = data.number, isLastPage = data.last)
+                        val searchDiaryList = data.content.map { SearchDiary(it.previewContent, it.diaryEntryDate, it.diaryId) }
                         Result.success(Pair(pageableInfo, searchDiaryList))
                     }
                 } else {
