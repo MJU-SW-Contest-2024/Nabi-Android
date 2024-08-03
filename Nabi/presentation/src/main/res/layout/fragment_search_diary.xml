@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <ImageButton
+            android:id="@+id/ib_back"
+            android:layout_width="48dp"
+            android:layout_height="52dp"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+
+            android:contentDescription="@null"
+            android:src="@drawable/ic_arrow"
+            android:background="@color/transparent"/>
+
+        <EditText
+            android:id="@+id/et_search_diary"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+
+            app:layout_constraintStart_toEndOf="@id/ib_back"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ib_back"
+            app:layout_constraintBottom_toBottomOf="@id/ib_back"
+
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="62dp"
+            android:paddingHorizontal="12dp"
+
+            android:background="@drawable/shape_radius_50"
+            android:backgroundTint="@color/gray3"
+
+            style="@style/search_keyword_regular_16px"
+            android:textColor="@color/black"
+            android:textColorHint="@color/gray2"
+            android:hint="검색어를 입력해주세요"
+
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:imeOptions="actionSearch" />
+        
+        <ImageButton
+            android:id="@+id/ib_search_diary"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+
+            app:layout_constraintTop_toTopOf="@id/et_search_diary"
+            app:layout_constraintBottom_toBottomOf="@id/et_search_diary"
+            app:layout_constraintEnd_toEndOf="@id/et_search_diary"
+            android:layout_marginEnd="12dp"
+
+            android:src="@drawable/ic_search"
+            app:tint="@color/gray2"
+            android:background="@color/transparent"
+            android:contentDescription="@null"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_search_diary_result"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+
+            app:layout_constraintTop_toBottomOf="@id/et_search_diary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="36dp"
+            android:paddingHorizontal="20dp"
+            tools:listitem="@layout/item_search_diary"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
