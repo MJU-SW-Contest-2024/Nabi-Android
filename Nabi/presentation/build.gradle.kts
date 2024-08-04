@@ -28,6 +28,14 @@ android {
         buildConfigField("String", "BASE_URL", "\"${properties.getProperty("BASE_URL")}\"")
     }
 
+    applicationVariants.all {
+        outputs.all {
+            val outputImpl = this as com.android.build.gradle.internal.api.ApkVariantOutputImpl
+            val newFileName = "Nabi-${name}.apk"
+            outputImpl.outputFileName = newFileName
+        }
+    }
+
     signingConfigs {
         create("release") {
             keyAlias = properties["SIGNED_KEY_ALIAS"] as String?
