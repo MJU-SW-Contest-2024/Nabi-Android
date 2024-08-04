@@ -1,6 +1,7 @@
 package com.nabi.nabi.di
 
 import com.nabi.data.service.AuthService
+import com.nabi.data.service.BookmarkService
 import com.nabi.data.service.DiaryService
 import com.nabi.data.service.HomeService
 import com.nabi.data.service.NotificationService
@@ -40,4 +41,9 @@ object ServiceModule {
     @Singleton
     fun provideDiaryService(retrofit: Retrofit): DiaryService =
         retrofit.create(DiaryService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideBookmarkService(retrofit: Retrofit): BookmarkService =
+        retrofit.create(BookmarkService::class.java)
 }

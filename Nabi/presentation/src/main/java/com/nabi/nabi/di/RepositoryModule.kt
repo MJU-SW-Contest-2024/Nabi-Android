@@ -1,11 +1,13 @@
 package com.nabi.nabi.di
 
 import com.nabi.data.repository.AuthRepositoryImpl
+import com.nabi.data.repository.BookmarkRepositoryImpl
 import com.nabi.data.repository.DiaryRepositoryImpl
 import com.nabi.data.repository.HomeRepositoryImpl
 import com.nabi.data.repository.NotificationRepositoryImpl
 import com.nabi.data.repository.UserRepositoryImpl
 import com.nabi.domain.repository.AuthRepository
+import com.nabi.domain.repository.BookmarkRepository
 import com.nabi.domain.repository.DiaryRepository
 import com.nabi.domain.repository.HomeRepository
 import com.nabi.domain.repository.NotificationRepository
@@ -38,4 +40,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindsDiaryRepository(diaryRepositoryImpl: DiaryRepositoryImpl): DiaryRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindsBookmarkRepository(bookmarkRepositoryImpl: BookmarkRepositoryImpl): BookmarkRepository
 }
