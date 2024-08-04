@@ -28,8 +28,18 @@ android {
         buildConfigField("String", "BASE_URL", "\"${properties.getProperty("BASE_URL")}\"")
     }
 
+    signingConfigs {
+        create("release") {
+            keyAlias = properties["SIGNED_KEY_ALIAS"] as String?
+            keyPassword = properties["SIGNED_KEY_PASSWORD"] as String?
+            storeFile = properties["SIGNED_STORE_FILE"]?.let { file(it) }
+            storePassword = properties["SIGNED_STORE_PASSWORD"] as String?
+        }
+    }
+
     buildTypes {
-        release {
+        getByName("release") {
+            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -37,6 +47,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -48,15 +59,6 @@ android {
         viewBinding = true
         dataBinding = true
         buildConfig = true
-    }
-
-    signingConfigs {
-        getByName("debug") {
-            keyAlias = properties["SIGNED_KEY_ALIAS"] as String?
-            keyPassword = properties["SIGNED_KEY_PASSWORD"] as String?
-            storeFile = properties["SIGNED_STORE_FILE"]?.let { file(it) }
-            storePassword = properties["SIGNED_STORE_PASSWORD"] as String?
-        }
     }
 }
 
