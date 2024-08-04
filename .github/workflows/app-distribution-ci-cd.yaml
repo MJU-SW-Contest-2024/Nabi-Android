@@ -6,7 +6,7 @@ on:
   pull_request:
     branches:
       - develop
-  workflow_dispatch: # 수동 실행 옵션
+  workflow_dispatch:
 
 jobs:
   build:
@@ -31,6 +31,11 @@ jobs:
 
       - name: Decode and save keystore
         run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > ./Nabi/presentation/keystore.jks
+
+      - name: Verify keystore
+        run: |
+          ls -alh ./Nabi/presentation/
+          keytool -list -v -keystore ./Nabi/presentation/keystore.jks || echo "Keystore verification failed"
 
       - name: Create google-services.json
         run: echo "$GOOGLE_SERVICES_JSON" > ./Nabi/presentation/google-services.json
