@@ -14,4 +14,6 @@ interface DiaryRepository {
         size: Int,
         sort: String
     ): Result<Pair<PageableInfo, List<SearchDiary>>>
+
+    suspend fun getDiaryDetail(accessToken: String, diaryId: Int): Result<DiaryInfo>
 }

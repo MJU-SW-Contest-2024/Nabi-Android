@@ -2,11 +2,13 @@ package com.nabi.data.service
 
 import com.nabi.data.model.BaseResponse
 import com.nabi.data.model.PageableResponse
+import com.nabi.data.model.diary.DiaryDetailResponseDTO
 import com.nabi.data.model.diary.ResponseMonthDiaryDTO
 import com.nabi.data.model.diary.SearchDiaryResponseDTO
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface DiaryService {
@@ -26,4 +28,10 @@ interface DiaryService {
         @Query("size") size: Int,
         @Query("sort") sort: String
     ): Response<BaseResponse<PageableResponse<SearchDiaryResponseDTO>>>
+
+    @GET("/diarys/{diaryId}")
+    suspend fun getDiaryDetail(
+        @Header("Authorization") accessToken: String,
+        @Path("diaryId") diaryId: Int
+    ): Response<BaseResponse<DiaryDetailResponseDTO>>
 }
