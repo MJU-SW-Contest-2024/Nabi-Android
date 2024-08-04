@@ -10,6 +10,7 @@ import com.nabi.data.utils.LoggerUtils
 import com.nabi.domain.model.diary.DiaryInfo
 import com.nabi.nabi.R
 import com.nabi.nabi.databinding.ItemSelectDiaryDayBinding
+import com.nabi.nabi.views.OnRvItemClickListener
 
 class SelectDiaryDayCalendarAdapter() : ListAdapter<Pair<String, DiaryInfo?>, SelectDiaryDayCalendarAdapter.DateViewHolder>(diaryDiffUtil) {
 
@@ -54,6 +55,10 @@ class SelectDiaryDayCalendarAdapter() : ListAdapter<Pair<String, DiaryInfo?>, Se
                 binding.ivDiaryCheck.setImageResource(resourceId)
                 if(it.emotion.isNullOrEmpty()) binding.ivDiaryCheck.alpha = 0.2f // todo 감정 데이터 Null 경우 임시로 처리
             }
+
+            itemView.setOnClickListener {
+                if(diaryInfo.second != null) rvItemClickListener.onClick(diaryInfo.second!!.diaryId)
+            }
         }
 
         fun clear() {
@@ -61,5 +66,11 @@ class SelectDiaryDayCalendarAdapter() : ListAdapter<Pair<String, DiaryInfo?>, Se
             binding.root.isClickable = false
             binding.root.visibility = View.GONE
         }
+    }
+
+    private lateinit var rvItemClickListener: OnRvItemClickListener<Int>
+
+    fun setRvItemClickListener(rvItemClickListener: OnRvItemClickListener<Int>){
+        this.rvItemClickListener = rvItemClickListener
     }
 }
