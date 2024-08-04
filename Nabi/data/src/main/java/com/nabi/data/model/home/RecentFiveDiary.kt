@@ -9,5 +9,5 @@ data class RecentFiveDiary(
     @SerializedName("diaryEntryDate")
     val diaryEntryDate: String,
     @SerializedName("emotion")
-    val emotion: String
+    val emotion: String?
 )
