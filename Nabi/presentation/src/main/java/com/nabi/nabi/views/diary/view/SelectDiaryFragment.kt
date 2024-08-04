@@ -27,7 +27,7 @@ class SelectDiaryFragment: BaseFragment<FragmentSelectDiaryBinding>(R.layout.fra
         calendarAdapter = SelectDiaryMonthCalendarStateAdapter(requireActivity())
         binding.vpCalendarMonth.adapter = calendarAdapter
         binding.vpCalendarMonth.setCurrentItem(Int.MAX_VALUE / 2, false)
-//        binding.vpCalendarMonth.offscreenPageLimit = 1
+        binding.vpCalendarMonth.offscreenPageLimit = 1
 
         val currentMonth = SimpleDateFormat("MMMM yyyy", Locale.ENGLISH).format(Date())
         binding.tvCurrentMonth.text = currentMonth

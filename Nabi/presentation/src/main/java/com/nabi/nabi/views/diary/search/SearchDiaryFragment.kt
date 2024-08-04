@@ -1,5 +1,6 @@
 package com.nabi.nabi.views.diary.search
 
+import android.os.Bundle
 import android.text.InputFilter
 import android.view.inputmethod.EditorInfo
 import androidx.core.content.ContextCompat
@@ -12,6 +13,9 @@ import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.custom.CustomDecoration
 import com.nabi.nabi.databinding.FragmentSearchDiaryBinding
 import com.nabi.nabi.utils.UiState
+import com.nabi.nabi.views.MainActivity
+import com.nabi.nabi.views.OnRvItemClickListener
+import com.nabi.nabi.views.diary.detail.DetailDiaryFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,8 +29,20 @@ class SearchDiaryFragment: BaseFragment<FragmentSearchDiaryBinding>(R.layout.fra
         setSearchDiaryAdapter()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        searchDiaryAdapter.submitList(viewModel.diaryItems.value)
+    }
+
     private fun setSearchDiaryAdapter(){
-        searchDiaryAdapter = SearchDiaryAdapter()
+        searchDiaryAdapter = SearchDiaryAdapter().apply {
+            setRvItemClickListener(object : OnRvItemClickListener<Int>{
+                override fun onClick(item: Int) {
+                    (requireActivity() as MainActivity).replaceFragment(DetailDiaryFragment(item), true)
+                }
+            })
+        }
         binding.rvSearchDiaryResult.layoutManager = LinearLayoutManager(requireContext())
         binding.rvSearchDiaryResult.addItemDecoration(CustomDecoration(0.5f, ContextCompat.getColor(requireContext(), R.color.gray2)))
         binding.rvSearchDiaryResult.adapter = searchDiaryAdapter
@@ -107,9 +123,12 @@ class SearchDiaryFragment: BaseFragment<FragmentSearchDiaryBinding>(R.layout.fra
                 is UiState.Success -> {
                     isLoading = false
 
-                    val temp = searchDiaryAdapter.currentList.toMutableList()
-                    temp.addAll(it.data)
-                    searchDiaryAdapter.submitList(temp)
+                    if(it.data.isEmpty()) searchDiaryAdapter.submitList(emptyList())
+                    else {
+                        val temp = searchDiaryAdapter.currentList.toMutableList()
+                        temp.addAll(it.data)
+                        searchDiaryAdapter.submitList(temp)
+                    }
                 }
             }
         }
