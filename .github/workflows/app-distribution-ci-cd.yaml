@@ -40,10 +40,10 @@ jobs:
           echo "$LOCAL_PROPERTIES_CONTENTS" > ./Nabi/local.properties
           echo "SIGNED_STORE_FILE=keystore.jks" >> ./Nabi/local.properties
 
-      - name: Build debug APK
+      - name: Build release APK
         run: |
           cd ./Nabi
-          ./gradlew assembleDebug
+          ./gradlew assembleRelease
 
       - name: Upload to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
@@ -51,4 +51,4 @@ jobs:
           appId: ${{ secrets.FIREBASE_APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
           groups: nabi-team
-          file: ./Nabi/presentation/build/outputs/apk/debug/app-debug.apk
+          file: ./Nabi/presentation/build/outputs/apk/debug/app-release.apk
