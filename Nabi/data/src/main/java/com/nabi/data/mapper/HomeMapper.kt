@@ -15,7 +15,7 @@ object HomeMapper {
                     RecentFiveDiary(
                         content = diary.content,
                         diaryEntryDate = diary.diaryEntryDate,
-                        emotion = diary.emotion
+                        emotion = diary.emotion ?: ""
                     )
                 }
             )
