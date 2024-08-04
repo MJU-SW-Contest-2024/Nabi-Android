@@ -1,6 +1,7 @@
 package com.nabi.nabi.di
 
 import com.nabi.domain.repository.DiaryRepository
+import com.nabi.domain.usecase.diary.GetDiaryDetailUseCase
 import com.nabi.domain.usecase.diary.GetMonthlyDiaryUseCase
 import com.nabi.domain.usecase.diary.SearchDiaryUseCase
 import dagger.Module
@@ -27,5 +28,13 @@ object DiaryUseCaseModule {
         repository: DiaryRepository
     ): SearchDiaryUseCase {
         return SearchDiaryUseCase(repository = repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetDiaryDetailUseCase(
+        repository: DiaryRepository
+    ): GetDiaryDetailUseCase {
+        return GetDiaryDetailUseCase(repository = repository)
     }
 }
