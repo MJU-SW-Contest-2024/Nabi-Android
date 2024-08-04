@@ -37,11 +37,13 @@ jobs:
 
       - name: Create local.properties
         run: |
-          echo "$LOCAL_PROPERTIES_CONTENTS" > local.properties
-          echo "SIGNED_STORE_FILE=keystore.jks" >> local.properties
+          echo "$LOCAL_PROPERTIES_CONTENTS" > ./Nabi/local.properties
+          echo "SIGNED_STORE_FILE=keystore.jks" >> ./Nabi/local.properties
 
       - name: Build debug APK
-        run: ./Nabi/gradlew assembleDebug
+        run: |
+          cd ./Nabi
+          ./gradlew assembleDebug
 
       - name: Upload to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
