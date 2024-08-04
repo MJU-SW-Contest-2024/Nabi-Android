@@ -11,7 +11,7 @@ object DiaryMapper {
                 content = it.content,
                 diaryEntryDate = it.diaryEntryDate,
                 diaryId = it.diaryId,
-                emotion = it.emotion ?: "",
+                emotion = it.emotion,
                 isBookmarked = it.isBookmarked,
                 nickname = it.nickname
             )

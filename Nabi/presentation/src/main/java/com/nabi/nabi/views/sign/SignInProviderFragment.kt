@@ -3,7 +3,7 @@ package com.nabi.nabi.views.sign
 import android.content.Intent
 import androidx.fragment.app.viewModels
 import com.nabi.data.service.KakaoAuthService
-import com.nabi.data.utils.LoggerUtils
+import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.databinding.FragmentSignProviderBinding

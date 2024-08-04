@@ -8,7 +8,7 @@ import android.view.View
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import com.nabi.data.utils.LoggerUtils
+import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.databinding.FragmentSignNicknameBinding
