@@ -1,12 +1,6 @@
 package com.nabi.data.repository
 
-import com.nabi.data.datasource.AuthRemoteDataSource
 import com.nabi.data.datasource.BookmarkRemoteDataSource
-import com.nabi.data.model.auth.SignInRequestDTO
-import com.nabi.domain.enums.AuthProvider
-import com.nabi.domain.model.auth.NicknameInfo
-import com.nabi.domain.model.auth.SignInInfo
-import com.nabi.domain.repository.AuthRepository
 import com.nabi.domain.repository.BookmarkRepository
 import javax.inject.Inject
 

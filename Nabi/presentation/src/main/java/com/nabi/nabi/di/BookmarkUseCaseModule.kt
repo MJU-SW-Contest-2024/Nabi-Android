@@ -1,9 +1,6 @@
 package com.nabi.nabi.di
 
-import com.nabi.domain.repository.AuthRepository
 import com.nabi.domain.repository.BookmarkRepository
-import com.nabi.domain.usecase.auth.SetNicknameUseCase
-import com.nabi.domain.usecase.auth.SignInUseCase
 import com.nabi.domain.usecase.bookmark.AddBookmarkUseCase
 import com.nabi.domain.usecase.bookmark.DeleteBookmarkUseCase
 import dagger.Module

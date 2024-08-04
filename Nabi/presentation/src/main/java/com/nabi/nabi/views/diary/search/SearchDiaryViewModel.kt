@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nabi.data.utils.LoggerUtils
 import com.nabi.domain.model.diary.SearchDiary
 import com.nabi.domain.repository.DataStoreRepository
 import com.nabi.domain.usecase.diary.SearchDiaryUseCase

@@ -1,13 +1,8 @@
 package com.nabi.data.datasourceImpl
 
-import com.nabi.data.datasource.AuthRemoteDataSource
 import com.nabi.data.datasource.BookmarkRemoteDataSource
 import com.nabi.data.model.BaseResponse
 import com.nabi.data.model.MessageResponseDTO
-import com.nabi.data.model.auth.NicknameResponseDTO
-import com.nabi.data.model.auth.SignInRequestDTO
-import com.nabi.data.model.auth.SignInResponseDTO
-import com.nabi.data.service.AuthService
 import com.nabi.data.service.BookmarkService
 import javax.inject.Inject
 
