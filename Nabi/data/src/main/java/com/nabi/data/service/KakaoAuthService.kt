@@ -1,9 +1,9 @@
 package com.nabi.data.service
 
 import android.content.Context
+import android.util.Log
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
-import com.nabi.data.utils.LoggerUtils
 import com.nabi.domain.enums.AuthProvider
 import dagger.hilt.android.qualifiers.ActivityContext
 import javax.inject.Inject
@@ -41,18 +41,17 @@ class KakaoAuthService @Inject constructor(
 
     private fun signInError(throwable: Throwable) {
         val kakaoType = if (isKakaoTalkLoginAvailable) KAKAO_TALK else KAKAO_ACCOUNT
-        LoggerUtils.e("{$kakaoType}으로 로그인 실패 ${throwable.message}")
+        Log.e("KAKAO", "{$kakaoType}으로 로그인 실패 ${throwable.message}")
     }
 
     private fun signInSuccess(
         oAuthToken: OAuthToken,
         signInListener: KFunction2<String, AuthProvider, Unit>
     ) {
-        LoggerUtils.d("$KAKAO_ID_TOKEN ${oAuthToken.idToken}")
         client.me { _, error ->
             signInListener(oAuthToken.idToken ?: "", AuthProvider.KAKAO)
             if (error != null) {
-                LoggerUtils.e("사용자 정보 요청 실패 $error")
+                Log.e("KAKAO", "사용자 정보 요청 실패 $error")
             }
         }
     }
@@ -60,9 +59,9 @@ class KakaoAuthService @Inject constructor(
     fun signOut(signOutListener: ((Throwable?) -> Unit)? = null) {
         client.logout { error ->
             if (error != null) {
-                LoggerUtils.e("로그아웃 실패. SDK에서 토큰 삭제됨 $error")
+                Log.e("KAKAO", "로그아웃 실패. SDK에서 토큰 삭제됨 $error")
             } else {
-                LoggerUtils.i("로그아웃 성공. SDK에서 토큰 삭제됨")
+                Log.i("KAKAO", "로그아웃 성공. SDK에서 토큰 삭제됨")
             }
             signOutListener?.invoke(error)
         }
@@ -71,9 +70,9 @@ class KakaoAuthService @Inject constructor(
     fun withdraw(withdrawListener: ((Throwable?) -> Unit)? = null) {
         client.unlink { error ->
             if (error != null) {
-                LoggerUtils.e("회원탈퇴 실패 $error")
+                Log.e("KAKAO", "회원탈퇴 실패 $error")
             } else {
-                LoggerUtils.i("회원탈퇴 성공")
+                Log.i("KAKAO", "회원탈퇴 성공")
             }
             withdrawListener?.invoke(error)
         }
