@@ -27,11 +27,41 @@ class DetailDiaryFragment(
 
         binding.btnEdit.setOnClickListener {}
 
-        binding.ibBookmark.setOnClickListener {}
+        binding.ibBookmark.setOnClickListener {
+            if(viewModel.isBookmarked.value!!) viewModel.deleteBookmark(diaryId)
+            else viewModel.addBookmark(diaryId)
+        }
     }
 
     override fun setObserver() {
         super.setObserver()
+
+        viewModel.addState.observe(viewLifecycleOwner){
+            when(it){
+                is UiState.Loading -> {}
+                is UiState.Failure -> {
+                    showToast("북마크 실패")
+                }
+                is UiState.Success -> {}
+            }
+        }
+
+        viewModel.deleteState.observe(viewLifecycleOwner){
+            when(it){
+                is UiState.Loading -> {}
+                is UiState.Failure -> {
+                    showToast("북마크 삭제 실패")
+                }
+                is UiState.Success -> {}
+            }
+        }
+
+        viewModel.isBookmarked.observe(viewLifecycleOwner){
+            binding.ibBookmark.setImageResource(
+                if(it) R.drawable.ic_heart_filled else R.drawable.ic_heart
+            )
+        }
+
 
         viewModel.diaryState.observe(viewLifecycleOwner){
             when(it){
@@ -51,6 +81,10 @@ class DetailDiaryFragment(
                     }
                     binding.ivEmotion.setImageResource(resourceId)
                     if(resourceId == R.drawable.shape_circle) binding.ivEmotion.visibility = View.GONE
+
+                    binding.ibBookmark.setImageResource(
+                        if(it.data.isBookmarked) R.drawable.ic_heart_filled else R.drawable.ic_heart
+                    )
                 }
             }
         }

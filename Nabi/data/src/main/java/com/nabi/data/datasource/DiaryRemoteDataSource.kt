@@ -5,9 +5,6 @@ import com.nabi.data.model.PageableResponse
 import com.nabi.data.model.diary.DiaryDetailResponseDTO
 import com.nabi.data.model.diary.ResponseMonthDiaryDTO
 import com.nabi.data.model.diary.SearchDiaryResponseDTO
-import retrofit2.Response
-import retrofit2.http.Header
-import retrofit2.http.Path
 
 interface DiaryRemoteDataSource {
     suspend fun getMonthlyDiary(
