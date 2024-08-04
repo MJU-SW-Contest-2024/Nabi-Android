@@ -30,10 +30,10 @@ jobs:
         run: chmod +x ./Nabi/gradlew
 
       - name: Decode and save keystore
-        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > presentation/keystore.jks
+        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > ./Nabi/presentation/keystore.jks
 
       - name: Create google-services.json
-        run: echo "$GOOGLE_SERVICES_JSON" > presentation/google-services.json
+        run: echo "$GOOGLE_SERVICES_JSON" > ./Nabi/presentation/google-services.json
 
       - name: Create local.properties
         run: |
@@ -49,4 +49,4 @@ jobs:
           appId: ${{ secrets.FIREBASE_APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
           groups: nabi-team
-          file: presentation/build/outputs/apk/debug/app-debug.apk
+          file: ./Nabi/presentation/build/outputs/apk/debug/app-debug.apk
