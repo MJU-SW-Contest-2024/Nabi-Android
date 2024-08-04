@@ -55,4 +55,4 @@ jobs:
           appId: ${{ secrets.FIREBASE_APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
           groups: nabi-team
-          file: ./Nabi/presentation/build/outputs/apk/release/app-release.apk
+          file: ./Nabi/presentation/build/outputs/apk/release/Nabi-release.apk
