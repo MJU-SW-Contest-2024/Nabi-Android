@@ -9,6 +9,9 @@ import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.databinding.FragmentSelectDiaryMonthBinding
 import com.nabi.nabi.utils.UiState
+import com.nabi.nabi.views.MainActivity
+import com.nabi.nabi.views.OnRvItemClickListener
+import com.nabi.nabi.views.diary.detail.DetailDiaryFragment
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -39,7 +42,13 @@ class SelectDiaryMonthFragment: BaseFragment<FragmentSelectDiaryMonthBinding>(R.
         date = arguments?.getLong(ARG_DATE)?.let { Date(it) } ?: Date()
 
         val daysInMonth = getDaysInMonth(date)
-        dayAdapter = SelectDiaryDayCalendarAdapter()
+        dayAdapter = SelectDiaryDayCalendarAdapter().apply {
+            setRvItemClickListener(object : OnRvItemClickListener<Int> {
+                override fun onClick(item: Int) {
+                    (requireActivity() as MainActivity).replaceFragment(DetailDiaryFragment(item), true)
+                }
+            })
+        }
         dayAdapter.submitList(matchDiaryEntriesWithDays(List<DiaryInfo?>(daysInMonth.size){ null }, daysInMonth))
 
         binding.rvCalendarDays.layoutManager = GridLayoutManager(requireContext(), 7)

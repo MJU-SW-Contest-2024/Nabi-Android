@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nabi.domain.model.diary.SearchDiary
 import com.nabi.nabi.R
 import com.nabi.nabi.databinding.ItemSearchDiaryBinding
+import com.nabi.nabi.views.OnRvItemClickListener
 
 class SearchDiaryAdapter : ListAdapter<SearchDiary, SearchDiaryAdapter.SearchResultViewHolder>(diaryDiffUtil) {
     var searchWord = ""
@@ -43,6 +44,10 @@ class SearchDiaryAdapter : ListAdapter<SearchDiary, SearchDiaryAdapter.SearchRes
         fun bind(item: SearchDiary) {
             binding.tvSearchDiaryDate.text = item.diaryEntryDate
             applyStyleAndColorToText(binding.tvContent, "... ${item.previewContent} ...", searchWord)
+
+            itemView.setOnClickListener {
+                rvItemClickListener.onClick(item.diaryId)
+            }
         }
 
         private fun applyStyleAndColorToText(
@@ -74,5 +79,11 @@ class SearchDiaryAdapter : ListAdapter<SearchDiary, SearchDiaryAdapter.SearchRes
 
             textView.text = ssb
         }
+    }
+
+    private lateinit var rvItemClickListener: OnRvItemClickListener<Int>
+
+    fun setRvItemClickListener(rvItemClickListener: OnRvItemClickListener<Int>){
+        this.rvItemClickListener = rvItemClickListener
     }
 }

@@ -50,11 +50,12 @@ class DiaryRepositoryImpl @Inject constructor(
             if (res != null) {
                 val data = res.data
                 if (data != null) {
+                    val pageableInfo = PageableInfo(totalPages = data.totalPages, totalElements = data.totalElements, elementSize = data.size, currentPageNumber = data.number, isLastPage = data.last)
+
                     if(data.size == 0) {
-                        Result.failure(Exception("Search Diary Data is null"))
+                        Result.success(Pair(pageableInfo, emptyList()))
                     }
                     else {
-                        val pageableInfo = PageableInfo(totalPages = data.totalPages, totalElements = data.totalElements, elementSize = data.size, currentPageNumber = data.number, isLastPage = data.last)
                         val searchDiaryList = data.content.map { SearchDiary(it.previewContent, it.diaryEntryDate, it.diaryId) }
                         Result.success(Pair(pageableInfo, searchDiaryList))
                     }
@@ -63,6 +64,33 @@ class DiaryRepositoryImpl @Inject constructor(
                 }
             } else {
                 Result.failure(Exception("Search Diary Data Failed: response body is null"))
+            }
+        } else {
+            Result.failure(result.exceptionOrNull() ?: Exception("Unknown error"))
+        }
+    }
+
+    override suspend fun getDiaryDetail(accessToken: String, diaryId: Int): Result<DiaryInfo> {
+        val result = diaryRemoteDataSource.getDiaryDetail(accessToken, diaryId)
+
+        return if (result.isSuccess) {
+            val res = result.getOrNull()
+            if (res != null) {
+                val data = res.data
+                if (data != null) {
+                    Result.success(DiaryInfo(
+                        content = data.content,
+                        diaryId = data.diaryId,
+                        nickname = data.nickname,
+                        emotion = data.emotion,
+                        diaryEntryDate = data.diaryEntryDate,
+                        isBookmarked = data.isBookmarked
+                    ))
+                } else {
+                    Result.failure(Exception("Month diary List data is null"))
+                }
+            } else {
+                Result.failure(Exception("Month Diary List Failed: response body is null"))
             }
         } else {
             Result.failure(result.exceptionOrNull() ?: Exception("Unknown error"))

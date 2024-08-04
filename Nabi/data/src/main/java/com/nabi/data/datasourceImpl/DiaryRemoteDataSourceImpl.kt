@@ -3,6 +3,7 @@ package com.nabi.data.datasourceImpl
 import com.nabi.data.datasource.DiaryRemoteDataSource
 import com.nabi.data.model.BaseResponse
 import com.nabi.data.model.PageableResponse
+import com.nabi.data.model.diary.DiaryDetailResponseDTO
 import com.nabi.data.model.diary.ResponseMonthDiaryDTO
 import com.nabi.data.model.diary.SearchDiaryResponseDTO
 import com.nabi.data.service.DiaryService
@@ -52,6 +53,28 @@ class DiaryRemoteDataSourceImpl @Inject constructor(
                 }
             } else {
                 Result.failure(Exception("Search Diary fail: ${response.message()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun getDiaryDetail(
+        accessToken: String,
+        diaryId: Int
+    ): Result<BaseResponse<DiaryDetailResponseDTO>> {
+        return try {
+            val response = diaryService.getDiaryDetail(accessToken, diaryId)
+
+            if (response.isSuccessful) {
+                val diaryResponse = response.body()
+                if (diaryResponse != null) {
+                    Result.success(diaryResponse)
+                } else {
+                    Result.failure(Exception("Get Diary Detail fail: response body is null"))
+                }
+            } else {
+                Result.failure(Exception("Get Diary Detail fail: ${response.message()}"))
             }
         } catch (e: Exception) {
             Result.failure(e)

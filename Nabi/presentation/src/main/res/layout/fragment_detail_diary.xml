@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <Toolbar
+            android:id="@+id/tb_diary_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentInsetStart="0dp">
+
+            <ImageButton
+                android:id="@+id/ib_back"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_arrow"
+                android:background="@color/transparent"/>
+
+            <ImageButton
+                android:id="@+id/ib_bookmark"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_heart"
+                android:background="@color/transparent"
+                android:layout_gravity="end"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_edit"
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+
+                android:background="@color/transparent"
+
+                android:text="수정"
+                style="@style/pretendard_semi_bold_18px"
+                android:textColor="@color/black"
+                android:layout_gravity="end"/>
+        </Toolbar>
+        
+        <ImageView
+            android:id="@+id/iv_emotion"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+
+            android:contentDescription="@null"
+            app:layout_constraintTop_toBottomOf="@id/tb_diary_detail"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            tools:src="@drawable/img_happiness"/>
+
+        <TextView
+            android:id="@+id/tv_diary_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintTop_toBottomOf="@id/iv_emotion"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="28dp"
+
+            tools:text="2024년 7월 27일"
+            style="@style/heading2"
+            android:textColor="@color/black"/>
+        
+        <TextView
+            android:id="@+id/tv_diary_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+
+            app:layout_constraintTop_toBottomOf="@id/tv_diary_date"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginHorizontal="52dp"
+            android:layout_marginVertical="28dp"
+
+            tools:text="오늘은 알바를 다녀왓다 밥시간에 비가 너무 많이 와서 뛰어가다가 물웅덩이를 밟았다 양말까지 다 젖어버려서 옆 반 전임선생님 슬리퍼를 뺏어 신었다 오후 수업하는 동안 양말도 다 마르고 슬리퍼가 폭신폭신해서 기분이 좋았다 선생님 ㄱㅅ합니다"
+            style="@style/body2"
+            android:textColor="@color/black"
+            android:gravity="center|top"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nabi.data.utils.LoggerUtils
 import com.nabi.domain.model.diary.SearchDiary
 import com.nabi.domain.repository.DataStoreRepository
 import com.nabi.domain.usecase.diary.SearchDiaryUseCase
@@ -29,12 +30,11 @@ class SearchDiaryViewModel @Inject constructor(
     private val _diaryState = MutableLiveData<UiState<List<SearchDiary>>>(UiState.Loading)
     val diaryState: LiveData<UiState<List<SearchDiary>>> get() = _diaryState
 
+    private val _diaryItems = MutableLiveData<MutableList<SearchDiary>>(mutableListOf())
+    val diaryItems: LiveData<MutableList<SearchDiary>> get() = _diaryItems
+
     fun fetchData(content: String = searchWord.value!!) {
-        if(searchWord.value != content) {
-            _searchWord.value = content
-            page = 0
-            isFinish = false
-        }
+        if(searchWord.value != content) resetPageable(content)
 
         if(isFinish) return
 
@@ -48,10 +48,18 @@ class SearchDiaryViewModel @Inject constructor(
                     isFinish = it.first.isLastPage
                     page++
 
+                    _diaryItems.value?.addAll(it.second)
                     _diaryState.value = UiState.Success(it.second)
                 }.onFailure { e ->
                     _diaryState.value = UiState.Failure(message = e.message.toString())
                 }
         }
+    }
+
+    private fun resetPageable(content: String){
+        _diaryItems.value?.clear()
+        _searchWord.value = content
+        page = 0
+        isFinish = false
     }
 }
