@@ -38,17 +38,6 @@ jobs:
           echo "Checking JKS format..."
           keytool -list -v -keystore ./Nabi/presentation/keystore.jks -storetype JKS || echo "JKS format verification failed"
 
-          echo "Checking PKCS12 format..."
-          keytool -list -v -keystore ./Nabi/presentation/keystore.jks -storetype PKCS12 || echo "PKCS12 format verification failed"
-
-      - name: Convert keystore to JKS if necessary
-        run: |
-          # Check if keystore is PKCS12 format and convert to JKS if needed
-          if keytool -list -v -keystore ./Nabi/presentation/keystore.jks -storetype PKCS12 > /dev/null 2>&1; then
-            echo "Converting PKCS12 keystore to JKS..."
-            keytool -importkeystore -srckeystore ./Nabi/presentation/keystore.jks -srcstoretype PKCS12 -destkeystore ./Nabi/presentation/keystore.jks -deststoretype JKS
-          fi
-
       - name: Create google-services.json
         run: echo "$GOOGLE_SERVICES_JSON" > ./Nabi/presentation/google-services.json
 
