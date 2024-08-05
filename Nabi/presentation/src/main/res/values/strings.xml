@@ -22,4 +22,8 @@
     <string name="text_move_statistics">내 감정 통계 보러가기</string>
     <string name="text_select_diary_title">일기 보기</string>
 
+    <!-- 일기 작성 - 일기 작성 페이지 -->
+    <string name="text_add_diary_hint">오늘은 어떤 일이 있었나요?</string>
+    <string name="text_add_diary_done">일기 작성</string>
+
 </resources>

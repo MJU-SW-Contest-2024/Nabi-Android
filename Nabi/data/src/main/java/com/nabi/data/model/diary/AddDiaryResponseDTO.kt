@@ -1,13 +1,13 @@
-package com.nabi.data.model.home
+package com.nabi.data.model.diary
 
 
 import com.google.gson.annotations.SerializedName
 
-data class RecentFiveDiary(
+data class AddDiaryResponseDTO(
     @SerializedName("content")
     val content: String,
     @SerializedName("diaryEntryDate")
     val diaryEntryDate: String,
-    @SerializedName("emotion")
-    val emotion: String?
+    @SerializedName("id")
+    val id: Int
 )

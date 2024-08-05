@@ -19,17 +19,39 @@ android {
         minSdk = 29
         targetSdk = 34
         versionCode = 1
-        versionName = "1.0"
+        versionName = "0.0.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "KAKAO_NATIVE_KEY", "\"${properties.getProperty("KAKAO_NATIVE_KEY")}\"")
+        buildConfigField(
+            "String",
+            "KAKAO_NATIVE_KEY",
+            "\"${properties.getProperty("KAKAO_NATIVE_KEY")}\""
+        )
         manifestPlaceholders["KAKAO_NATIVE_KEY"] = properties.getProperty("KAKAO_NATIVE_KEY")
 
         buildConfigField("String", "BASE_URL", "\"${properties.getProperty("BASE_URL")}\"")
     }
 
+    applicationVariants.all {
+        outputs.all {
+            val outputImpl = this as com.android.build.gradle.internal.api.ApkVariantOutputImpl
+            val newFileName = "Nabi-${name}.apk"
+            outputImpl.outputFileName = newFileName
+        }
+    }
+
+    signingConfigs {
+        create("release") {
+            keyAlias = properties["SIGNED_KEY_ALIAS"] as String?
+            keyPassword = properties["SIGNED_KEY_PASSWORD"] as String?
+            storeFile = properties["SIGNED_STORE_FILE"]?.let { file(it) }
+            storePassword = properties["SIGNED_STORE_PASSWORD"] as String?
+        }
+    }
+
     buildTypes {
-        release {
+        getByName("release") {
+            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -37,6 +59,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -48,15 +71,6 @@ android {
         viewBinding = true
         dataBinding = true
         buildConfig = true
-    }
-
-    signingConfigs {
-        getByName("debug") {
-            keyAlias = properties["SIGNED_KEY_ALIAS"] as String?
-            keyPassword = properties["SIGNED_KEY_PASSWORD"] as String?
-            storeFile = properties["SIGNED_STORE_FILE"]?.let { file(it) }
-            storePassword = properties["SIGNED_STORE_PASSWORD"] as String?
-        }
     }
 }
 
@@ -107,7 +121,7 @@ dependencies {
     implementation(libs.androidx.work.runtime.ktx)
 
     // ViewPager2
-    implementation("androidx.viewpager2:viewpager2:1.1.0")
+    implementation(libs.androidx.viewpager2)
 
     // Tooltip - Balloon
     implementation("com.github.skydoves:balloon:1.4.6")

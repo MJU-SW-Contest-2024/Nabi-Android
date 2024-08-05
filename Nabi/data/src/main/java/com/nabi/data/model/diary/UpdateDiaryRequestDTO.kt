@@ -1,0 +1,5 @@
+package com.nabi.data.model.diary
+
+data class UpdateDiaryRequestDTO (
+    val content: String
+)
