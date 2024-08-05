@@ -24,7 +24,7 @@ class AddDiaryFragment : BaseFragment<FragmentAddDiaryBinding>(R.layout.fragment
         super.initListener()
 
         binding.ibBack.setOnClickListener {
-            (requireActivity() as MainActivity).replaceFragment(AddDiarySelectDateFragment(), false)
+            requireActivity().supportFragmentManager.popBackStack()
         }
 
         binding.ibMic.setOnClickListener {
