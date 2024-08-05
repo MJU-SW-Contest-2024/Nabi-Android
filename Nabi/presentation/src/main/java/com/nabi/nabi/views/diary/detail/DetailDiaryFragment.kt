@@ -25,7 +25,9 @@ class DetailDiaryFragment(
             requireActivity().supportFragmentManager.popBackStack()
         }
 
-        binding.btnEdit.setOnClickListener {}
+        binding.btnEdit.setOnClickListener {
+
+        }
 
         binding.ibBookmark.setOnClickListener {
             if(viewModel.isBookmarked.value!!) viewModel.deleteBookmark(diaryId)
@@ -35,6 +37,16 @@ class DetailDiaryFragment(
 
     override fun setObserver() {
         super.setObserver()
+
+        viewModel.updateState.observe(viewLifecycleOwner){
+            when(it){
+                is UiState.Loading -> {}
+                is UiState.Failure -> {
+                    showToast("일기 수정 실패")
+                }
+                is UiState.Success -> {}
+            }
+        }
 
         viewModel.addState.observe(viewLifecycleOwner){
             when(it){

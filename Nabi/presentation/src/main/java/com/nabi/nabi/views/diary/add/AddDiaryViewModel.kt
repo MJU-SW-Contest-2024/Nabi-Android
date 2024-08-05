@@ -18,7 +18,7 @@ import javax.inject.Inject
 class AddDiaryViewModel @Inject constructor(
     private val getMonthlyDiaryUseCase: GetMonthlyDiaryUseCase,
     private val addDiaryUseCase: AddDiaryUseCase,
-    private val updateDiaryUseCase: UpdateDiaryUseCase,
+
     private val dataStoreRepository: DataStoreRepository
 ) : ViewModel() {
 
@@ -30,9 +30,6 @@ class AddDiaryViewModel @Inject constructor(
 
     private val _addState = MutableLiveData<UiState<Unit>>(UiState.Loading)
     val addState: LiveData<UiState<Unit>> get() = _addState
-
-    private val _updateState = MutableLiveData<UiState<Unit>>(UiState.Loading)
-    val updateState: LiveData<UiState<Unit>> get() = _updateState
 
     fun selectDate(date: String) {
         _selectedDate.value = date
@@ -72,18 +69,4 @@ class AddDiaryViewModel @Inject constructor(
         }
     }
 
-    fun updateDiary(id: Int, content: String) {
-        _updateState.value = UiState.Loading
-
-        viewModelScope.launch {
-            val accessToken = dataStoreRepository.getAccessToken().getOrNull().orEmpty()
-
-            updateDiaryUseCase(accessToken, id, content)
-                .onSuccess {
-                    _addState.value = UiState.Success(Unit)
-                }.onFailure { e ->
-                    _addState.value = UiState.Failure(message = e.message.toString())
-                }
-        }
-    }
 }

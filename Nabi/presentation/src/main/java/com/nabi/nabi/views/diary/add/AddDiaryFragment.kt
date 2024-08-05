@@ -66,16 +66,5 @@ class AddDiaryFragment : BaseFragment<FragmentAddDiaryBinding>(R.layout.fragment
                 }
             }
         }
-
-        viewModel.updateState.observe(viewLifecycleOwner) {
-            when (it) {
-                is UiState.Loading -> {}
-                is UiState.Failure -> {
-                    showToast("일기 수정 실패")
-                }
-
-                is UiState.Success -> {}
-            }
-        }
     }
 }
