@@ -1,7 +1,6 @@
 package com.nabi.nabi.views.diary.add
 
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import com.nabi.data.utils.LoggerUtils
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
