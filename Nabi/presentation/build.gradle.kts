@@ -98,8 +98,8 @@ dependencies {
     implementation(libs.androidx.work.runtime.ktx)
 
     // ViewPager2
-    implementation("androidx.viewpager2:viewpager2:1.1.0")
+    implementation(libs.androidx.viewpager2)
 
     // Tooltip - Balloon
-    implementation("com.github.skydoves:balloon:1.4.6")
+    implementation(libs.balloon)
 }

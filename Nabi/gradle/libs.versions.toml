@@ -1,5 +1,6 @@
 [versions]
 agp = "8.3.1"
+balloon = "1.4.6"
 datastorePreferences = "1.1.1"
 glide = "4.16.0"
 hiltAndroid = "2.48"
@@ -22,6 +23,7 @@ retrofit = "2.11.0"
 v2User = "2.20.1"
 googleGmsGoogleServices = "4.4.2"
 firebaseMessaging = "24.0.0"
+viewpager2 = "1.1.0"
 workRuntimeKtx = "2.9.0"
 
 [libraries]
@@ -30,6 +32,8 @@ androidx-datastore-preferences = { module = "androidx.datastore:datastore-prefer
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
 androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleViewmodelKtx" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
+androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }
+balloon = { module = "com.github.skydoves:balloon", version.ref = "balloon" }
 dagger-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltAndroid" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroidVersion" }
