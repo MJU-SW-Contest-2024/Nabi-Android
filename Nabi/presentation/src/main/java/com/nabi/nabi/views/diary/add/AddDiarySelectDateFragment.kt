@@ -1,13 +1,14 @@
 package com.nabi.nabi.views.diary.add
 
 import android.annotation.SuppressLint
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nabi.data.utils.LoggerUtils
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.databinding.FragmentSelectDateBinding
 import com.nabi.nabi.utils.UiState
+import com.nabi.nabi.views.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -15,12 +16,14 @@ import java.util.Date
 import java.util.Locale
 
 @AndroidEntryPoint
-class AddDiarySelectDateFragment : BaseFragment<FragmentSelectDateBinding>(R.layout.fragment_select_date),
+class AddDiarySelectDateFragment :
+    BaseFragment<FragmentSelectDateBinding>(R.layout.fragment_select_date),
     AddDiaryMonthAdapter.OnDateSelectedListener {
     private lateinit var monthAdapter: AddDiaryMonthAdapter
     private lateinit var monthListManager: LinearLayoutManager
-    private val viewModel: AddDiaryViewModel by viewModels()
+    private val viewModel: AddDiaryViewModel by activityViewModels()
     private val calendar = Calendar.getInstance()
+    private var diaryDates: Set<String> = emptySet()
 
     @SuppressLint("NotifyDataSetChanged")
     override fun initView() {
@@ -31,11 +34,21 @@ class AddDiarySelectDateFragment : BaseFragment<FragmentSelectDateBinding>(R.lay
         binding.ivLeftMonth.setOnClickListener {
             updateMonth(-1)
             monthAdapter.updateCurrentMonth(-1)
-
         }
         binding.ivRightMonth.setOnClickListener {
             updateMonth(1)
             monthAdapter.updateCurrentMonth(1)
+        }
+
+        binding.btnDone.setOnClickListener {
+            val selectedDate = changeDateFormat(binding.tvSelectDate.text.toString())
+
+            if (diaryDates.contains(selectedDate)) {
+                showToast("이미 일기를 쓴 날이에요!")
+            } else {
+                viewModel.selectDate(selectedDate)
+                (requireActivity() as MainActivity).replaceFragment(AddDiaryFragment(), true)
+            }
         }
 
         setTodayDate()
@@ -70,11 +83,12 @@ class AddDiarySelectDateFragment : BaseFragment<FragmentSelectDateBinding>(R.lay
         binding.tvSelectDate.text = formattedDate
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun initListener() {
         val today = Calendar.getInstance().time
         monthAdapter = AddDiaryMonthAdapter(0, today)
         monthAdapter.setOnDateSelectedListener(this)
-        
+
 
         monthListManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -104,10 +118,17 @@ class AddDiarySelectDateFragment : BaseFragment<FragmentSelectDateBinding>(R.lay
                 is UiState.Loading -> {}
                 is UiState.Success -> {
                     val dates = state.data.map { it.diaryEntryDate }
+                    diaryDates = dates.toSet()
                     monthAdapter.updateDiaryDates(dates)
                 }
             }
         }
+    }
 
+    private fun changeDateFormat(selectedDate: String): String {
+        val inputFormat = SimpleDateFormat("yyyy년 M월 d일", Locale.KOREAN)
+        val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.KOREAN)
+        val date = inputFormat.parse(selectedDate)
+        return outputFormat.format(date!!)
     }
 }
