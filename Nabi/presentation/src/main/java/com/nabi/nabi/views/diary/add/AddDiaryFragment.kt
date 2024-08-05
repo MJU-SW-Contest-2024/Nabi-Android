@@ -1,10 +1,10 @@
 package com.nabi.nabi.views.diary.add
 
 import androidx.fragment.app.activityViewModels
-import com.nabi.data.utils.LoggerUtils
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.databinding.FragmentAddDiaryBinding
+import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import com.nabi.nabi.views.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
