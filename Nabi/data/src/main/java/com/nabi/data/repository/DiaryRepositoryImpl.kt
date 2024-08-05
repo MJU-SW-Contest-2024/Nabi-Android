@@ -2,9 +2,13 @@ package com.nabi.data.repository
 
 import com.nabi.data.datasource.DiaryRemoteDataSource
 import com.nabi.data.mapper.DiaryMapper
+import com.nabi.data.model.diary.AddDiaryRequestDTO
+import com.nabi.data.model.diary.UpdateDiaryRequestDTO
 import com.nabi.domain.model.PageableInfo
+import com.nabi.domain.model.diary.AddDiaryInfo
 import com.nabi.domain.model.diary.DiaryInfo
 import com.nabi.domain.model.diary.SearchDiary
+import com.nabi.domain.model.diary.UpdateDiaryInfo
 import com.nabi.domain.repository.DiaryRepository
 import javax.inject.Inject
 
@@ -50,13 +54,24 @@ class DiaryRepositoryImpl @Inject constructor(
             if (res != null) {
                 val data = res.data
                 if (data != null) {
-                    val pageableInfo = PageableInfo(totalPages = data.totalPages, totalElements = data.totalElements, elementSize = data.size, currentPageNumber = data.number, isLastPage = data.last)
+                    val pageableInfo = PageableInfo(
+                        totalPages = data.totalPages,
+                        totalElements = data.totalElements,
+                        elementSize = data.size,
+                        currentPageNumber = data.number,
+                        isLastPage = data.last
+                    )
 
-                    if(data.size == 0) {
+                    if (data.size == 0) {
                         Result.success(Pair(pageableInfo, emptyList()))
-                    }
-                    else {
-                        val searchDiaryList = data.content.map { SearchDiary(it.previewContent, it.diaryEntryDate, it.diaryId) }
+                    } else {
+                        val searchDiaryList = data.content.map {
+                            SearchDiary(
+                                it.previewContent,
+                                it.diaryEntryDate,
+                                it.diaryId
+                            )
+                        }
                         Result.success(Pair(pageableInfo, searchDiaryList))
                     }
                 } else {
@@ -78,14 +93,16 @@ class DiaryRepositoryImpl @Inject constructor(
             if (res != null) {
                 val data = res.data
                 if (data != null) {
-                    Result.success(DiaryInfo(
-                        content = data.content,
-                        diaryId = data.diaryId,
-                        nickname = data.nickname,
-                        emotion = data.emotion,
-                        diaryEntryDate = data.diaryEntryDate,
-                        isBookmarked = data.isBookmarked
-                    ))
+                    Result.success(
+                        DiaryInfo(
+                            content = data.content,
+                            diaryId = data.diaryId,
+                            nickname = data.nickname,
+                            emotion = data.emotion,
+                            diaryEntryDate = data.diaryEntryDate,
+                            isBookmarked = data.isBookmarked
+                        )
+                    )
                 } else {
                     Result.failure(Exception("Month diary List data is null"))
                 }
@@ -96,4 +113,64 @@ class DiaryRepositoryImpl @Inject constructor(
             Result.failure(result.exceptionOrNull() ?: Exception("Unknown error"))
         }
     }
+
+    override suspend fun addDiary(
+        accessToken: String,
+        content: String,
+        diaryEntryDate: String
+    ): Result<AddDiaryInfo> {
+        val result =
+            diaryRemoteDataSource.addDiary(accessToken, AddDiaryRequestDTO(content, diaryEntryDate))
+
+        return if (result.isSuccess) {
+            val res = result.getOrNull()
+            if (res != null) {
+                val data = res.data
+                if (data != null) {
+                    val addDiaryInfo = AddDiaryInfo(
+                        content = data.content,
+                        diaryEntryDate = data.diaryEntryDate
+                    )
+                    Result.success(addDiaryInfo)
+                } else {
+                    Result.failure(Exception("Add Diary Failed: data is null"))
+                }
+            } else {
+                Result.failure(Exception("Add Diary Failed: response body is null"))
+            }
+        } else {
+            Result.failure(result.exceptionOrNull() ?: Exception("Unknown error"))
+        }
+    }
+
+    override suspend fun updateDiary(
+        accessToken: String,
+        id: Int,
+        content: String
+    ): Result<UpdateDiaryInfo> {
+        val result =
+            diaryRemoteDataSource.updateDiary(accessToken, id, UpdateDiaryRequestDTO(content))
+
+        return if (result.isSuccess) {
+            val res = result.getOrNull()
+            if (res != null) {
+                val data = res.data
+                if (data != null) {
+                    val updateDiaryInfo = UpdateDiaryInfo(
+                        diaryId = data.diaryId,
+                        content = data.content,
+                        diaryEntryDate = data.diaryEntryDate
+                    )
+                    Result.success(updateDiaryInfo)
+                } else {
+                    Result.failure(Exception("Update Diary Failed: data is null"))
+                }
+            } else {
+                Result.failure(Exception("Update Diary Failed: response body is null"))
+            }
+        } else {
+            Result.failure(result.exceptionOrNull() ?: Exception("Unknown error"))
+        }
+    }
+
 }

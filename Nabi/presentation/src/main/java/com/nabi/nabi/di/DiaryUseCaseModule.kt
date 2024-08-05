@@ -1,9 +1,11 @@
 package com.nabi.nabi.di
 
 import com.nabi.domain.repository.DiaryRepository
+import com.nabi.domain.usecase.diary.AddDiaryUseCase
 import com.nabi.domain.usecase.diary.GetDiaryDetailUseCase
 import com.nabi.domain.usecase.diary.GetMonthlyDiaryUseCase
 import com.nabi.domain.usecase.diary.SearchDiaryUseCase
+import com.nabi.domain.usecase.diary.UpdateDiaryUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,5 +38,21 @@ object DiaryUseCaseModule {
         repository: DiaryRepository
     ): GetDiaryDetailUseCase {
         return GetDiaryDetailUseCase(repository = repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAddDiaryUseCase(
+        repository: DiaryRepository
+    ): AddDiaryUseCase {
+        return AddDiaryUseCase(repository = repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUpdateDiaryUseCase(
+        repository: DiaryRepository
+    ): UpdateDiaryUseCase {
+        return UpdateDiaryUseCase(repository = repository)
     }
 }
