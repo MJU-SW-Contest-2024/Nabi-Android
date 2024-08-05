@@ -124,4 +124,7 @@ dependencies {
 
     // LoggerUtils
     implementation(libs.logger)
+
+    // MPAndroidChart
+    implementation(libs.mpandroidchart)
 }
