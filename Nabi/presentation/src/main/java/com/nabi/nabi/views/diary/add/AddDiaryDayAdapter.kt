@@ -4,8 +4,10 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.nabi.data.utils.LoggerUtils
 import com.nabi.nabi.R
 import com.nabi.nabi.databinding.ItemDayBinding
 import java.text.SimpleDateFormat
@@ -33,15 +35,11 @@ class AddDiaryDayAdapter(
 
     override fun onBindViewHolder(holder: DayView, position: Int) {
         with(holder.binding) {
-            itemDayLayout.setOnClickListener {
-                val selectedDate = dayList[position]
-                onDateSelected(selectedDate)
-            }
-
             val calendar = Calendar.getInstance()
             calendar.time = dayList[position]
             val dayMonth = calendar.get(Calendar.MONTH) + 1
-            tvDay.text = calendar.get(Calendar.DAY_OF_MONTH).toString()
+            val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+            tvDay.text = dayOfMonth.toString()
 
             val today = Calendar.getInstance()
             if (currentMonth != dayMonth) {
@@ -52,13 +50,19 @@ class AddDiaryDayAdapter(
             } else {
                 tvDay.alpha = 1.0f
 
-                // 해당 일(day)이 diaryDates에 포함되어 있는지 확인
-                val dateFormat = SimpleDateFormat("dd", Locale.KOREAN)
-                val formattedDay = dateFormat.format(calendar.time)
-                val isDateInDiary = diaryDates.contains(formattedDay)
+                // 해당 일에 이미 일기가 존재
+                val isDateInDiary = diaryDates.any { dateString ->
+                    try {
+                        val date = SimpleDateFormat("yyyy-MM-dd", Locale.KOREAN).parse(dateString)
+                        val diaryCalendar = Calendar.getInstance()
+                        diaryCalendar.time = date!!
+                        diaryCalendar.get(Calendar.DAY_OF_MONTH) == dayOfMonth
+                    } catch (e: Exception) {
+                        false
+                    }
+                }
                 val isSelectedDate = isSameDate(dayList[position], selectedDate)
 
-                // 선택된 날짜에 일기가 존재하면
                 ivDiaryCheck.alpha = if (isDateInDiary) 1.0f else 0.0f
                 ivDiaryCheck.background.setColorFilter(
                     if (isSelectedDate && isDateInDiary) Color.WHITE else Color.TRANSPARENT,
@@ -69,7 +73,15 @@ class AddDiaryDayAdapter(
                 ivSelectDate.alpha = if (isSelectedDate) 1.0f else 0.0f
 
                 itemDayLayout.setOnClickListener {
-                    onDateSelected(calendar.time)
+                    if (calendar.after(today)) {
+                        Toast.makeText(
+                            holder.itemView.context,
+                            "오늘 이후의 날짜는 선택할 수 없습니다.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        onDateSelected(calendar.time)
+                    }
                 }
 
                 // 오늘 이후 날짜는 회색으로 처리
