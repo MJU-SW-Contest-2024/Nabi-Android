@@ -59,9 +59,6 @@ dependencies {
     // DataStore
     implementation(libs.androidx.datastore.preferences)
 
-    // LoggerUtils
-    implementation(libs.logger)
-
     // Kakao Login
     implementation(libs.v2.user)
 }

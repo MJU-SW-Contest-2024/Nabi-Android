@@ -49,6 +49,15 @@ android {
         dataBinding = true
         buildConfig = true
     }
+
+    signingConfigs {
+        getByName("debug") {
+            keyAlias = properties["SIGNED_KEY_ALIAS"] as String?
+            keyPassword = properties["SIGNED_KEY_PASSWORD"] as String?
+            storeFile = properties["SIGNED_STORE_FILE"]?.let { file(it) }
+            storePassword = properties["SIGNED_STORE_PASSWORD"] as String?
+        }
+    }
 }
 
 dependencies {
@@ -101,5 +110,8 @@ dependencies {
     implementation(libs.androidx.viewpager2)
 
     // Tooltip - Balloon
-    implementation(libs.balloon)
+    implementation("com.github.skydoves:balloon:1.4.6")
+
+    // LoggerUtils
+    implementation(libs.logger)
 }

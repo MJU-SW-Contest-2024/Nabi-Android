@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nabi.data.utils.LoggerUtils
+import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.domain.model.home.HomeInfo
 import com.nabi.domain.repository.DataStoreRepository
 import com.nabi.domain.usecase.home.HomeUseCase
