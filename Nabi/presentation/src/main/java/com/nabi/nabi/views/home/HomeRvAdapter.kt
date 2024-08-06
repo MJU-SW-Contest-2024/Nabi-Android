@@ -22,6 +22,9 @@ import com.nabi.nabi.R
 import com.nabi.nabi.databinding.ItemDiaryBinding
 import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.views.OnRvItemClickListener
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class HomeRvAdapter : RecyclerView.Adapter<HomeRvAdapter.ActivityViewHolder>() {
     var dataList: List<RecentFiveDiary> = mutableListOf()
@@ -40,10 +43,10 @@ class HomeRvAdapter : RecyclerView.Adapter<HomeRvAdapter.ActivityViewHolder>() {
                     rvItemBookmarkClickListener.onClick(diary)
                 }
             }
-            binding.tvDiaryDate.text = diary.diaryEntryDate
+            binding.tvDiaryDate.text = formatDateString(diary.diaryEntryDate)
             binding.tvDiary.text = diary.content
 
-            Handler(Looper.getMainLooper()).post {
+            binding.tvDiary.post {
                 adjustText(binding.tvDiary, diary.diaryId)
             }
         }
@@ -134,6 +137,19 @@ class HomeRvAdapter : RecyclerView.Adapter<HomeRvAdapter.ActivityViewHolder>() {
                     tvDiary.movementMethod = LinkMovementMethod.getInstance()
                 }
             }
+        }
+    }
+
+    fun formatDateString(inputDate: String): String {
+        val originalFormat = SimpleDateFormat("yyyy-MM-dd", Locale.KOREAN)
+        val targetFormat = SimpleDateFormat("yyyy. MM. dd", Locale.KOREAN)
+
+        return try {
+            val date: Date? = originalFormat.parse(inputDate)
+            date?.let { targetFormat.format(it) } ?: ""
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ""
         }
     }
 }

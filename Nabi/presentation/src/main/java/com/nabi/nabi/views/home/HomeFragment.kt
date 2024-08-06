@@ -16,6 +16,7 @@ import com.nabi.nabi.views.OnRvItemClickListener
 import com.nabi.nabi.views.diary.add.AddDiarySelectDateFragment
 import com.nabi.nabi.views.diary.detail.DetailDiaryFragment
 import com.nabi.nabi.views.diary.view.SelectDiaryFragment
+import com.nabi.nabi.views.myPage.MyPageFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,9 +38,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             })
             setRvItemBookmarkClickListener(object : OnRvItemClickListener<RecentFiveDiary> {
                 override fun onClick(item: RecentFiveDiary) {
-                    LoggerUtils.d(
-                        getItemBinding(item.diaryId)!!.isBookmarked().toString()
-                    )
                     if (getItemBinding(item.diaryId)?.isBookmarked() == true)
                         viewModel.deleteBookmark(item.diaryId)
                     else viewModel.addBookmark(item.diaryId)
@@ -59,6 +57,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         binding.ibNotification.setOnClickListener {
 
+        }
+
+        binding.ibMypage.setOnClickListener {
+            val ft = requireActivity().supportFragmentManager.beginTransaction()
+            ft.replace(R.id.fl_main, MyPageFragment())
+            ft.addToBackStack("myPage")
+            ft.commit()
         }
 
         binding.btnAddDiary.setOnClickListener {

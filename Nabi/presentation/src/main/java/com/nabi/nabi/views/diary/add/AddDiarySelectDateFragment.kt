@@ -56,7 +56,7 @@ class AddDiarySelectDateFragment :
                         false,
                         null,
                         null,
-                        selectedDate!!
+                        originalDateStr,
                     ), true
                 )
             }
@@ -99,7 +99,6 @@ class AddDiarySelectDateFragment :
         val today = Calendar.getInstance().time
         monthAdapter = AddDiaryMonthAdapter(0, today)
         monthAdapter.setOnDateSelectedListener(this)
-
 
         monthListManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
