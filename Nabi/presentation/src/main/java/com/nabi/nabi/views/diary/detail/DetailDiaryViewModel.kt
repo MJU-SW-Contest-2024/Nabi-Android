@@ -9,7 +9,6 @@ import com.nabi.domain.repository.DataStoreRepository
 import com.nabi.domain.usecase.bookmark.AddBookmarkUseCase
 import com.nabi.domain.usecase.bookmark.DeleteBookmarkUseCase
 import com.nabi.domain.usecase.diary.GetDiaryDetailUseCase
-import com.nabi.domain.usecase.diary.UpdateDiaryUseCase
 import com.nabi.nabi.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

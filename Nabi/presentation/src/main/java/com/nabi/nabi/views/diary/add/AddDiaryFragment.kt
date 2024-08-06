@@ -1,25 +1,17 @@
 package com.nabi.nabi.views.diary.add
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseActivity
 import com.nabi.nabi.base.BaseFragment
-import com.nabi.nabi.databinding.ActivityMainBinding
 import com.nabi.nabi.databinding.FragmentAddDiaryBinding
 import com.nabi.nabi.utils.Constants
-import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
@@ -105,7 +97,6 @@ class AddDiaryFragment(
                 }
 
                 is UiState.Success -> {
-                    showToast("일기 추가 성공")
                     binding.etDiary.text.clear()
                     requireActivity().supportFragmentManager.popBackStack()
                 }
@@ -127,24 +118,19 @@ class AddDiaryFragment(
     private val recognitionListener: RecognitionListener = object : RecognitionListener {
         // 말하기 시작할 준비가되면 호출
         override fun onReadyForSpeech(params: Bundle) {
-            Toast.makeText(requireContext(), "음성인식 시작", Toast.LENGTH_SHORT).show()
+            showToast("음성 인식 시작")
         }
 
-        // 말하기 시작했을 때 호출
-        override fun onBeginningOfSpeech() {
-        }
 
-        // 입력받는 소리의 크기를 알려줌
-        override fun onRmsChanged(rmsdB: Float) {}
-
-        // 말을 시작하고 인식이 된 단어를 buffer에 담음
-        override fun onBufferReceived(buffer: ByteArray) {}
+        override fun onBeginningOfSpeech() {} // 말하기 시작했을 때 호출
+        override fun onRmsChanged(rmsdB: Float) {} // 입력받는 소리의 크기를 알려줌
+        override fun onBufferReceived(buffer: ByteArray) {} // 말을 시작하고 인식이 된 단어를 buffer에 담음
 
         // 말하기를 중지하면 호출
         override fun onEndOfSpeech() {
             // 음성 인식이 끝나면 자동으로 중지
             isListening = false
-            Toast.makeText(requireContext(), "음성 인식 중지", Toast.LENGTH_SHORT).show()
+            showToast("음성 인식 마침")
         }
 
         // 오류 발생했을 때 호출
@@ -159,8 +145,10 @@ class AddDiaryFragment(
                 SpeechRecognizer.ERROR_RECOGNIZER_BUSY -> "RECOGNIZER 가 바쁨"
                 SpeechRecognizer.ERROR_SERVER -> "서버가 이상함"
                 SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "말하는 시간초과"
-                else -> "알 수 없는 오류임"
+                else -> "알 수 없는 오류"
             }
+
+            showToast(message)
         }
 
         // 인식 결과가 준비되면 호출

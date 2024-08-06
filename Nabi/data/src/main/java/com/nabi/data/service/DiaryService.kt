@@ -1,9 +1,7 @@
 package com.nabi.data.service
 
 import com.nabi.data.model.BaseResponse
-import com.nabi.data.model.MessageResponseDTO
 import com.nabi.data.model.PageableResponse
-import com.nabi.data.model.auth.SignInRequestDTO
 import com.nabi.data.model.diary.AddDiaryRequestDTO
 import com.nabi.data.model.diary.AddDiaryResponseDTO
 import com.nabi.data.model.diary.DiaryDetailResponseDTO

@@ -1,15 +1,13 @@
 package com.nabi.nabi.views.home
 
 import android.annotation.SuppressLint
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nabi.domain.model.home.RecentFiveDiary
-import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.databinding.FragmentHomeBinding
-import com.nabi.nabi.databinding.ItemDiaryBinding
+import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import com.nabi.nabi.views.MainActivity
 import com.nabi.nabi.views.OnRvItemClickListener
@@ -34,6 +32,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         homeRvAdapter = HomeRvAdapter().apply {
             setRvItemClickListener(object : OnRvItemClickListener<Int> {
                 override fun onClick(item: Int) {
+                    (requireActivity() as MainActivity).replaceFragment(DetailDiaryFragment(item), true)
                 }
             })
             setRvItemBookmarkClickListener(object : OnRvItemClickListener<RecentFiveDiary> {

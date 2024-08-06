@@ -15,8 +15,8 @@ import androidx.work.WorkerParameters
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.R
+import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.views.splash.StartActivity
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await

@@ -15,6 +15,7 @@
             android:id="@+id/ib_back"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_marginTop="4dp"
             android:background="@color/transparent"
             android:src="@drawable/ic_arrow"
 
@@ -28,21 +29,21 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
 
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="8dp"
             android:background="@color/transparent"
             android:text="저장"
             android:textColor="@color/black"
 
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/ib_back" />
 
         <ImageButton
             android:id="@+id/ib_mic"
             android:layout_width="48dp"
-            app:layout_goneMarginEnd="16dp"
             android:layout_height="48dp"
             android:background="@color/transparent"
             android:src="@drawable/ic_mic"
+            app:layout_goneMarginEnd="16dp"
 
             app:layout_constraintEnd_toStartOf="@id/btn_save"
             app:layout_constraintTop_toTopOf="@id/ib_back"

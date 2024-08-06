@@ -3,10 +3,10 @@ package com.nabi.nabi.views.sign
 import android.content.Intent
 import androidx.fragment.app.viewModels
 import com.nabi.data.service.KakaoAuthService
-import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.databinding.FragmentSignProviderBinding
+import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import com.nabi.nabi.views.MainActivity
 import dagger.hilt.android.AndroidEntryPoint

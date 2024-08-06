@@ -1,13 +1,12 @@
 package com.nabi.nabi.views.diary.add
 
 import android.annotation.SuppressLint
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.databinding.FragmentSelectDateBinding
+import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import com.nabi.nabi.views.MainActivity
 import dagger.hilt.android.AndroidEntryPoint

@@ -6,7 +6,6 @@ import com.nabi.domain.model.emotion.EmotionStatistics
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.databinding.FragmentStatisticsDiaryBinding
-import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
