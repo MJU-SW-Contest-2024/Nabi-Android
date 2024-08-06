@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.domain.model.home.HomeInfo
 import com.nabi.domain.repository.DataStoreRepository
+import com.nabi.domain.usecase.bookmark.AddBookmarkUseCase
+import com.nabi.domain.usecase.bookmark.DeleteBookmarkUseCase
 import com.nabi.domain.usecase.home.HomeUseCase
 import com.nabi.domain.usecase.notification.RegisterFcmTokenUseCase
 import com.nabi.nabi.fcm.MyFirebaseMessagingService
@@ -19,6 +21,8 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val homeUseCase: HomeUseCase,
     private val registerFcmTokenUseCase: RegisterFcmTokenUseCase,
+    private val addBookmarkUseCase: AddBookmarkUseCase,
+    private val deleteBookmarkUseCase: DeleteBookmarkUseCase,
     private val dataStoreRepository: DataStoreRepository
 ) : ViewModel() {
 
@@ -27,6 +31,12 @@ class HomeViewModel @Inject constructor(
 
     private val _fcmState = MutableLiveData<UiState<Unit>>(UiState.Loading)
     val fcmState: LiveData<UiState<Unit>> get() = _fcmState
+
+    private val _addState = MutableLiveData<UiState<Int>>(UiState.Loading)
+    val addState: LiveData<UiState<Int>> get() = _addState
+
+    private val _deleteState = MutableLiveData<UiState<Int>>(UiState.Loading)
+    val deleteState: LiveData<UiState<Int>> get() = _deleteState
 
     fun fetchData() {
         _homeState.value = UiState.Loading
@@ -67,6 +77,36 @@ class HomeViewModel @Inject constructor(
                 LoggerUtils.e("Sign-in exception: ${e.message}")
                 _fcmState.value = UiState.Failure(message = e.message.toString())
             }
+        }
+    }
+
+    fun addBookmark(diaryId: Int) {
+        _addState.value = UiState.Loading
+
+        viewModelScope.launch {
+            val accessToken = dataStoreRepository.getAccessToken().getOrNull().orEmpty()
+
+            addBookmarkUseCase(accessToken, diaryId)
+                .onSuccess {
+                    _addState.value = UiState.Success(diaryId)
+                }.onFailure { e ->
+                    _addState.value = UiState.Failure(message = e.message.toString())
+                }
+        }
+    }
+
+    fun deleteBookmark(diaryId: Int) {
+        _deleteState.value = UiState.Loading
+
+        viewModelScope.launch {
+            val accessToken = dataStoreRepository.getAccessToken().getOrNull().orEmpty()
+
+            deleteBookmarkUseCase(accessToken, diaryId)
+                .onSuccess {
+                    _deleteState.value = UiState.Success(diaryId)
+                }.onFailure { e ->
+                    _deleteState.value = UiState.Failure(message = e.message.toString())
+                }
         }
     }
 }

@@ -7,7 +7,9 @@ data class HomeInfo(
 )
 
 class RecentFiveDiary(
+    val diaryId: Int,
     val content: String,
     val diaryEntryDate: String,
-    val emotion: String
+    val emotion: String,
+    val isBookmarked: Boolean
 )
