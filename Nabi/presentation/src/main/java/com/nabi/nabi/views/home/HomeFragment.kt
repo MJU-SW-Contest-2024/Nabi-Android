@@ -34,6 +34,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         homeRvAdapter = HomeRvAdapter().apply {
             setRvItemClickListener(object : OnRvItemClickListener<Int> {
                 override fun onClick(item: Int) {
+                    (requireActivity() as MainActivity).replaceFragment(DetailDiaryFragment(item), true)
                 }
             })
             setRvItemBookmarkClickListener(object : OnRvItemClickListener<RecentFiveDiary> {
