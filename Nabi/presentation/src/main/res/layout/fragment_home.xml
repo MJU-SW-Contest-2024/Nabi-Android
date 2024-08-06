@@ -14,17 +14,31 @@
 
         <ImageButton
             android:id="@+id/ib_notification"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
 
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="28dp"
+            android:layout_marginStart="16dp"
             android:background="@color/transparent"
             android:contentDescription="@null"
             android:src="@drawable/ic_notify"
 
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="@id/tv_nickname"
+            app:layout_constraintTop_toTopOf="@id/tv_nickname" />
+
+        <ImageButton
+            android:id="@+id/ib_mypage"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+
+            android:background="@color/transparent"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_mypage"
+            android:layout_marginStart="4dp"
+
+            app:layout_constraintStart_toEndOf="@id/ib_notification"
+            app:layout_constraintBottom_toBottomOf="@id/ib_notification"
+            app:layout_constraintTop_toTopOf="@id/ib_notification" />
 
         <TextView
             android:id="@+id/tv_nickname"
