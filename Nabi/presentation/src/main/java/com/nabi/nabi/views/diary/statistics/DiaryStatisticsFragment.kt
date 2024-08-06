@@ -1,12 +1,12 @@
 package com.nabi.nabi.views.diary.statistics
 
 import android.app.DatePickerDialog
-import android.widget.TextView
 import androidx.fragment.app.viewModels
 import com.nabi.domain.model.emotion.EmotionStatistics
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.databinding.FragmentStatisticsDiaryBinding
+import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -110,12 +110,12 @@ class DiaryStatisticsFragment: BaseFragment<FragmentStatisticsDiaryBinding>(R.la
 
     private fun setupChart(p: EmotionStatistics) {
         binding.barChart.setValues(
-            p.run { intArrayOf(angerCount, happiness, 0, depressionCount, anxietyCount) }
+            p.run { intArrayOf(angerCount, happinessCount, boringCount, depressionCount, anxietyCount) }
         )
 
         binding.tvEmotionAngerValue.text = p.angerCount.toString()
-        binding.tvEmotionHappinessValue.text = p.happiness.toString()
-        binding.tvEmotionBoredomValue.text = "0"
+        binding.tvEmotionHappinessValue.text = p.happinessCount.toString()
+        binding.tvEmotionBoredomValue.text = p.boringCount.toString()
         binding.tvEmotionSadnessValue.text = p.depressionCount.toString()
         binding.tvEmotionAnxietyValue.text = p.anxietyCount.toString()
     }
@@ -128,7 +128,7 @@ class DiaryStatisticsFragment: BaseFragment<FragmentStatisticsDiaryBinding>(R.la
                 is UiState.Loading -> {}
                 is UiState.Failure -> {
                     showToast("감정 통계 로드 실패")
-                    setupChart(EmotionStatistics(3, 6, 0, 4))
+                    setupChart(EmotionStatistics(0, 0, 0, 0, 0))
                 }
                 is UiState.Success -> {
                     setupChart(it.data)

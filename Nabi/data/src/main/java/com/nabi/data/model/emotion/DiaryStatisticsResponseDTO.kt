@@ -6,5 +6,6 @@ data class DiaryStatisticsResponseDTO(
     @SerializedName("angerCount") val angerCount: Int,
     @SerializedName("anxietyCount") val anxietyCount: Int,
     @SerializedName("depressionCount") val depressionCount: Int,
-    @SerializedName("Happiness") val happiness: Int
+    @SerializedName("happinessCount") val happinessCount: Int,
+    @SerializedName("boringCount") val boringCount: Int
 )

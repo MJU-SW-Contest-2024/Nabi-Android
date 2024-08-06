@@ -4,5 +4,6 @@ data class EmotionStatistics(
     val angerCount: Int,
     val anxietyCount: Int,
     val depressionCount: Int,
-    val happiness: Int
+    val happinessCount: Int,
+    val boringCount: Int
 )
