@@ -2,6 +2,7 @@ package com.nabi.nabi.di
 
 import com.nabi.domain.repository.EmotionRepository
 import com.nabi.domain.usecase.emotion.GetEmotionStatisticsUseCase
+import com.nabi.domain.usecase.emotion.SearchEmotionUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,9 +15,17 @@ object EmotionUseCaseModule {
 
     @Provides
     @Singleton
-    fun provideHomeUseCase(
+    fun provideGetEmotionStatisticsUseCase(
         repository: EmotionRepository
     ): GetEmotionStatisticsUseCase {
         return GetEmotionStatisticsUseCase(repository = repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSearchEmotionUseCase(
+        repository: EmotionRepository
+    ): SearchEmotionUseCase {
+        return SearchEmotionUseCase(repository = repository)
     }
 }

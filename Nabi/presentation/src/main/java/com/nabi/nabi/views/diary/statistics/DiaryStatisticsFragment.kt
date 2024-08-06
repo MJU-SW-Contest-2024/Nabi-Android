@@ -1,12 +1,15 @@
 package com.nabi.nabi.views.diary.statistics
 
 import android.app.DatePickerDialog
+import android.os.Bundle
 import androidx.fragment.app.viewModels
 import com.nabi.domain.model.emotion.EmotionStatistics
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.databinding.FragmentStatisticsDiaryBinding
 import com.nabi.nabi.utils.UiState
+import com.nabi.nabi.views.MainActivity
+import com.nabi.nabi.views.diary.emotion.EmotionSearchFragment
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -21,15 +24,38 @@ class DiaryStatisticsFragment: BaseFragment<FragmentStatisticsDiaryBinding>(R.la
     private var startDate: Calendar = Calendar.getInstance()
     private var endDate: Calendar = Calendar.getInstance()
 
-    override fun initView() {
-        endDate.time = calendar.time
-        calendar.add(Calendar.MONTH, -1)
-        startDate.time = calendar.time
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
+        if (savedInstanceState == null) {
+            endDate.time = calendar.time
+            calendar.add(Calendar.MONTH, -1)
+            startDate.time = calendar.time
+        }
+    }
+
+    override fun initView() {
         binding.tvEndDate.text = dateFormat.format(endDate.time)
         binding.tvStartDate.text = dateFormat.format(startDate.time)
 
         fetchData()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putLong("startDate", startDate.timeInMillis)
+        outState.putLong("endDate", endDate.timeInMillis)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        savedInstanceState?.let {
+            startDate.timeInMillis = it.getLong("startDate")
+            endDate.timeInMillis = it.getLong("endDate")
+            binding.tvStartDate.text = dateFormat.format(startDate.time)
+            binding.tvEndDate.text = dateFormat.format(endDate.time)
+            fetchData()
+        }
     }
 
     override fun initListener() {
@@ -40,7 +66,13 @@ class DiaryStatisticsFragment: BaseFragment<FragmentStatisticsDiaryBinding>(R.la
         }
 
         binding.tvStartDate.setOnClickListener { showDatePickerDialog(true) }
-        binding.tvEndDate.setOnClickListener { showDatePickerDialog( false) }
+        binding.tvEndDate.setOnClickListener { showDatePickerDialog(false) }
+
+        binding.ivEmotionAnger.setOnClickListener { (requireActivity() as MainActivity).replaceFragment(EmotionSearchFragment("화남"), true)}
+        binding.ivEmotionHappiness.setOnClickListener { (requireActivity() as MainActivity).replaceFragment(EmotionSearchFragment("행복"), true)}
+        binding.ivEmotionBoredom.setOnClickListener { (requireActivity() as MainActivity).replaceFragment(EmotionSearchFragment("지루"), true)}
+        binding.ivEmotionSadness.setOnClickListener { (requireActivity() as MainActivity).replaceFragment(EmotionSearchFragment("우울"), true)}
+        binding.ivEmotionAnxiety.setOnClickListener { (requireActivity() as MainActivity).replaceFragment(EmotionSearchFragment("불안"), true)}
     }
 
     private fun showDatePickerDialog(isStartDate: Boolean) {
@@ -98,7 +130,6 @@ class DiaryStatisticsFragment: BaseFragment<FragmentStatisticsDiaryBinding>(R.la
 
         datePickerDialog.show()
     }
-
 
     private fun fetchData() {
         viewmodel.fetchData(
