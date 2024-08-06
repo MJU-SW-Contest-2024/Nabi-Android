@@ -28,8 +28,8 @@
 
     <!-- NumberPicker theme -->
     <style name="NumberPickerTheme" parent="@android:style/Widget.Material.NumberPicker">
-        <item name="android:textColor">@color/black</item>
         <item name="fontFamily">@font/pretendard_semi_bold</item>
+        <item name="android:textColor">@color/black</item>
         <item name="android:textSize">18sp</item>
     </style>
 
