@@ -17,4 +17,25 @@
     <style name="CustomDatePickerDialog" parent="Theme.AppCompat.Light.Dialog">
         <item name="colorAccent">@color/primary</item>
     </style>
+
+    <!-- Dialog theme -->
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="fontFamily">@font/pretendard_bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:windowBackground">@drawable/shape_non_day_date_picker_bg</item>
+        <item name="colorAccent">@color/primary</item>
+    </style>
+
+    <!-- NumberPicker theme -->
+    <style name="NumberPickerTheme" parent="@android:style/Widget.Material.NumberPicker">
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">@font/pretendard_semi_bold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <!-- Define a custom style for the buttons -->
+    <style name="DialogButtonStyle">
+        <item name="fontFamily">@font/pretendard_bold</item>
+        <item name="android:textColor">@color/primary</item>
+    </style>
 </resources>

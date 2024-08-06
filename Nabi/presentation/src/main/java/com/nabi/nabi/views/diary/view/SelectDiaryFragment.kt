@@ -1,10 +1,14 @@
 package com.nabi.nabi.views.diary.view
 
+import android.app.AlertDialog
+import android.view.LayoutInflater
 import androidx.core.content.res.ResourcesCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
+import com.nabi.nabi.databinding.DialogNonDayDatePickerBinding
 import com.nabi.nabi.databinding.FragmentSelectDiaryBinding
+import com.nabi.nabi.extension.dialogResize
 import com.nabi.nabi.views.MainActivity
 import com.nabi.nabi.views.diary.search.SearchDiaryFragment
 import com.nabi.nabi.views.diary.statistics.DiaryStatisticsFragment
@@ -21,8 +25,12 @@ import java.util.Date
 import java.util.Locale
 
 @AndroidEntryPoint
-class SelectDiaryFragment: BaseFragment<FragmentSelectDiaryBinding>(R.layout.fragment_select_diary) {
+class SelectDiaryFragment : BaseFragment<FragmentSelectDiaryBinding>(R.layout.fragment_select_diary) {
     private lateinit var calendarAdapter: SelectDiaryMonthCalendarStateAdapter
+
+    // Define min and max year
+    private val minYear = 1950
+    private val maxYear = Calendar.getInstance().get(Calendar.YEAR)
 
     override fun initView() {
         calendarAdapter = SelectDiaryMonthCalendarStateAdapter(requireActivity())
@@ -71,6 +79,10 @@ class SelectDiaryFragment: BaseFragment<FragmentSelectDiaryBinding>(R.layout.fra
         binding.ivEmotionBoredom.setOnClickListener { createEmotionTooltip("지루해").showAlignTop(binding.ivEmotionBoredom) }
         binding.ivEmotionSadness.setOnClickListener { createEmotionTooltip("슬퍼").showAlignTop(binding.ivEmotionSadness) }
         binding.ivEmotionAnxiety.setOnClickListener { createEmotionTooltip("불안해").showAlignTop(binding.ivEmotionAnxiety) }
+
+        binding.tvCurrentMonth.setOnClickListener {
+            showNumberPickerDialog()
+        }
     }
 
     private fun updateCurrentMonthText(position: Int) {
@@ -81,8 +93,8 @@ class SelectDiaryFragment: BaseFragment<FragmentSelectDiaryBinding>(R.layout.fra
         binding.tvCurrentMonth.text = currentMonth
     }
 
-    private fun createEmotionTooltip(text: String): Balloon{
-        val balloon = createBalloon(context = requireContext()){
+    private fun createEmotionTooltip(text: String): Balloon {
+        return createBalloon(context = requireContext()) {
             setHeight(42)
             setWidth(BalloonSizeSpec.WRAP)
 
@@ -106,9 +118,57 @@ class SelectDiaryFragment: BaseFragment<FragmentSelectDiaryBinding>(R.layout.fra
             setLifecycleOwner(viewLifecycleOwner)
             build()
         }
+    }
 
+    private fun showNumberPickerDialog() {
+        val currentCalendar = Calendar.getInstance()
+        val displayedMonthYear = binding.tvCurrentMonth.text.toString()
+        val dateFormat = SimpleDateFormat("MMMM yyyy", Locale.ENGLISH)
+        val displayedDate = dateFormat.parse(displayedMonthYear)
+        currentCalendar.time = displayedDate!!
 
-        return balloon
+        val year = currentCalendar.get(Calendar.YEAR)
+        val month = currentCalendar.get(Calendar.MONTH)
+
+        val dialogBinding = DialogNonDayDatePickerBinding.inflate(LayoutInflater.from(requireContext()))
+
+        dialogBinding.npYear.minValue = minYear
+        dialogBinding.npYear.maxValue = maxYear
+        dialogBinding.npYear.value = year
+
+        dialogBinding.npMonth.minValue = 1
+        dialogBinding.npMonth.maxValue = 12
+        dialogBinding.npMonth.value = month + 1
+
+        val builder = AlertDialog.Builder(requireContext(), R.style.DialogTheme)
+            .setView(dialogBinding.root)
+            .setPositiveButton("확인") { _, _ ->
+                val selectedYear = dialogBinding.npYear.value
+                val selectedMonth = dialogBinding.npMonth.value - 1
+
+                val totalDisplayedMonths = (year * 12 + month)
+                val totalSelectedMonths = (selectedYear * 12 + selectedMonth)
+                val differenceInMonths = totalSelectedMonths - totalDisplayedMonths
+
+                val currentPosition = binding.vpCalendarMonth.currentItem
+                val newPosition = currentPosition + differenceInMonths
+                binding.vpCalendarMonth.setCurrentItem(newPosition, false)
+
+                currentCalendar.set(selectedYear, selectedMonth, 1)
+                binding.tvCurrentMonth.text = SimpleDateFormat("MMMM yyyy", Locale.ENGLISH).format(currentCalendar.time)
+            }
+            .setNegativeButton("취소") { _, _ -> }
+            .create()
+
+        builder.show()
+
+        val positiveButton = builder.getButton(AlertDialog.BUTTON_POSITIVE)
+        val negativeButton = builder.getButton(AlertDialog.BUTTON_NEGATIVE)
+
+        positiveButton?.setTextAppearance(requireContext(), R.style.DialogButtonStyle)
+        negativeButton?.setTextAppearance(requireContext(), R.style.DialogButtonStyle)
+
+        builder.context.dialogResize(builder, 0.8f, 0.3f)
     }
 
 }
