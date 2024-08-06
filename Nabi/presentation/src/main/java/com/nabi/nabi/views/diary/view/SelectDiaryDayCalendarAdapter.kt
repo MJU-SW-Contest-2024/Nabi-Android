@@ -37,6 +37,7 @@ class SelectDiaryDayCalendarAdapter() : ListAdapter<Pair<String, DiaryInfo?>, Se
     }
 
     inner class DateViewHolder(val binding: ItemSelectDiaryDayBinding) : RecyclerView.ViewHolder(binding.root) {
+
         fun bind(diaryInfo: Pair<String, DiaryInfo?>) {
             binding.tvDay.text = diaryInfo.first
             binding.root.isClickable = true
@@ -49,10 +50,9 @@ class SelectDiaryDayCalendarAdapter() : ListAdapter<Pair<String, DiaryInfo?>, Se
                     "화남" -> R.drawable.img_anger
                     "불안" -> R.drawable.img_anxiety
                     "지루" -> R.drawable.img_boredom
-                    else -> R.drawable.shape_radius_50_with_stroke // todo 감정 데이터 Null 경우 임시로 처리
+                    else -> R.color.transparent
                 }
                 binding.ivDiaryCheck.setImageResource(resourceId)
-                if(it.emotion.isNullOrEmpty()) binding.ivDiaryCheck.alpha = 0.2f // todo 감정 데이터 Null 경우 임시로 처리
             }
 
             itemView.setOnClickListener {
