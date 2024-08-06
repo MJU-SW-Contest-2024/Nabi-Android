@@ -3,12 +3,14 @@ package com.nabi.nabi.di
 import com.nabi.data.datasource.AuthRemoteDataSource
 import com.nabi.data.datasource.BookmarkRemoteDataSource
 import com.nabi.data.datasource.DiaryRemoteDataSource
+import com.nabi.data.datasource.EmotionRemoteDataSource
 import com.nabi.data.datasource.HomeRemoteDataSource
 import com.nabi.data.datasource.NotificationRemoteDataSource
 import com.nabi.data.datasource.UserRemoteDataSource
 import com.nabi.data.datasourceImpl.AuthRemoteDataSourceImpl
 import com.nabi.data.datasourceImpl.BookmarkRemoteDataSourceImpl
 import com.nabi.data.datasourceImpl.DiaryRemoteDataSourceImpl
+import com.nabi.data.datasourceImpl.EmotionRemoteDataSourceImpl
 import com.nabi.data.datasourceImpl.HomeRemoteDataSourceImpl
 import com.nabi.data.datasourceImpl.NotificationRemoteDataSourceImpl
 import com.nabi.data.datasourceImpl.UserRemoteDataSourceImpl
@@ -45,4 +47,8 @@ abstract class DataSourceModule {
     @Binds
     @Singleton
     abstract fun bindsBookmarkRemoteDataSource(bookmarkRemoteDataSourceImpl: BookmarkRemoteDataSourceImpl): BookmarkRemoteDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindsEmotionRemoteDataSource(emotionRemoteDataSourceImpl: EmotionRemoteDataSourceImpl): EmotionRemoteDataSource
 }
