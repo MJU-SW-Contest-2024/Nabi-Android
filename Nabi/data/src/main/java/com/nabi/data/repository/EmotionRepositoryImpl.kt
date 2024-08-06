@@ -27,7 +27,7 @@ class EmotionRepositoryImpl @Inject constructor(
             if(res != null){
                 val data = res.data
                 if(data != null){
-                    val signInInfo = data.run { EmotionStatistics(angerCount, anxietyCount, depressionCount, happiness) }
+                    val signInInfo = data.run { EmotionStatistics(angerCount, anxietyCount, depressionCount, happinessCount, boringCount) }
                     Result.success(signInInfo)
                 } else {
                     Result.failure(Exception("Get Emotion Statistics Failed: data is null"))
