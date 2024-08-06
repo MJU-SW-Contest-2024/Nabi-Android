@@ -28,6 +28,7 @@ interface DiaryRepository {
     suspend fun updateDiary(
         accessToken: String,
         id: Int,
-        content: String
+        content: String,
+        diaryEntryDate: String
     ): Result<UpdateDiaryInfo>
 }

@@ -18,7 +18,6 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailDiaryViewModel @Inject constructor(
     private val getDiaryDetailUseCase: GetDiaryDetailUseCase,
-    private val updateDiaryUseCase: UpdateDiaryUseCase,
     private val addBookmarkUseCase: AddBookmarkUseCase,
     private val deleteBookmarkUseCase: DeleteBookmarkUseCase,
     private val dataStoreRepository: DataStoreRepository
@@ -36,9 +35,6 @@ class DetailDiaryViewModel @Inject constructor(
     private val _deleteState = MutableLiveData<UiState<Unit>>(UiState.Loading)
     val deleteState: LiveData<UiState<Unit>> get() = _deleteState
 
-    private val _updateState = MutableLiveData<UiState<Unit>>(UiState.Loading)
-    val updateState: LiveData<UiState<Unit>> get() = _updateState
-
     fun fetchData(diaryId: Int) {
         _diaryState.value = UiState.Loading
 
@@ -51,21 +47,6 @@ class DetailDiaryViewModel @Inject constructor(
                     _diaryState.value = UiState.Success(it)
                 }.onFailure { e ->
                     _diaryState.value = UiState.Failure(message = e.message.toString())
-                }
-        }
-    }
-
-    fun updateDiary(id: Int, content: String) {
-        _updateState.value = UiState.Loading
-
-        viewModelScope.launch {
-            val accessToken = dataStoreRepository.getAccessToken().getOrNull().orEmpty()
-
-            updateDiaryUseCase(accessToken, id, content)
-                .onSuccess {
-                    _addState.value = UiState.Success(Unit)
-                }.onFailure { e ->
-                    _addState.value = UiState.Failure(message = e.message.toString())
                 }
         }
     }

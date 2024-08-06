@@ -146,10 +146,11 @@ class DiaryRepositoryImpl @Inject constructor(
     override suspend fun updateDiary(
         accessToken: String,
         id: Int,
-        content: String
+        content: String,
+        diaryEntryDate: String
     ): Result<UpdateDiaryInfo> {
         val result =
-            diaryRemoteDataSource.updateDiary(accessToken, id, UpdateDiaryRequestDTO(content))
+            diaryRemoteDataSource.updateDiary(accessToken, id, UpdateDiaryRequestDTO(content, diaryEntryDate))
 
         return if (result.isSuccess) {
             val res = result.getOrNull()
