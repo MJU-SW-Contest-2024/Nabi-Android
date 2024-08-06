@@ -18,9 +18,13 @@ android {
         applicationId = "com.nabi.nabi"
         minSdk = 29
         targetSdk = 34
-        versionCode = 1
-        versionName = "0.0.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        versionName = "0.0.1"
+        versionCode = if (project.hasProperty("versionCode")) {
+            project.property("versionCode").toString().toInt()
+        } else {
+            1
+        }
 
         buildConfigField(
             "String",

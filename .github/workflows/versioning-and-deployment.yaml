@@ -1,18 +1,17 @@
-name: Build & Upload to Firebase App Distribution
 
+name: Versioning, Build And Deployment to Firebase App Distribution
 on:
   push:
     branches: [ develop ]
-  workflow_dispatch: # 수동 실행 옵션
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     env:
       LOCAL_PROPERTIES_CONTENTS: ${{ secrets.LOCAL_PROPERTIES_CONTENTS }}
       GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
-
+      VERSION_CODE: ${{ github.run_number }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -44,7 +43,7 @@ jobs:
       - name: Build release APK
         run: |
           cd ./Nabi
-          ./gradlew assembleRelease
+          ./gradlew assembleRelease -PversionCode=$VERSION_CODE
 
       - name: Upload to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
