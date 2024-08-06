@@ -1,26 +1,19 @@
 package com.nabi.nabi.views.home
 
 import android.annotation.SuppressLint
-import android.os.Handler
-import android.os.Looper
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
-import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.nabi.domain.model.home.RecentFiveDiary
 import com.nabi.nabi.R
 import com.nabi.nabi.databinding.ItemDiaryBinding
-import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.views.OnRvItemClickListener
 import java.text.SimpleDateFormat
 import java.util.Date

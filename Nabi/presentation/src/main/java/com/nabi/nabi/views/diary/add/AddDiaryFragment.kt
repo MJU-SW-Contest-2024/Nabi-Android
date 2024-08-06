@@ -1,25 +1,17 @@
 package com.nabi.nabi.views.diary.add
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseActivity
 import com.nabi.nabi.base.BaseFragment
-import com.nabi.nabi.databinding.ActivityMainBinding
 import com.nabi.nabi.databinding.FragmentAddDiaryBinding
 import com.nabi.nabi.utils.Constants
-import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate

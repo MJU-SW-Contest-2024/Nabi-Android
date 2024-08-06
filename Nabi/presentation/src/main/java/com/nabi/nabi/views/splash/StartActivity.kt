@@ -6,12 +6,12 @@ import androidx.lifecycle.lifecycleScope
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.user.UserApiClient
 import com.nabi.data.service.KakaoAuthService
-import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.domain.enums.AuthProvider
 import com.nabi.domain.repository.DataStoreRepository
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseActivity
 import com.nabi.nabi.databinding.ActivityStartBinding
+import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import com.nabi.nabi.views.MainActivity
 import com.nabi.nabi.views.sign.SignActivity

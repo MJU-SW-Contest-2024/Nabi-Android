@@ -4,10 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nabi.domain.model.diary.DiaryInfo
 import com.nabi.domain.model.emotion.EmotionStatistics
 import com.nabi.domain.repository.DataStoreRepository
-import com.nabi.domain.usecase.diary.GetMonthlyDiaryUseCase
 import com.nabi.domain.usecase.emotion.GetEmotionStatisticsUseCase
 import com.nabi.nabi.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
