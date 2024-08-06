@@ -54,15 +54,15 @@
             android:layout_height="0dp"
             android:layout_marginHorizontal="52dp"
             android:layout_marginTop="28dp"
-            android:layout_marginBottom="72dp"
+            android:layout_marginBottom="20dp"
 
             android:background="@color/transparent"
             android:gravity="center|top"
             android:hint="@string/text_add_diary_hint"
-            android:inputType="text"
+            android:inputType="textMultiLine"
             android:textColor="@color/black"
 
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btn_add_diary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_diary_date"

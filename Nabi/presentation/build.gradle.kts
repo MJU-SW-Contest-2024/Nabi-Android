@@ -128,4 +128,7 @@ dependencies {
 
     // LoggerUtils
     implementation(libs.logger)
+
+    // ReadMoreView
+    implementation("com.github.jeonjungin:ReadMoreView:v1.0.4")
 }

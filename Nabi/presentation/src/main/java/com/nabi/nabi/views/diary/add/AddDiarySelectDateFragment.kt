@@ -2,6 +2,7 @@ package com.nabi.nabi.views.diary.add
 
 import android.annotation.SuppressLint
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.R
@@ -21,7 +22,7 @@ class AddDiarySelectDateFragment :
     AddDiaryMonthAdapter.OnDateSelectedListener {
     private lateinit var monthAdapter: AddDiaryMonthAdapter
     private lateinit var monthListManager: LinearLayoutManager
-    private val viewModel: AddDiaryViewModel by activityViewModels()
+    private val viewModel: AddDiarySelectDateViewModel by viewModels()
     private val calendar = Calendar.getInstance()
     private var diaryDates: Set<String> = emptySet()
 
@@ -41,13 +42,23 @@ class AddDiarySelectDateFragment :
         }
 
         binding.btnDone.setOnClickListener {
-            val selectedDate = changeDateFormat(binding.tvSelectDate.text.toString())
+            val originalFormat = SimpleDateFormat("yyyy년 M월 d일", Locale.KOREAN)
+            val targetFormat = SimpleDateFormat("yyyy-MM-dd", Locale.KOREAN)
+            val originalDateStr = binding.tvSelectDate.text.toString()
+            val date: Date? = originalFormat.parse(originalDateStr)
+            val selectedDate = date?.let { targetFormat.format(it) }
 
             if (diaryDates.contains(selectedDate)) {
                 showToast("이미 일기를 쓴 날이에요!")
             } else {
-                viewModel.selectDate(selectedDate)
-                (requireActivity() as MainActivity).replaceFragment(AddDiaryFragment(), true)
+                (requireActivity() as MainActivity).replaceFragment(
+                    AddDiaryFragment(
+                        false,
+                        null,
+                        null,
+                        selectedDate!!
+                    ), true
+                )
             }
         }
 
@@ -123,12 +134,5 @@ class AddDiarySelectDateFragment :
                 }
             }
         }
-    }
-
-    private fun changeDateFormat(selectedDate: String): String {
-        val inputFormat = SimpleDateFormat("yyyy년 M월 d일", Locale.KOREAN)
-        val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.KOREAN)
-        val date = inputFormat.parse(selectedDate)
-        return outputFormat.format(date!!)
     }
 }

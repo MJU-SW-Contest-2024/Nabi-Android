@@ -12,58 +12,47 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
+        <ImageButton
+            android:id="@+id/ib_notification"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="28dp"
+            android:background="@color/transparent"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_notify"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/tv_nickname"
+            style="@style/heading2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
 
             android:fontFamily="@font/pretendard_medium"
-            tools:text="lilili 님"
             android:textColor="@color/black"
-            android:textSize="24sp"
-
             app:layout_constraintEnd_toEndOf="parent"
+
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="lilili 님" />
 
         <TextView
             android:id="@+id/tv_diary_day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            tools:text="일기 작성 nn일 째"
             android:textColor="@color/gray1"
             android:textSize="14sp"
-
             app:layout_constraintEnd_toEndOf="parent"
+
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_nickname" />
-
-        <ImageView
-            android:id="@+id/iv_profile"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:layout_marginTop="8dp"
-
-            android:background="@drawable/shape_circle"
-            android:contentDescription="@null"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_diary_day" />
-
-        <com.google.android.material.divider.MaterialDivider
-            android:id="@+id/divider_1"
-            android:layout_width="0dp"
-            android:layout_height="0.5dp"
-
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="32dp"
-            android:background="#A4A4A4"
-
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_profile" />
+            app:layout_constraintTop_toBottomOf="@id/tv_nickname"
+            tools:text="일기 작성 nn일 째" />
 
         <TextView
             android:id="@+id/tv_my_diary"
@@ -71,24 +60,25 @@
             android:layout_height="wrap_content"
 
             android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="44dp"
             android:text="@string/text_my_diary"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
 
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider_1" />
+            app:layout_constraintTop_toBottomOf="@id/tv_diary_day" />
 
         <ImageView
             android:id="@+id/iv_detail_diary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
             android:contentDescription="@null"
             android:src="@drawable/ic_right"
 
             app:layout_constraintBottom_toBottomOf="@id/tv_my_diary"
-            app:layout_constraintEnd_toEndOf="@id/divider_1"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_my_diary" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -100,8 +90,9 @@
             android:layout_marginEnd="20dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/tv_my_diary"
 
-            app:layout_constraintTop_toBottomOf="@id/tv_my_diary" />
+            tools:listitem="@layout/item_diary" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_add_diary"
@@ -123,21 +114,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rv_diary" />
 
-        <com.google.android.material.divider.MaterialDivider
-            android:id="@+id/divider_2"
+        <View
+            android:id="@+id/divider_1"
             android:layout_width="0dp"
-            android:layout_height="0.5dp"
+            android:layout_height="1dp"
 
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="20dp"
-            android:background="#A4A4A4"
+            android:layout_marginTop="24dp"
+            android:background="@color/gray2"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btn_add_diary" />
 
         <TextView
-            android:id="@+id/tv_talk"
+            android:id="@+id/tv_talk_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
@@ -148,7 +139,19 @@
             android:textStyle="bold"
 
             app:layout_constraintStart_toStartOf="@id/tv_my_diary"
-            app:layout_constraintTop_toBottomOf="@id/divider_2" />
+            app:layout_constraintTop_toBottomOf="@id/divider_1" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginBottom="40dp"
+            android:background="@color/gray2"
+
+            app:layout_constraintBottom_toTopOf="@id/btn_talk"
+            app:layout_constraintTop_toBottomOf="@id/tv_talk_text"
+            tools:ignore="ContentDescription" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_talk"

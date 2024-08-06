@@ -9,5 +9,5 @@ data class ResponseHomeDTO(
     @SerializedName("nickname")
     val nickname: String,
     @SerializedName("recentFiveDiaries")
-    val recentFiveDiaries: List<RecentFiveDiary>
+    val recentFiveDiaries: List<RecentFiveDiary>,
 )

@@ -24,6 +24,6 @@
 
     <!-- 일기 작성 - 일기 작성 페이지 -->
     <string name="text_add_diary_hint">오늘은 어떤 일이 있었나요?</string>
-    <string name="text_add_diary_done">일기 작성</string>
+    <string name="text_add_diary_done">완료</string>
 
 </resources>

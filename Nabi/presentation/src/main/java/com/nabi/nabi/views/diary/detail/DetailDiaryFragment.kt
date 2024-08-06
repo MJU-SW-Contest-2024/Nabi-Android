@@ -6,12 +6,14 @@ import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.databinding.FragmentDetailDiaryBinding
 import com.nabi.nabi.utils.UiState
+import com.nabi.nabi.views.MainActivity
+import com.nabi.nabi.views.diary.add.AddDiaryFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class DetailDiaryFragment(
     private val diaryId: Int
-): BaseFragment<FragmentDetailDiaryBinding>(R.layout.fragment_detail_diary) {
+) : BaseFragment<FragmentDetailDiaryBinding>(R.layout.fragment_detail_diary) {
     private val viewModel: DetailDiaryViewModel by viewModels()
 
     override fun initView() {
@@ -25,10 +27,19 @@ class DetailDiaryFragment(
             requireActivity().supportFragmentManager.popBackStack()
         }
 
-        binding.btnEdit.setOnClickListener {}
+        binding.btnEdit.setOnClickListener {
+            (requireActivity() as MainActivity).replaceFragment(
+                AddDiaryFragment(
+                    true,
+                    diaryId,
+                    binding.tvDiaryContent.text.toString(),
+                    binding.tvDiaryDate.text.toString()
+                ), true
+            )
+        }
 
         binding.ibBookmark.setOnClickListener {
-            if(viewModel.isBookmarked.value!!) viewModel.deleteBookmark(diaryId)
+            if (viewModel.isBookmarked.value!!) viewModel.deleteBookmark(diaryId)
             else viewModel.addBookmark(diaryId)
         }
     }
@@ -36,42 +47,44 @@ class DetailDiaryFragment(
     override fun setObserver() {
         super.setObserver()
 
-        viewModel.addState.observe(viewLifecycleOwner){
-            when(it){
+        viewModel.addState.observe(viewLifecycleOwner) {
+            when (it) {
                 is UiState.Loading -> {}
                 is UiState.Failure -> {
-                    showToast("북마크 실패")
+                    showToast("북마크 추가 실패")
                 }
+
                 is UiState.Success -> {}
             }
         }
 
-        viewModel.deleteState.observe(viewLifecycleOwner){
-            when(it){
+        viewModel.deleteState.observe(viewLifecycleOwner) {
+            when (it) {
                 is UiState.Loading -> {}
                 is UiState.Failure -> {
                     showToast("북마크 삭제 실패")
                 }
+
                 is UiState.Success -> {}
             }
         }
 
-        viewModel.isBookmarked.observe(viewLifecycleOwner){
+        viewModel.isBookmarked.observe(viewLifecycleOwner) {
             binding.ibBookmark.setImageResource(
-                if(it) R.drawable.ic_heart_filled else R.drawable.ic_heart
+                if (it) R.drawable.ic_heart_filled else R.drawable.ic_heart
             )
         }
 
 
-        viewModel.diaryState.observe(viewLifecycleOwner){
-            when(it){
+        viewModel.diaryState.observe(viewLifecycleOwner) {
+            when (it) {
                 is UiState.Loading -> {}
                 is UiState.Failure -> {}
                 is UiState.Success -> {
                     binding.tvDiaryDate.text = formatDate(it.data.diaryEntryDate)
                     binding.tvDiaryContent.text = it.data.content
 
-                    val resourceId = when(it.data.emotion){
+                    val resourceId = when (it.data.emotion) {
                         "행복" -> R.drawable.img_happiness
                         "우울" -> R.drawable.img_sadness
                         "화남" -> R.drawable.img_anger
@@ -80,10 +93,11 @@ class DetailDiaryFragment(
                         else -> R.drawable.shape_circle
                     }
                     binding.ivEmotion.setImageResource(resourceId)
-                    if(resourceId == R.drawable.shape_circle) binding.ivEmotion.visibility = View.GONE
+                    if (resourceId == R.drawable.shape_circle) binding.ivEmotion.visibility =
+                        View.GONE
 
                     binding.ibBookmark.setImageResource(
-                        if(it.data.isBookmarked) R.drawable.ic_heart_filled else R.drawable.ic_heart
+                        if (it.data.isBookmarked) R.drawable.ic_heart_filled else R.drawable.ic_heart
                     )
                 }
             }

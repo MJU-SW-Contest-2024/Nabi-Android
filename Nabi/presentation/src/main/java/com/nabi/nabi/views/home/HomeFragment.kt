@@ -1,13 +1,20 @@
 package com.nabi.nabi.views.home
 
+import android.annotation.SuppressLint
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.nabi.domain.model.home.RecentFiveDiary
 import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.databinding.FragmentHomeBinding
+import com.nabi.nabi.databinding.ItemDiaryBinding
 import com.nabi.nabi.utils.UiState
+import com.nabi.nabi.views.MainActivity
+import com.nabi.nabi.views.OnRvItemClickListener
 import com.nabi.nabi.views.diary.add.AddDiarySelectDateFragment
+import com.nabi.nabi.views.diary.detail.DetailDiaryFragment
 import com.nabi.nabi.views.diary.view.SelectDiaryFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,12 +24,28 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private val viewModel: HomeViewModel by viewModels()
 
     override fun initView() {
+        viewModel.registerFcmToken()
         viewModel.fetchData()
         setDiaryRv()
     }
 
     private fun setDiaryRv() {
-        homeRvAdapter = HomeRvAdapter()
+        homeRvAdapter = HomeRvAdapter().apply {
+            setRvItemClickListener(object : OnRvItemClickListener<Int> {
+                override fun onClick(item: Int) {
+                }
+            })
+            setRvItemBookmarkClickListener(object : OnRvItemClickListener<RecentFiveDiary> {
+                override fun onClick(item: RecentFiveDiary) {
+                    LoggerUtils.d(
+                        getItemBinding(item.diaryId)!!.isBookmarked().toString()
+                    )
+                    if (getItemBinding(item.diaryId)?.isBookmarked() == true)
+                        viewModel.deleteBookmark(item.diaryId)
+                    else viewModel.addBookmark(item.diaryId)
+                }
+            })
+        }
 
         binding.rvDiary.apply {
             adapter = homeRvAdapter
@@ -33,6 +56,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     override fun initListener() {
         super.initListener()
+
+        binding.ibNotification.setOnClickListener {
+
+        }
 
         binding.btnAddDiary.setOnClickListener {
             val ft = requireActivity().supportFragmentManager.beginTransaction()
@@ -49,6 +76,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun setObserver() {
         super.setObserver()
 
@@ -68,5 +96,46 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 }
             }
         }
+
+        viewModel.addState.observe(viewLifecycleOwner) {
+            when (it) {
+                is UiState.Loading -> {}
+                is UiState.Failure -> {
+                    showToast("북마크 추가 실패")
+                }
+
+                is UiState.Success -> {
+                    setRecentDiaryBookmark(it.data, true)
+                }
+            }
+        }
+
+        viewModel.deleteState.observe(viewLifecycleOwner) {
+            when (it) {
+                is UiState.Loading -> {}
+                is UiState.Failure -> {
+                    showToast("북마크 삭제 실패")
+                }
+
+                is UiState.Success -> {
+                    setRecentDiaryBookmark(it.data, false)
+                }
+            }
+        }
     }
+
+    private fun setRecentDiaryBookmark(diaryId: Int, isBookmarked: Boolean) {
+        getItemBinding(diaryId)?.changeImageBookmark(isBookmarked)
+    }
+
+    private fun getItemBinding(diaryId: Int): HomeRvAdapter.ActivityViewHolder? {
+        val adapterPosition = homeRvAdapter.dataList.indexOfFirst { it.diaryId == diaryId }
+        return if (adapterPosition != -1) {
+            val viewHolder = binding.rvDiary.findViewHolderForAdapterPosition(adapterPosition)
+            (viewHolder as HomeRvAdapter.ActivityViewHolder)
+        } else {
+            null
+        }
+    }
+
 }

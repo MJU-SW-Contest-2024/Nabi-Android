@@ -9,6 +9,7 @@ import com.nabi.domain.repository.DataStoreRepository
 import com.nabi.domain.usecase.bookmark.AddBookmarkUseCase
 import com.nabi.domain.usecase.bookmark.DeleteBookmarkUseCase
 import com.nabi.domain.usecase.diary.GetDiaryDetailUseCase
+import com.nabi.domain.usecase.diary.UpdateDiaryUseCase
 import com.nabi.nabi.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -33,7 +34,6 @@ class DetailDiaryViewModel @Inject constructor(
 
     private val _deleteState = MutableLiveData<UiState<Unit>>(UiState.Loading)
     val deleteState: LiveData<UiState<Unit>> get() = _deleteState
-
 
     fun fetchData(diaryId: Int) {
         _diaryState.value = UiState.Loading

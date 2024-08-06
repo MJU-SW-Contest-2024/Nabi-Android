@@ -13,9 +13,11 @@ object HomeMapper {
                 nickname = this.nickname,
                 recentFiveDiaries = this.recentFiveDiaries.map { diary ->
                     RecentFiveDiary(
+                        diaryId = diary.diaryId,
                         content = diary.content,
                         diaryEntryDate = diary.diaryEntryDate,
-                        emotion = diary.emotion ?: ""
+                        emotion = diary.emotion ?: "",
+                        isBookmarked = diary.isBookmarked
                     )
                 }
             )

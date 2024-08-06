@@ -47,7 +47,7 @@ abstract class BaseActivity<T: ViewDataBinding>(@LayoutRes private val layoutId:
 
 
     // Permission
-    protected fun checkPermissions(permissions: Array<String>): Boolean {
+    fun checkPermissions(permissions: Array<String>): Boolean {
         setPermissionLauncher()
 
         for(permission in permissions){
@@ -102,7 +102,7 @@ abstract class BaseActivity<T: ViewDataBinding>(@LayoutRes private val layoutId:
 //        }.show(requireActivity().supportFragmentManager, "")
     }
 
-    protected fun requestPermissions(permissions: Array<String>){
+    fun requestPermissions(permissions: Array<String>){
         val permissionsToRequest = permissions.filter {
             ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
         }.toTypedArray()

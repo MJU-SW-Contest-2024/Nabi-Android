@@ -7,8 +7,9 @@ class UpdateDiaryUseCase(private val repository: DiaryRepository) {
     suspend operator fun invoke(
         accessToken: String,
         id: Int,
-        content: String
+        content: String,
+        diaryEntryDate: String
     ): Result<UpdateDiaryInfo> {
-        return repository.updateDiary("Bearer $accessToken", id, content)
+        return repository.updateDiary("Bearer $accessToken", id, content, diaryEntryDate)
     }
 }
