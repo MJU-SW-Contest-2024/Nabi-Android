@@ -46,9 +46,7 @@ class HomeRvAdapter : RecyclerView.Adapter<HomeRvAdapter.ActivityViewHolder>() {
             binding.tvDiaryDate.text = formatDateString(diary.diaryEntryDate)
             binding.tvDiary.text = diary.content
 
-            binding.tvDiary.post {
-                adjustText(binding.tvDiary, diary.diaryId)
-            }
+            adjustText(binding.tvDiary, diary.diaryId)
         }
 
         fun isBookmarked(): Boolean {
@@ -99,39 +97,38 @@ class HomeRvAdapter : RecyclerView.Adapter<HomeRvAdapter.ActivityViewHolder>() {
             if (layout != null) {
                 val lines = layout.lineCount
                 if (lines > 3) {
-                    // 마지막 줄의 시작 인덱스를 가져옵니다.
                     val lastLineStart = layout.getLineStart(3)
                     val lastLineEnd = layout.getLineEnd(3)
 
                     val text = tvDiary.text.toString()
-                    // 마지막 줄의 텍스트가 14자가 넘으면 앞에 8자 + ...더보기 출력
-                    val lastLineText = text.substring(lastLineStart, lastLineEnd)
-                    val lastEightChars = if (lastLineText.length > 14) {
-                        lastLineText.take(8) + " ...더보기"
+                    val truncatedText = text.substring(0, lastLineEnd).trimEnd()
+
+                    val moreText = "...더보기"
+                    val remainingLength = lastLineEnd - lastLineStart
+
+                    val displayedText = if (remainingLength >= moreText.length) {
+                        truncatedText.substring(0, lastLineEnd - moreText.length) + moreText
                     } else {
-                        lastLineText
+                        truncatedText.substring(0, lastLineEnd - (moreText.length - remainingLength)) + moreText
                     }
 
-                    val builder = SpannableStringBuilder()
-                    for (i in 0 until 3) {
-                        builder.append(text.substring(layout.getLineStart(i), layout.getLineEnd(i)))
+                    val builder = SpannableStringBuilder(displayedText)
+                    val moreTextStart = builder.indexOf(moreText)
+                    if (moreTextStart >= 0) {
+                        val moreTextEnd = moreTextStart + moreText.length
+
+                        builder.setSpan(object : ClickableSpan() {
+                            override fun onClick(widget: View) {
+                                rvItemClickListener.onClick(diaryId)
+                            }
+
+                            override fun updateDrawState(ds: TextPaint) {
+                                super.updateDrawState(ds)
+                                ds.isUnderlineText = false
+                                ds.color = tvDiary.context.getColor(R.color.gray2)
+                            }
+                        }, moreTextStart, moreTextEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                     }
-
-                    builder.append(lastEightChars)
-                    val moreTextStart = builder.indexOf("...더보기")
-                    val moreTextEnd = moreTextStart + "...더보기".length
-
-                    builder.setSpan(object : ClickableSpan() {
-                        override fun onClick(widget: View) {
-                            rvItemClickListener.onClick(diaryId)
-                        }
-
-                        override fun updateDrawState(ds: TextPaint) {
-                            super.updateDrawState(ds)
-                            ds.isUnderlineText = false
-                            ds.color = tvDiary.context.getColor(R.color.gray2)
-                        }
-                    }, moreTextStart, moreTextEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
 
                     tvDiary.text = builder
                     tvDiary.movementMethod = LinkMovementMethod.getInstance()
@@ -139,6 +136,8 @@ class HomeRvAdapter : RecyclerView.Adapter<HomeRvAdapter.ActivityViewHolder>() {
             }
         }
     }
+
+
 
     fun formatDateString(inputDate: String): String {
         val originalFormat = SimpleDateFormat("yyyy-MM-dd", Locale.KOREAN)
