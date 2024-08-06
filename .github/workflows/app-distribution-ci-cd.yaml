@@ -3,9 +3,6 @@ name: Build & Upload to Firebase App Distribution
 on:
   push:
     branches: [ develop ]
-  pull_request:
-    branches:
-      - develop
   workflow_dispatch: # 수동 실행 옵션
 
 jobs:
