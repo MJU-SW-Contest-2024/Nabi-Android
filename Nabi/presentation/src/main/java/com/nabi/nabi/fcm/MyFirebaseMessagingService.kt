@@ -117,14 +117,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         }
     }
 
-    fun getRegistrationToken(): String? = runBlocking {
-        return@runBlocking try {
-            FirebaseMessaging.getInstance().token.await()
+    fun getRegistrationToken(): String? = try {
+            FirebaseMessaging.getInstance().token.result
         } catch (e: Exception) {
             LoggerUtils.w("Fetching FCM Registration Token failed")
             null
         }
-    }
-
-
 }
