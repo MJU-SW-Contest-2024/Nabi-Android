@@ -155,8 +155,13 @@ class AddDiaryFragment(
         // 인식 결과가 준비되면 호출
         override fun onResults(results: Bundle) {
             // 말을 하면 ArrayList에 단어를 넣고 textView에 단어를 이어줌
-//            val matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
-//            for (i in matches!!.indices) binding.etDiary.text = matches[i]
+            val matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
+            if (matches != null) {
+                // 모든 인식된 단어를 공백으로 구분하여 결합
+                val resultText = matches.joinToString(separator = " ")
+                // EditText에 결합된 텍스트 설정
+                binding.etDiary.setText(resultText)
+            }
         }
 
         // 부분 인식 결과를 사용할 수 있을 때 호출

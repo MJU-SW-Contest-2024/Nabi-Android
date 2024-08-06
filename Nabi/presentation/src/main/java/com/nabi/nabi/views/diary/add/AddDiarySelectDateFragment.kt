@@ -42,7 +42,11 @@ class AddDiarySelectDateFragment :
         }
 
         binding.btnDone.setOnClickListener {
-            val selectedDate = binding.tvSelectDate.text.toString()
+            val originalFormat = SimpleDateFormat("yyyy년 M월 d일", Locale.KOREAN)
+            val targetFormat = SimpleDateFormat("yyyy-MM-dd", Locale.KOREAN)
+            val originalDateStr = binding.tvSelectDate.text.toString()
+            val date: Date? = originalFormat.parse(originalDateStr)
+            val selectedDate = date?.let { targetFormat.format(it) }
 
             if (diaryDates.contains(selectedDate)) {
                 showToast("이미 일기를 쓴 날이에요!")
@@ -52,7 +56,7 @@ class AddDiarySelectDateFragment :
                         false,
                         null,
                         null,
-                        selectedDate
+                        selectedDate!!
                     ), true
                 )
             }
