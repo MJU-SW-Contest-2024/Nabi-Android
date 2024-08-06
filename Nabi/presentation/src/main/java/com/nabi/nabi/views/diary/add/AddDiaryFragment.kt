@@ -34,12 +34,24 @@ class AddDiaryFragment(
 ) : BaseFragment<FragmentAddDiaryBinding>(R.layout.fragment_add_diary) {
     private val viewModel: AddDiaryViewModel by viewModels()
     private lateinit var speechRecognizer: SpeechRecognizer
+    private lateinit var recognizerIntent: Intent
+    private var isListening: Boolean = false
 
     override fun initView() {
         binding.tvDiaryDate.text = diaryDate
         if (isEdit) {
             binding.etDiary.setText(content)
         }
+
+        // RecognizerIntent 생성
+        recognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+            putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, "Nabi")
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR")
+        }
+
+        // SpeechRecognizer 초기화
+        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(requireContext())
+        speechRecognizer.setRecognitionListener(recognitionListener)
     }
 
     override fun initListener() {
@@ -49,23 +61,20 @@ class AddDiaryFragment(
             requireActivity().supportFragmentManager.popBackStack()
         }
 
-        // RecognizerIntent 생성
-        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, "Nabi")    // 여분의 키
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR")         // 언어 설정
-
         binding.ibMic.setOnClickListener {
             if (!(requireActivity() as BaseActivity<*>).checkPermissions(Constants.AUDIO_PERMISSIONS)) {
                 (requireActivity() as BaseActivity<*>).requestPermissions(Constants.AUDIO_PERMISSIONS)
             } else {
                 // mic 버튼 눌렀을 때 로직
-                speechRecognizer = SpeechRecognizer.createSpeechRecognizer(requireContext())
-                speechRecognizer.setRecognitionListener(recognitionListener)    // 리스너 설정
-                speechRecognizer.startListening(intent)                         // 듣기 시작
+                if (!isListening) {
+                    startListening()
+                } else {
+                    stopListening()
+                }
             }
         }
 
-        binding.btnAddDiary.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             val content = binding.etDiary.text.toString().trim()
 
             if (content.isNotEmpty()) {
@@ -74,7 +83,6 @@ class AddDiaryFragment(
 
                 val date = LocalDate.parse(diaryDate, inputFormatter)
                 val diaryEntryDate = date.format(outputFormatter)
-                LoggerUtils.d(diaryEntryDate)
                 if (isEdit) {
                     viewModel.updateDiary(diaryId!!, content, diaryEntryDate)
                 } else {
@@ -134,6 +142,9 @@ class AddDiaryFragment(
 
         // 말하기를 중지하면 호출
         override fun onEndOfSpeech() {
+            // 음성 인식이 끝나면 자동으로 중지
+            isListening = false
+            Toast.makeText(requireContext(), "음성 인식 중지", Toast.LENGTH_SHORT).show()
         }
 
         // 오류 발생했을 때 호출
@@ -153,14 +164,13 @@ class AddDiaryFragment(
         }
 
         // 인식 결과가 준비되면 호출
+        @SuppressLint("SetTextI18n")
         override fun onResults(results: Bundle) {
             // 말을 하면 ArrayList에 단어를 넣고 textView에 단어를 이어줌
             val matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
             if (matches != null) {
-                // 모든 인식된 단어를 공백으로 구분하여 결합
                 val resultText = matches.joinToString(separator = " ")
-                // EditText에 결합된 텍스트 설정
-                binding.etDiary.setText(resultText)
+                binding.etDiary.setText("${binding.etDiary.text} $resultText")
             }
         }
 
@@ -169,5 +179,20 @@ class AddDiaryFragment(
 
         // 향후 이벤트를 추가하기 위해 예약
         override fun onEvent(eventType: Int, params: Bundle) {}
+    }
+
+    private fun startListening() {
+        speechRecognizer.startListening(recognizerIntent)
+        isListening = true
+    }
+
+    private fun stopListening() {
+        speechRecognizer.stopListening()
+        isListening = false
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        speechRecognizer.destroy()
     }
 }

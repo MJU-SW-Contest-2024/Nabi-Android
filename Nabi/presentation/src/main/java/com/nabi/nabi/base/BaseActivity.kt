@@ -13,10 +13,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.nabi.nabi.utils.LoggerUtils
 
-abstract class BaseActivity<T: ViewDataBinding>(@LayoutRes private val layoutId: Int): AppCompatActivity() {
+abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes private val layoutId: Int) :
+    AppCompatActivity() {
     lateinit var binding: T
     private var currentToast: Toast? = null
-    private lateinit var permissionLauncher: ActivityResultLauncher<Array<String>>
+    private val permissionLauncher: ActivityResultLauncher<Array<String>> =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            handlePermissionResult(permissions)
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         beforeSetContentView()
@@ -48,10 +52,12 @@ abstract class BaseActivity<T: ViewDataBinding>(@LayoutRes private val layoutId:
 
     // Permission
     fun checkPermissions(permissions: Array<String>): Boolean {
-        setPermissionLauncher()
-
-        for(permission in permissions){
-            if(ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED){
+        for (permission in permissions) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    permission
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
                 return false
             }
         }
@@ -59,17 +65,20 @@ abstract class BaseActivity<T: ViewDataBinding>(@LayoutRes private val layoutId:
         return true
     }
 
-    private fun setPermissionLauncher(){
-        permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-            handlePermissionResult(permissions)
-        }
+    private fun setPermissionLauncher() {
+//        permissionLauncher =
+//            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+//                handlePermissionResult(permissions)
+//            }
     }
 
     private fun handlePermissionResult(
         permissions: Map<String, Boolean>,
     ) {
         val permissionArray = permissions.keys.toTypedArray()
-        val grantResults = permissions.values.map { if (it) PackageManager.PERMISSION_GRANTED else PackageManager.PERMISSION_DENIED }.toIntArray()
+        val grantResults =
+            permissions.values.map { if (it) PackageManager.PERMISSION_GRANTED else PackageManager.PERMISSION_DENIED }
+                .toIntArray()
 
         val deniedPermissions = permissionArray.filterIndexed { index, _ ->
             grantResults[index] != PackageManager.PERMISSION_GRANTED
@@ -82,8 +91,8 @@ abstract class BaseActivity<T: ViewDataBinding>(@LayoutRes private val layoutId:
         }
     }
 
-    protected open fun onPermissionsGranted(){}
-    protected open fun onPermissionsDenied(){}
+    protected open fun onPermissionsGranted() {}
+    protected open fun onPermissionsDenied() {}
 
     protected fun showDeniedPermissionDialog(msg: String) {
         LoggerUtils.e(msg)
@@ -102,12 +111,12 @@ abstract class BaseActivity<T: ViewDataBinding>(@LayoutRes private val layoutId:
 //        }.show(requireActivity().supportFragmentManager, "")
     }
 
-    fun requestPermissions(permissions: Array<String>){
+    fun requestPermissions(permissions: Array<String>) {
         val permissionsToRequest = permissions.filter {
             ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
         }.toTypedArray()
 
-        if(permissionsToRequest.isNotEmpty()){
+        if (permissionsToRequest.isNotEmpty()) {
             val showRationale = permissionsToRequest.any {
                 ActivityCompat.shouldShowRequestPermissionRationale(this, it)
             }
