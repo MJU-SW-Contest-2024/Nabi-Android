@@ -7,6 +7,9 @@
         500 : Medium
         600 : Semi Bold
         700 : Bold
+
+        Line Height 계산 방법
+        ex.
     -->
 
     <!-- Heading -->
@@ -108,6 +111,27 @@
         <item name="android:includeFontPadding">false</item>
         <item name="android:textSize">12sp</item>
         <item name="lineHeight">22sp</item>
+    </style>
+
+    <style name="custom_dialog_title_semi_bold_14px">
+        <item name="fontFamily">@font/pretendard_semi_bold</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">14sp</item>
+        <item name="lineHeight">10sp</item>
+    </style>
+
+    <style name="custom_dialog_content_regular_12px">
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">12sp</item>
+        <item name="lineHeight">14sp</item>
+    </style>
+
+    <style name="custom_dialog_msg_regular_8px">
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">8sp</item>
+        <item name="lineHeight">10sp</item>
     </style>
 
 </resources>
