@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import com.nabi.nabi.R
-import com.nabi.nabi.base.NabiApplication.Companion.nickname
 import com.nabi.nabi.databinding.CustomDialogBinding
 import com.nabi.nabi.extension.dialogResize
 import com.nabi.nabi.utils.LoggerUtils

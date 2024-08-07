@@ -6,7 +6,6 @@ import android.graphics.Point
 import android.os.Build
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.WindowManager
-import kotlin.time.times
 
 fun Context.dialogResize(dialog: Dialog, width: Float, height: Float? = null){
     val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
