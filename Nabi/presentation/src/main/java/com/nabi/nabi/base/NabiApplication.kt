@@ -11,6 +11,7 @@ import dagger.hilt.android.HiltAndroidApp
 class NabiApplication : Application() {
     companion object {
         lateinit var application: NabiApplication
+        lateinit var nickname: String
     }
 
     override fun onCreate() {

@@ -20,8 +20,8 @@ class StartViewModel @Inject constructor(
 
     var isRegister = false
 
-    private val _uiState = MutableLiveData<UiState<Unit>>(UiState.Loading)
-    val uiState: LiveData<UiState<Unit>> get() = _uiState
+    private val _uiState = MutableLiveData<UiState<String>>(UiState.Loading)
+    val uiState: LiveData<UiState<String>> get() = _uiState
 
     fun fetchMyInfo() {
         _uiState.value = UiState.Loading
@@ -33,7 +33,7 @@ class StartViewModel @Inject constructor(
                 getUserInfoUseCase(accessToken)
                     .onSuccess {
                         isRegister = it.isRegistered
-                        _uiState.value = UiState.Success(Unit)
+                        _uiState.value = UiState.Success(it.nickname)
                     }
                     .onFailure { e ->
                         LoggerUtils.e("Token Validation failed: ${e.message}")
