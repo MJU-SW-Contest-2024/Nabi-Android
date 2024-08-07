@@ -10,6 +10,7 @@ import com.nabi.domain.enums.AuthProvider
 import com.nabi.domain.repository.DataStoreRepository
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseActivity
+import com.nabi.nabi.base.NabiApplication.Companion.nickname
 import com.nabi.nabi.databinding.ActivityStartBinding
 import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
@@ -44,6 +45,7 @@ class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start)
                     moveActivity(false)
                 }
                 is UiState.Success -> {
+                    nickname = it.data
                     handleLoginSuccess()
                 }
             }
