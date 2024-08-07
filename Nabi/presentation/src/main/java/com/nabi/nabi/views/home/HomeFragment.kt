@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.nabi.domain.model.home.RecentFiveDiary
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
+import com.nabi.nabi.base.NabiApplication.Companion.nickname
 import com.nabi.nabi.databinding.FragmentHomeBinding
 import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
@@ -17,12 +18,14 @@ import com.nabi.nabi.views.diary.view.SelectDiaryFragment
 import com.nabi.nabi.views.myPage.MyPageFragment
 import dagger.hilt.android.AndroidEntryPoint
 
+@SuppressLint("SetTextI18n")
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private lateinit var homeRvAdapter: HomeRvAdapter
     private val viewModel: HomeViewModel by viewModels()
 
     override fun initView() {
+        binding.tvNickname.text = "$nickname 님"
         viewModel.registerFcmToken()
         viewModel.fetchData()
         setDiaryRv()
@@ -80,11 +83,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
     }
 
-    @SuppressLint("SetTextI18n")
     override fun setObserver() {
         super.setObserver()
 
-        viewModel.homeState.observe(this) { it ->
+        viewModel.homeState.observe(this) {
             when (it) {
                 is UiState.Loading -> {}
                 is UiState.Failure -> {
@@ -95,7 +97,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 is UiState.Success -> {
                     val diaryList = it.data.recentFiveDiaries
                     homeRvAdapter.setData(diaryList)
-                    binding.tvNickname.text = "${it.data.nickname} 님"
                     binding.tvDiaryDay.text = "일기 작성 ${it.data.consecutiveWritingDays}일 째"
                 }
             }
