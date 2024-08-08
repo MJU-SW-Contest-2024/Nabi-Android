@@ -103,6 +103,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     val diaryList = it.data.recentFiveDiaries
                     homeRvAdapter.setData(diaryList)
                     binding.tvDiaryDay.text = "일기 작성 ${it.data.consecutiveWritingDays}일 째"
+                    nickname = it.data.nickname
                     binding.tvNickname.text = "${it.data.nickname} 님"
                 }
             }
