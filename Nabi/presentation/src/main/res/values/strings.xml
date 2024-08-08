@@ -29,5 +29,10 @@
     <string name="text_warning1">앱을 종료하면 문제가 생길 수 있습니다.</string>
     <string name="text_warning2">조금만 기다려주세요!</string>
 
+    <!-- 일기 작성 - 일기 작성 페이지 -->
+    <string name="text_change_nickname">닉네임 변경하기</string>
+    <string name="text_load_diary">일기 가져오기</string>
+    <string name="text_withdraw">회원 탈퇴</string>
+    <string name="text_email">제작자 이메일\nmjusw2024@gmail.com</string>
 
 </resources>

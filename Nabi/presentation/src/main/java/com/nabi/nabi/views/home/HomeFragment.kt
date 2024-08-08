@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.nabi.domain.model.home.RecentFiveDiary
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
+import com.nabi.nabi.base.NabiApplication.Companion.consecutiveDay
 import com.nabi.nabi.base.NabiApplication.Companion.nickname
 import com.nabi.nabi.databinding.FragmentHomeBinding
 import com.nabi.nabi.utils.LoggerUtils
@@ -102,7 +103,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 is UiState.Success -> {
                     val diaryList = it.data.recentFiveDiaries
                     homeRvAdapter.setData(diaryList)
-                    binding.tvDiaryDay.text = "일기 작성 ${it.data.consecutiveWritingDays}일 째"
+                    consecutiveDay = it.data.consecutiveWritingDays
+                    binding.tvDiaryDay.text = "일기 작성 ${consecutiveDay}일 째"
                     nickname = it.data.nickname
                     binding.tvNickname.text = "${it.data.nickname} 님"
                 }

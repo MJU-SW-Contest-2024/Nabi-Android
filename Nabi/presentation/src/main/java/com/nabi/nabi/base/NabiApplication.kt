@@ -12,6 +12,7 @@ class NabiApplication : Application() {
     companion object {
         lateinit var application: NabiApplication
         var nickname: String? = null
+        var consecutiveDay: Int? = 0
     }
 
     override fun onCreate() {
