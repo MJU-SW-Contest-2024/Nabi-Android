@@ -47,8 +47,20 @@
                 style="@style/pretendard_semi_bold_18px"
                 android:textColor="@color/black"
                 android:layout_gravity="end"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_delete"
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+
+                android:background="@color/transparent"
+
+                android:text="삭제"
+                android:textColor="@color/red"
+                style="@style/pretendard_semi_bold_18px"
+                android:layout_gravity="end"/>
         </Toolbar>
-        
+
         <ImageView
             android:id="@+id/iv_emotion"
             android:layout_width="100dp"
@@ -74,7 +86,7 @@
             tools:text="2024년 7월 27일"
             style="@style/heading2"
             android:textColor="@color/black"/>
-        
+
         <TextView
             android:id="@+id/tv_diary_content"
             android:layout_width="0dp"

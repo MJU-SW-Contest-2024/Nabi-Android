@@ -6,9 +6,11 @@ import com.nabi.data.model.diary.AddDiaryRequestDTO
 import com.nabi.data.model.diary.UpdateDiaryRequestDTO
 import com.nabi.domain.model.PageableInfo
 import com.nabi.domain.model.diary.AddDiaryInfo
+import com.nabi.domain.model.diary.DeleteDiaryMsg
 import com.nabi.domain.model.diary.DiaryInfo
 import com.nabi.domain.model.diary.SearchDiary
 import com.nabi.domain.model.diary.UpdateDiaryInfo
+import com.nabi.domain.model.emotion.AddDiaryEmotionMsg
 import com.nabi.domain.repository.DiaryRepository
 import javax.inject.Inject
 
@@ -128,6 +130,7 @@ class DiaryRepositoryImpl @Inject constructor(
                 val data = res.data
                 if (data != null) {
                     val addDiaryInfo = AddDiaryInfo(
+                        id = data.id,
                         content = data.content,
                         diaryEntryDate = data.diaryEntryDate
                     )
@@ -150,7 +153,11 @@ class DiaryRepositoryImpl @Inject constructor(
         diaryEntryDate: String
     ): Result<UpdateDiaryInfo> {
         val result =
-            diaryRemoteDataSource.updateDiary(accessToken, id, UpdateDiaryRequestDTO(content, diaryEntryDate))
+            diaryRemoteDataSource.updateDiary(
+                accessToken,
+                id,
+                UpdateDiaryRequestDTO(content, diaryEntryDate)
+            )
 
         return if (result.isSuccess) {
             val res = result.getOrNull()
@@ -174,4 +181,24 @@ class DiaryRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun deleteDiary(accessToken: String, id: Int): Result<DeleteDiaryMsg> {
+        val result = diaryRemoteDataSource.deleteDiary(accessToken, id)
+
+        return if (result.isSuccess) {
+            val res = result.getOrNull()
+            if (res != null) {
+                val data = res.data
+                if (data != null) {
+                    val msg = DeleteDiaryMsg(data.message)
+                    Result.success(msg)
+                } else {
+                    Result.failure(Exception("Delete Diary Failed: data is null"))
+                }
+            } else {
+                Result.failure(Exception("Delete Diary Failed: response body is null"))
+            }
+        } else {
+            Result.failure(result.exceptionOrNull() ?: Exception("Unknown error"))
+        }
+    }
 }

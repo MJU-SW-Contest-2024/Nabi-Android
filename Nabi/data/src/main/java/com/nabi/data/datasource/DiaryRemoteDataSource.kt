@@ -4,6 +4,7 @@ import com.nabi.data.model.BaseResponse
 import com.nabi.data.model.PageableResponse
 import com.nabi.data.model.diary.AddDiaryRequestDTO
 import com.nabi.data.model.diary.AddDiaryResponseDTO
+import com.nabi.data.model.diary.DeleteDiaryResponseDTO
 import com.nabi.data.model.diary.DiaryDetailResponseDTO
 import com.nabi.data.model.diary.ResponseMonthDiaryDTO
 import com.nabi.data.model.diary.SearchDiaryResponseDTO
@@ -38,4 +39,9 @@ interface DiaryRemoteDataSource {
         id: Int,
         body: UpdateDiaryRequestDTO
     ): Result<BaseResponse<UpdateDiaryResponseDTO>>
+
+    suspend fun deleteDiary(
+        accessToken: String,
+        id: Int
+    ): Result<BaseResponse<DeleteDiaryResponseDTO>>
 }

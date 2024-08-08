@@ -4,6 +4,7 @@ import com.nabi.data.model.BaseResponse
 import com.nabi.data.model.PageableResponse
 import com.nabi.data.model.diary.AddDiaryRequestDTO
 import com.nabi.data.model.diary.AddDiaryResponseDTO
+import com.nabi.data.model.diary.DeleteDiaryResponseDTO
 import com.nabi.data.model.diary.DiaryDetailResponseDTO
 import com.nabi.data.model.diary.ResponseMonthDiaryDTO
 import com.nabi.data.model.diary.SearchDiaryResponseDTO
@@ -11,6 +12,7 @@ import com.nabi.data.model.diary.UpdateDiaryRequestDTO
 import com.nabi.data.model.diary.UpdateDiaryResponseDTO
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.PATCH
@@ -54,4 +56,10 @@ interface DiaryService {
         @Path("id") id: Int,
         @Body body: UpdateDiaryRequestDTO
     ): Response<BaseResponse<UpdateDiaryResponseDTO>>
+
+    @DELETE("/diarys/{id}")
+    suspend fun deleteDiary(
+        @Header("Authorization") accessToken: String,
+        @Path("id") id: Int,
+    ): Response<BaseResponse<DeleteDiaryResponseDTO>>
 }

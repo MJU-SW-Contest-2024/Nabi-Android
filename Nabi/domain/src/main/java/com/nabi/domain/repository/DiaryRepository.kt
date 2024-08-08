@@ -2,6 +2,7 @@ package com.nabi.domain.repository
 
 import com.nabi.domain.model.PageableInfo
 import com.nabi.domain.model.diary.AddDiaryInfo
+import com.nabi.domain.model.diary.DeleteDiaryMsg
 import com.nabi.domain.model.diary.DiaryInfo
 import com.nabi.domain.model.diary.SearchDiary
 import com.nabi.domain.model.diary.UpdateDiaryInfo
@@ -31,4 +32,9 @@ interface DiaryRepository {
         content: String,
         diaryEntryDate: String
     ): Result<UpdateDiaryInfo>
+
+    suspend fun deleteDiary(
+        accessToken: String,
+        id: Int
+    ): Result<DeleteDiaryMsg>
 }
