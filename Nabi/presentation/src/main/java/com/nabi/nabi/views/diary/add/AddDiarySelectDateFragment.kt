@@ -1,12 +1,16 @@
 package com.nabi.nabi.views.diary.add
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.view.LayoutInflater
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleObserver
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
+import com.nabi.nabi.databinding.DialogNonDayDatePickerBinding
 import com.nabi.nabi.databinding.FragmentSelectDateBinding
+import com.nabi.nabi.extension.dialogResize
 import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import com.nabi.nabi.views.MainActivity
@@ -27,6 +31,8 @@ class AddDiarySelectDateFragment :
     private var diaryDates: Set<String> = emptySet()
     private var tempDataExists: Boolean = false
     private var tempData: Pair<String, String>? = null
+    private val minYear = 1950
+    private val maxYear = Calendar.getInstance().get(Calendar.YEAR)
 
     @SuppressLint("NotifyDataSetChanged")
     override fun initView() {
@@ -128,6 +134,10 @@ class AddDiarySelectDateFragment :
             // 좌우 스크롤 막기
             setOnTouchListener { _, _ -> true }
         }
+
+        binding.ivSelectYear.setOnClickListener {
+            showNumberPickerDialog()
+        }
     }
 
     override fun onDateSelected(date: Date) {
@@ -168,5 +178,60 @@ class AddDiarySelectDateFragment :
                 }
             }
         }
+    }
+
+    private fun showNumberPickerDialog() {
+        val currentCalendar = Calendar.getInstance()
+        val displayedMonthYear = binding.tvSelectYear.text.toString()
+        val dateFormat = SimpleDateFormat("yyyy", Locale.ENGLISH)
+        val displayedDate = dateFormat.parse(displayedMonthYear)
+        currentCalendar.time = displayedDate!!
+
+        val year = currentCalendar.get(Calendar.YEAR)
+        val month = currentCalendar.get(Calendar.MONTH)
+
+        val dialogBinding =
+            DialogNonDayDatePickerBinding.inflate(LayoutInflater.from(requireContext()))
+
+        dialogBinding.npYear.minValue = minYear
+        dialogBinding.npYear.maxValue = maxYear
+        dialogBinding.npYear.value = year
+
+        dialogBinding.npMonth.minValue = 1
+        dialogBinding.npMonth.maxValue = 12
+        dialogBinding.npMonth.value = month + 1
+
+        val builder = AlertDialog.Builder(requireContext(), R.style.DialogTheme)
+            .setView(dialogBinding.root)
+            .setPositiveButton("확인") { _, _ ->
+                val selectedYear = dialogBinding.npYear.value
+                val selectedMonth = dialogBinding.npMonth.value - 1
+
+//                val totalDisplayedMonths = (year * 12 + month)
+//                val totalSelectedMonths = (selectedYear * 12 + selectedMonth)
+//                val differenceInMonths = totalSelectedMonths - totalDisplayedMonths
+
+//                val currentPosition = binding.vpCalendarMonth.currentItem
+//                val newPosition = currentPosition + differenceInMonths
+//                binding.vpCalendarMonth.setCurrentItem(newPosition, false)
+
+                currentCalendar.set(selectedYear, selectedMonth, 1)
+                updateMonthDisplay()
+                viewModel.checkMonthDiary(selectedYear, selectedMonth + 1)
+                binding.tvSelectDate.text =
+                    SimpleDateFormat("yyyy년 M월 d일", Locale.KOREAN).format(currentCalendar.time)
+            }
+            .setNegativeButton("취소") { _, _ -> }
+            .create()
+
+        builder.show()
+
+        val positiveButton = builder.getButton(AlertDialog.BUTTON_POSITIVE)
+        val negativeButton = builder.getButton(AlertDialog.BUTTON_NEGATIVE)
+
+        positiveButton?.setTextAppearance(R.style.DialogButtonStyle)
+        negativeButton?.setTextAppearance(R.style.DialogButtonStyle)
+
+        builder.context.dialogResize(builder, 0.8f, 0.3f)
     }
 }

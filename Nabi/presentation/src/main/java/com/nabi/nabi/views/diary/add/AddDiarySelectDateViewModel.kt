@@ -44,16 +44,16 @@ class AddDiarySelectDateViewModel @Inject constructor(
     }
 
     fun checkTempData(selectedDate: String) {
-        _tempData.value = UiState.Loading
-        viewModelScope.launch {
-            val tempDataResult = dataStoreRepository.getTempData()
-            val tempData = tempDataResult.getOrNull()?.takeIf { it.first == selectedDate }
-
-            if (tempData != null) {
-                _tempData.value = UiState.Success(tempData)
-            } else {
-                _tempData.value = UiState.Failure(message = "dataStore 조회 실패")
-            }
-        }
+//        _tempData.value = UiState.Loading
+//        viewModelScope.launch {
+//            val tempDataResult = dataStoreRepository.getTempData()
+//            val tempData = tempDataResult.getOrNull()?.takeIf { it.first == selectedDate }
+//
+//            if (tempData != null) {
+//                _tempData.value = UiState.Success(tempData)
+//            } else {
+//                _tempData.value = UiState.Failure(message = "dataStore 조회 실패")
+//            }
+//        }
     }
 }

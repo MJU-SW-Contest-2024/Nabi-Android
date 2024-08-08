@@ -27,7 +27,7 @@ interface DataStoreRepository {
     suspend fun setTempData(
         date: String,
         content: String
-    )
+    ): Result<Boolean>
 
-    suspend fun getTempData(): Result<Pair<String, String>>
+    suspend fun getTempData(): Result<Boolean>
 }

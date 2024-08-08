@@ -6,6 +6,10 @@ import android.os.Bundle
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.View
+import android.widget.EditText
 import androidx.fragment.app.viewModels
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseActivity
@@ -39,7 +43,25 @@ class AddDiaryFragment(
         binding.tvDiaryDate.text = diaryDate
         if (isEdit) {
             binding.etDiary.setText(content)
+            binding.btnSave.visibility = View.VISIBLE
         }
+
+        binding.etDiary.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if ((s?.length ?: 0) > 0) {
+                    binding.btnSave.visibility = View.VISIBLE
+                } else {
+                    binding.btnSave.visibility = View.GONE
+                }
+            }
+
+        })
 
         // RecognizerIntent 생성
         recognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
@@ -65,7 +87,7 @@ class AddDiaryFragment(
         binding.ibBack.setOnClickListener {
             // dataStore에 임시저장
             val content = binding.etDiary.text.toString().trim()
-//            viewModel.saveTempData(diaryEntryDate, content)
+            viewModel.saveTempData(diaryEntryDate, content)
             requireActivity().supportFragmentManager.popBackStack()
         }
 
