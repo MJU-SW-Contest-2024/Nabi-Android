@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -21,13 +22,99 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/tv_nickname"
+            style="@style/heading2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="200dp"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="마이 페이지" />
+            tools:text="ililililil 님" />
+
+        <TextView
+            android:id="@+id/tv_consecutive_day"
+            style="@style/home_consecutive_day_medium_12px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:textColor="@color/gray1"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_nickname"
+            tools:text="일기 작성 n일 째" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_change_nickname"
+            style="@style/my_page_btn_bold_16px"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="48dp"
+            android:background="@drawable/shape_radius_50"
+            android:backgroundTint="@color/white"
+
+            android:fontFamily="@font/pretendard_medium"
+            android:text="@string/text_change_nickname"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_consecutive_day" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_load_diary"
+            style="@style/my_page_btn_bold_16px"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/shape_radius_50"
+            android:backgroundTint="@color/white"
+
+            android:fontFamily="@font/pretendard_medium"
+            android:text="@string/text_load_diary"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+
+            app:layout_constraintEnd_toEndOf="@id/btn_change_nickname"
+            app:layout_constraintStart_toStartOf="@id/btn_change_nickname"
+            app:layout_constraintTop_toBottomOf="@id/btn_change_nickname" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_withdraw"
+            style="@style/my_page_btn_bold_16px"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/shape_radius_50"
+            android:backgroundTint="@color/white"
+
+            android:fontFamily="@font/pretendard_medium"
+            android:text="@string/text_withdraw"
+            android:textColor="@color/red"
+            android:textSize="16sp"
+            android:textStyle="bold"
+
+            app:layout_constraintEnd_toEndOf="@id/btn_change_nickname"
+            app:layout_constraintStart_toStartOf="@id/btn_change_nickname"
+            app:layout_constraintTop_toBottomOf="@id/btn_load_diary" />
+
+        <TextView
+            android:id="@+id/tv_email"
+            android:layout_width="wrap_content"
+            style="@style/my_page_email_regular_12px"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:gravity="center_horizontal"
+            android:text="@string/text_email"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

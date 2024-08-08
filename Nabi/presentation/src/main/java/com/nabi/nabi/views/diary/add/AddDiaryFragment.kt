@@ -65,7 +65,7 @@ class AddDiaryFragment(
         binding.ibBack.setOnClickListener {
             // dataStore에 임시저장
             val content = binding.etDiary.text.toString().trim()
-            viewModel.saveTempData(diaryEntryDate, content)
+//            viewModel.saveTempData(diaryEntryDate, content)
             requireActivity().supportFragmentManager.popBackStack()
         }
 

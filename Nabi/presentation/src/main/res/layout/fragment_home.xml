@@ -53,20 +53,20 @@
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="lilili 님" />
+            tools:text="lililili 님" />
 
         <TextView
             android:id="@+id/tv_diary_day"
+            style="@style/home_consecutive_day_medium_12px"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
             android:textColor="@color/gray1"
-            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_nickname"
-            tools:text="일기 작성 nn일 째" />
+            tools:text="일기 작성 n일 째" />
 
         <TextView
             android:id="@+id/tv_my_diary"
