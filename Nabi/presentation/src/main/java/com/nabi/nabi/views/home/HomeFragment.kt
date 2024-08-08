@@ -12,6 +12,7 @@ import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import com.nabi.nabi.views.MainActivity
 import com.nabi.nabi.views.OnRvItemClickListener
+import com.nabi.nabi.views.chat.ChatFragment
 import com.nabi.nabi.views.diary.add.AddDiarySelectDateFragment
 import com.nabi.nabi.views.diary.detail.DetailDiaryFragment
 import com.nabi.nabi.views.diary.view.SelectDiaryFragment
@@ -81,6 +82,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             ft.addToBackStack(null)
             ft.commit()
         }
+
+        binding.btnTalk.setOnClickListener {
+            (requireActivity() as MainActivity).replaceFragment(ChatFragment(), true)
+        }
     }
 
     override fun setObserver() {
@@ -98,6 +103,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     val diaryList = it.data.recentFiveDiaries
                     homeRvAdapter.setData(diaryList)
                     binding.tvDiaryDay.text = "일기 작성 ${it.data.consecutiveWritingDays}일 째"
+                    binding.tvNickname.text = "${it.data.nickname} 님"
                 }
             }
         }

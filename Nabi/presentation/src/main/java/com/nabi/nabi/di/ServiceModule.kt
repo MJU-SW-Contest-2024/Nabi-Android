@@ -2,6 +2,7 @@ package com.nabi.nabi.di
 
 import com.nabi.data.service.AuthService
 import com.nabi.data.service.BookmarkService
+import com.nabi.data.service.ChatBotService
 import com.nabi.data.service.DiaryService
 import com.nabi.data.service.EmotionService
 import com.nabi.data.service.HomeService
@@ -52,4 +53,9 @@ object ServiceModule {
     @Singleton
     fun provideEmotionService(retrofit: Retrofit): EmotionService =
         retrofit.create(EmotionService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideChatBotService(retrofit: Retrofit): ChatBotService =
+        retrofit.create(ChatBotService::class.java)
 }

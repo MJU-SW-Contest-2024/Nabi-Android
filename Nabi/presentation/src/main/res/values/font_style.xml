@@ -134,4 +134,24 @@
         <item name="lineHeight">10sp</item>
     </style>
 
+    <style name="chat_send_msg_text_regular_16px">
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="lineHeight">22sp</item>
+    </style>
+
+    <style name="chat_history_text_regular_12px">
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">14sp</item>
+        <item name="lineHeight">16sp</item>
+    </style>
+
+    <style name="chat_history_name_semi_bold_12px">
+        <item name="fontFamily">@font/pretendard_semi_bold</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">12sp</item>
+        <item name="lineHeight">16sp</item>
+    </style>
 </resources>

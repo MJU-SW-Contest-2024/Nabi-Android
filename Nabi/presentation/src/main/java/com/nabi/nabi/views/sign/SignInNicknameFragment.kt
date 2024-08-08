@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
+import com.nabi.nabi.base.NabiApplication.Companion.nickname
 import com.nabi.nabi.databinding.FragmentSignNicknameBinding
 import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
@@ -33,7 +34,9 @@ class SignInNicknameFragment: BaseFragment<FragmentSignNicknameBinding>(R.layout
         super.initListener()
 
         binding.btnDone.setOnClickListener {
-            if(binding.etNick.text.isNotEmpty()) viewModel.setNickname(binding.etNick.text.toString())
+            if(binding.etNick.text.isNotEmpty()) {
+                viewModel.setNickname(binding.etNick.text.toString())
+            }
         }
 
         binding.ibClear.setOnClickListener {
@@ -73,6 +76,8 @@ class SignInNicknameFragment: BaseFragment<FragmentSignNicknameBinding>(R.layout
                     LoggerUtils.e("로그인 실패: ${it.message}")
                 }
                 is UiState.Success -> {
+                    nickname = binding.etNick.text.toString()
+
                     val intent = Intent(requireContext(), MainActivity::class.java)
                     startActivity(intent)
                     requireActivity().finish()
