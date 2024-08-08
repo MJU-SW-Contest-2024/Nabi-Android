@@ -10,14 +10,9 @@ import com.nabi.domain.usecase.chat.EmbeddingDiaryUseCase
 import com.nabi.domain.usecase.chat.GetChatHistoryUseCase
 import com.nabi.domain.usecase.chat.RetryChatResUseCase
 import com.nabi.domain.usecase.chat.SendChatUseCase
-import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel

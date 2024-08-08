@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -14,7 +13,6 @@ import com.nabi.domain.model.chat.ChatItem
 import com.nabi.nabi.databinding.ItemChatDateBinding
 import com.nabi.nabi.databinding.ItemChatMyBinding
 import com.nabi.nabi.databinding.ItemChatOtherBinding
-import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.views.OnRvItemClickListener
 
 class ChatRvAdapter(
