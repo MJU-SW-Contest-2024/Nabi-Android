@@ -24,6 +24,10 @@
 
     <!-- 일기 작성 - 일기 작성 페이지 -->
     <string name="text_add_diary_hint">오늘은 어떤 일이 있었나요?</string>
-    <string name="text_add_diary_done">완료</string>
+    <string name="text_add_diary_save">저장</string>
+    <string name="text_add_diary_emotion_loading">감정 분석 중</string>
+    <string name="text_warning1">앱을 종료하면 문제가 생길 수 있습니다.</string>
+    <string name="text_warning2">조금만 기다려주세요!</string>
+
 
 </resources>

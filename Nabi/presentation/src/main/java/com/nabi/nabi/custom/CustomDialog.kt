@@ -90,7 +90,7 @@ class CustomDialog private constructor(
         instance = null
     }
 
-    private fun setUnlink(){
+    private fun setUnlink() {
         binding.tvDialogTitle.text = "회원 탈퇴"
         binding.tvDialogContent.text = "$item, 정말 탈퇴할고양? \uD83E\uDD7A"
         binding.tvDialogMsg.text = "회원탈퇴 이후 모든 자료는 삭제되며, 같은 아이디로 재가입 시에도\n일기와 대화 내용은 복원되지 않습니다."
@@ -109,7 +109,7 @@ class CustomDialog private constructor(
         }
     }
 
-    private fun  setDeleteDiary(){
+    private fun setDeleteDiary() {
         binding.tvDialogTitle.text = "일기 삭제"
         binding.tvDialogContent.text = "삭제 후에는 복원이 불가능합니다.\n정말 삭제하시겠습니까?"
         binding.tvDialogMsg.visibility = View.GONE
