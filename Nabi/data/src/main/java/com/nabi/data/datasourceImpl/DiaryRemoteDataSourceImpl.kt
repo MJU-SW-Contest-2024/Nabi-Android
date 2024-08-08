@@ -5,6 +5,7 @@ import com.nabi.data.model.BaseResponse
 import com.nabi.data.model.PageableResponse
 import com.nabi.data.model.diary.AddDiaryRequestDTO
 import com.nabi.data.model.diary.AddDiaryResponseDTO
+import com.nabi.data.model.diary.DeleteDiaryResponseDTO
 import com.nabi.data.model.diary.DiaryDetailResponseDTO
 import com.nabi.data.model.diary.ResponseMonthDiaryDTO
 import com.nabi.data.model.diary.SearchDiaryResponseDTO
@@ -124,6 +125,28 @@ class DiaryRemoteDataSourceImpl @Inject constructor(
                 }
             } else {
                 Result.failure(Exception("Update Diary Fail: ${response.message()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun deleteDiary(
+        accessToken: String,
+        id: Int
+    ): Result<BaseResponse<DeleteDiaryResponseDTO>> {
+        return try {
+            val response = diaryService.deleteDiary(accessToken, id)
+
+            if (response.isSuccessful) {
+                val diaryResponse = response.body()
+                if (diaryResponse != null) {
+                    Result.success(diaryResponse)
+                } else {
+                    Result.failure(Exception("Delete Diary Fail: response body is null"))
+                }
+            } else {
+                Result.failure(Exception("Delete Diary Fail: ${response.message()}"))
             }
         } catch (e: Exception) {
             Result.failure(e)

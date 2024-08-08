@@ -4,7 +4,9 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
+import com.nabi.nabi.custom.CustomDialog
 import com.nabi.nabi.databinding.FragmentDetailDiaryBinding
+import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import com.nabi.nabi.views.MainActivity
 import com.nabi.nabi.views.diary.add.AddDiaryFragment
@@ -41,6 +43,22 @@ class DetailDiaryFragment(
         binding.ibBookmark.setOnClickListener {
             if (viewModel.isBookmarked.value!!) viewModel.deleteBookmark(diaryId)
             else viewModel.addBookmark(diaryId)
+        }
+
+        binding.btnDelete.setOnClickListener {
+            val deleteDialog = CustomDialog.getInstance(CustomDialog.DialogType.DELETE_DIARY)
+
+            deleteDialog.setButtonClickListener(object : CustomDialog.OnButtonClickListener {
+                override fun onButton1Clicked() {
+                    viewModel.deleteDiary(diaryId)
+                    requireActivity().supportFragmentManager.popBackStack()
+                }
+
+                override fun onButton2Clicked() {
+                }
+            })
+
+            deleteDialog.show(parentFragmentManager, "DeleteDiaryDialog")
         }
     }
 
@@ -89,7 +107,7 @@ class DetailDiaryFragment(
                         "우울" -> R.drawable.img_sadness
                         "화남" -> R.drawable.img_anger
                         "불안" -> R.drawable.img_anxiety
-                        "지루" -> R.drawable.img_boredom
+                        "지루함" -> R.drawable.img_boredom
                         else -> R.drawable.shape_circle
                     }
                     binding.ivEmotion.setImageResource(resourceId)
@@ -99,6 +117,19 @@ class DetailDiaryFragment(
                     binding.ibBookmark.setImageResource(
                         if (it.data.isBookmarked) R.drawable.ic_heart_filled else R.drawable.ic_heart
                     )
+                }
+            }
+        }
+
+        viewModel.deleteDiaryState.observe(viewLifecycleOwner) {
+            when (it) {
+                is UiState.Loading -> {}
+                is UiState.Failure -> {
+                    showToast("일기 삭제 실패")
+                }
+
+                is UiState.Success -> {
+                    LoggerUtils.d(it.data.message)
                 }
             }
         }

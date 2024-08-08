@@ -4,10 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nabi.domain.model.diary.DeleteDiaryMsg
 import com.nabi.domain.model.diary.DiaryInfo
 import com.nabi.domain.repository.DataStoreRepository
 import com.nabi.domain.usecase.bookmark.AddBookmarkUseCase
 import com.nabi.domain.usecase.bookmark.DeleteBookmarkUseCase
+import com.nabi.domain.usecase.diary.DeleteDiaryUseCase
 import com.nabi.domain.usecase.diary.GetDiaryDetailUseCase
 import com.nabi.nabi.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,6 +21,7 @@ class DetailDiaryViewModel @Inject constructor(
     private val getDiaryDetailUseCase: GetDiaryDetailUseCase,
     private val addBookmarkUseCase: AddBookmarkUseCase,
     private val deleteBookmarkUseCase: DeleteBookmarkUseCase,
+    private val deleteDiaryUseCase: DeleteDiaryUseCase,
     private val dataStoreRepository: DataStoreRepository
 ) : ViewModel() {
 
@@ -33,6 +36,9 @@ class DetailDiaryViewModel @Inject constructor(
 
     private val _deleteState = MutableLiveData<UiState<Unit>>(UiState.Loading)
     val deleteState: LiveData<UiState<Unit>> get() = _deleteState
+
+    private val _deleteDiaryState = MutableLiveData<UiState<DeleteDiaryMsg>>(UiState.Loading)
+    val deleteDiaryState: LiveData<UiState<DeleteDiaryMsg>> get() = _deleteDiaryState
 
     fun fetchData(diaryId: Int) {
         _diaryState.value = UiState.Loading
@@ -50,7 +56,7 @@ class DetailDiaryViewModel @Inject constructor(
         }
     }
 
-    fun addBookmark(diaryId: Int){
+    fun addBookmark(diaryId: Int) {
         _addState.value = UiState.Loading
 
         viewModelScope.launch {
@@ -66,7 +72,7 @@ class DetailDiaryViewModel @Inject constructor(
         }
     }
 
-    fun deleteBookmark(diaryId: Int){
+    fun deleteBookmark(diaryId: Int) {
         _deleteState.value = UiState.Loading
 
         viewModelScope.launch {
@@ -78,6 +84,21 @@ class DetailDiaryViewModel @Inject constructor(
                     _deleteState.value = UiState.Success(Unit)
                 }.onFailure { e ->
                     _deleteState.value = UiState.Failure(message = e.message.toString())
+                }
+        }
+    }
+
+    fun deleteDiary(diaryId: Int) {
+        _deleteDiaryState.value = UiState.Loading
+
+        viewModelScope.launch {
+            val accessToken = dataStoreRepository.getAccessToken().getOrNull().orEmpty()
+
+            deleteDiaryUseCase(accessToken, diaryId)
+                .onSuccess {
+                    _deleteDiaryState.value = UiState.Success(it)
+                }.onFailure { e ->
+                    _deleteDiaryState.value = UiState.Failure(message = e.message.toString())
                 }
         }
     }

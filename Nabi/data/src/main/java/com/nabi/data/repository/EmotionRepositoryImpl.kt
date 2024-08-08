@@ -3,13 +3,14 @@ package com.nabi.data.repository
 import com.nabi.data.datasource.EmotionRemoteDataSource
 import com.nabi.domain.model.PageableInfo
 import com.nabi.domain.model.diary.SearchDiary
+import com.nabi.domain.model.emotion.AddDiaryEmotionMsg
 import com.nabi.domain.model.emotion.EmotionStatistics
 import com.nabi.domain.repository.EmotionRepository
 import javax.inject.Inject
 
 class EmotionRepositoryImpl @Inject constructor(
     private val emotionRemoteDataSource: EmotionRemoteDataSource
-): EmotionRepository {
+) : EmotionRepository {
 
     override suspend fun getDiaryStatistics(
         accessToken: String,
@@ -20,10 +21,18 @@ class EmotionRepositoryImpl @Inject constructor(
 
         return if (result.isSuccess) {
             val res = result.getOrNull()
-            if(res != null){
+            if (res != null) {
                 val data = res.data
-                if(data != null){
-                    val signInInfo = data.run { EmotionStatistics(angerCount, anxietyCount, depressionCount, happinessCount, boringCount) }
+                if (data != null) {
+                    val signInInfo = data.run {
+                        EmotionStatistics(
+                            angerCount,
+                            anxietyCount,
+                            depressionCount,
+                            happinessCount,
+                            boringCount
+                        )
+                    }
                     Result.success(signInInfo)
                 } else {
                     Result.failure(Exception("Get Emotion Statistics Failed: data is null"))
@@ -43,7 +52,8 @@ class EmotionRepositoryImpl @Inject constructor(
         size: Int,
         sort: String
     ): Result<Pair<PageableInfo, List<SearchDiary>>> {
-        val result = emotionRemoteDataSource.searchDiaryByEmotion(accessToken, emotion, page, size, sort)
+        val result =
+            emotionRemoteDataSource.searchDiaryByEmotion(accessToken, emotion, page, size, sort)
 
         return if (result.isSuccess) {
             val res = result.getOrNull()
@@ -75,6 +85,51 @@ class EmotionRepositoryImpl @Inject constructor(
                 }
             } else {
                 Result.failure(Exception("Search Emotion Data Failed: response body is null"))
+            }
+        } else {
+            Result.failure(result.exceptionOrNull() ?: Exception("Unknown error"))
+        }
+    }
+
+    override suspend fun getDiaryEmotion(accessToken: String, diaryId: Int): Result<String> {
+        val result = emotionRemoteDataSource.getDiaryEmotion(accessToken, diaryId)
+
+        return if (result.isSuccess) {
+            val res = result.getOrNull()
+            if (res != null) {
+                val data = res.data
+                if (data != null) {
+                    Result.success(data)
+                } else {
+                    Result.failure(Exception("Get Diary Emotion Failed: data is null"))
+                }
+            } else {
+                Result.failure(Exception("Get Diary Emotion Failed: response body is null"))
+            }
+        } else {
+            Result.failure(result.exceptionOrNull() ?: Exception("Unknown error"))
+        }
+    }
+
+    override suspend fun addDiaryEmotion(
+        accessToken: String,
+        diaryId: Int,
+        emotionState: String
+    ): Result<AddDiaryEmotionMsg> {
+        val result = emotionRemoteDataSource.addDiaryEmotion(accessToken, diaryId, emotionState)
+
+        return if (result.isSuccess) {
+            val res = result.getOrNull()
+            if (res != null) {
+                val data = res.data
+                if (data != null) {
+                    val msg = AddDiaryEmotionMsg(data.message)
+                    Result.success(msg)
+                } else {
+                    Result.failure(Exception("Add Diary Emotion Failed: data is null"))
+                }
+            } else {
+                Result.failure(Exception("Add Diary Emotion Failed: response body is null"))
             }
         } else {
             Result.failure(result.exceptionOrNull() ?: Exception("Unknown error"))

@@ -71,7 +71,7 @@ class EmotionSearchFragment(
             }
         })
 
-        // 행복, 우울, 화남, 불안, 지루
+        // 행복, 우울, 화남, 불안, 지루함
         binding.ivEmotionAnger.setOnClickListener {
             viewModel.fetchData("화남", true)
             setCurrentEmotion()
@@ -81,7 +81,7 @@ class EmotionSearchFragment(
             setCurrentEmotion()
         }
         binding.ivEmotionBoredom.setOnClickListener {
-            viewModel.fetchData("지루", true)
+            viewModel.fetchData("지루함", true)
             setCurrentEmotion()
         }
         binding.ivEmotionSadness.setOnClickListener {
@@ -101,7 +101,7 @@ class EmotionSearchFragment(
         when(condition){
             "화남" -> resourceIds.addAll(listOf(R.drawable.img_anger, R.drawable.img_happiness_gray, R.drawable.img_boredom_gray, R.drawable.img_sadness_gray, R.drawable.img_anxiety_gray))
             "행복" -> resourceIds.addAll(listOf(R.drawable.img_anger_gray, R.drawable.img_happiness, R.drawable.img_boredom_gray, R.drawable.img_sadness_gray, R.drawable.img_anxiety_gray))
-            "지루" -> resourceIds.addAll(listOf(R.drawable.img_anger_gray, R.drawable.img_happiness_gray, R.drawable.img_boredom, R.drawable.img_sadness_gray, R.drawable.img_anxiety_gray))
+            "지루함" -> resourceIds.addAll(listOf(R.drawable.img_anger_gray, R.drawable.img_happiness_gray, R.drawable.img_boredom, R.drawable.img_sadness_gray, R.drawable.img_anxiety_gray))
             "우울" -> resourceIds.addAll(listOf(R.drawable.img_anger_gray, R.drawable.img_happiness_gray, R.drawable.img_boredom_gray, R.drawable.img_sadness, R.drawable.img_anxiety_gray))
             "불안" -> resourceIds.addAll(listOf(R.drawable.img_anger_gray, R.drawable.img_happiness_gray, R.drawable.img_boredom_gray, R.drawable.img_sadness_gray, R.drawable.img_anxiety))
         }

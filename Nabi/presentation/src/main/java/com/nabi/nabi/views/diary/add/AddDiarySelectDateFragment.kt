@@ -2,6 +2,7 @@ package com.nabi.nabi.views.diary.add
 
 import android.annotation.SuppressLint
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LifecycleObserver
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
@@ -24,6 +25,8 @@ class AddDiarySelectDateFragment :
     private val viewModel: AddDiarySelectDateViewModel by viewModels()
     private val calendar = Calendar.getInstance()
     private var diaryDates: Set<String> = emptySet()
+    private var tempDataExists: Boolean = false
+    private var tempData: Pair<String, String>? = null
 
     @SuppressLint("NotifyDataSetChanged")
     override fun initView() {
@@ -46,6 +49,22 @@ class AddDiarySelectDateFragment :
             val originalDateStr = binding.tvSelectDate.text.toString()
             val date: Date? = originalFormat.parse(originalDateStr)
             val selectedDate = date?.let { targetFormat.format(it) }
+
+            // 임시 저장된 일기 확인
+            viewModel.checkTempData(selectedDate!!)
+            if (tempDataExists && tempData != null) {
+                val (date, content) = tempData!!
+                LoggerUtils.d("$tempData, $tempDataExists")
+                LoggerUtils.d("$date, $content")
+                (requireActivity() as MainActivity).replaceFragment(
+                    AddDiaryFragment(
+                        true,
+                        null,
+                        content,
+                        date,
+                    ), true
+                )
+            }
 
             if (diaryDates.contains(selectedDate)) {
                 showToast("이미 일기를 쓴 날이에요!")
@@ -129,6 +148,23 @@ class AddDiarySelectDateFragment :
                     val dates = state.data.map { it.diaryEntryDate }
                     diaryDates = dates.toSet()
                     monthAdapter.updateDiaryDates(dates)
+                }
+            }
+
+        }
+        viewModel.tempData.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Loading -> {
+                }
+
+                is UiState.Success -> {
+                    tempDataExists = true
+                    tempData = state.data
+                }
+
+                is UiState.Failure -> {
+                    tempDataExists = false
+                    tempData = null
                 }
             }
         }
