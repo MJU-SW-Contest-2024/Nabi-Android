@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.nabi.domain.model.diary.DiaryInfo
 import com.nabi.domain.repository.DataStoreRepository
 import com.nabi.domain.usecase.diary.GetMonthlyDiaryUseCase
+import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -19,6 +20,9 @@ class AddDiarySelectDateViewModel @Inject constructor(
 ) : ViewModel() {
     private val _diaryState = MutableLiveData<UiState<List<DiaryInfo>>>(UiState.Loading)
     val diaryState: LiveData<UiState<List<DiaryInfo>>> get() = _diaryState
+
+    private val _tempData = MutableLiveData<UiState<Pair<String, String>>>()
+    val tempData: LiveData<UiState<Pair<String, String>>> get() = _tempData
 
     fun checkMonthDiary(year: Int, month: Int) {
         _diaryState.value = UiState.Loading
@@ -35,6 +39,20 @@ class AddDiarySelectDateViewModel @Inject constructor(
                 }
             } else {
                 _diaryState.value = UiState.Failure(message = "Failed to get access token")
+            }
+        }
+    }
+
+    fun checkTempData(selectedDate: String) {
+        _tempData.value = UiState.Loading
+        viewModelScope.launch {
+            val tempDataResult = dataStoreRepository.getTempData()
+            val tempData = tempDataResult.getOrNull()?.takeIf { it.first == selectedDate }
+
+            if (tempData != null) {
+                _tempData.value = UiState.Success(tempData)
+            } else {
+                _tempData.value = UiState.Failure(message = "dataStore 조회 실패")
             }
         }
     }
