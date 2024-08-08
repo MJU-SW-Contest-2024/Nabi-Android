@@ -5,6 +5,8 @@ import com.nabi.domain.repository.ChatBotRepository
 import com.nabi.domain.usecase.auth.SetNicknameUseCase
 import com.nabi.domain.usecase.auth.SignInUseCase
 import com.nabi.domain.usecase.chat.EmbeddingDiaryUseCase
+import com.nabi.domain.usecase.chat.GetChatHistoryUseCase
+import com.nabi.domain.usecase.chat.RetryChatResUseCase
 import com.nabi.domain.usecase.chat.SendChatUseCase
 import dagger.Module
 import dagger.Provides
@@ -30,5 +32,21 @@ object ChatBotUseCaseModule {
         repository: ChatBotRepository
     ): SendChatUseCase {
         return SendChatUseCase(repository = repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetChatHistoryUseCase(
+        repository: ChatBotRepository
+    ): GetChatHistoryUseCase {
+        return GetChatHistoryUseCase(repository = repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRetryChatResUseCase(
+        repository: ChatBotRepository
+    ): RetryChatResUseCase {
+        return RetryChatResUseCase(repository = repository)
     }
 }
