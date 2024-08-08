@@ -17,6 +17,8 @@ class DataStoreRepositoryImpl @Inject constructor(
         private val ACCESS_TOKEN_KEY = stringPreferencesKey("access_token")
         private val REFRESH_TOKEN_KEY = stringPreferencesKey("refresh_token")
         private val LOGIN_PROVIDER_KEY = stringPreferencesKey("login_provider")
+        private val TEMP_DATE_KEY = stringPreferencesKey("temp_date")
+        private val TEMP_CONTENT_KEY = stringPreferencesKey("temp_content")
     }
 
     override suspend fun clearData(): Result<Boolean> {
@@ -74,6 +76,24 @@ class DataStoreRepositoryImpl @Inject constructor(
             val providerName = preferences[LOGIN_PROVIDER_KEY] ?: ""
             val provider = AuthProvider.valueOf(providerName)
             Result.success(provider)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun setTempData(date: String, content: String) {
+        dataStorePreferences.edit { preferences ->
+            preferences[TEMP_DATE_KEY] = date
+            preferences[TEMP_CONTENT_KEY] = content
+        }
+    }
+
+    override suspend fun getTempData(): Result<Pair<String, String>> {
+        return try {
+            val preferences = dataStorePreferences.data.first()
+            val date = preferences[TEMP_DATE_KEY] ?: ""
+            val content = preferences[TEMP_CONTENT_KEY] ?: ""
+            Result.success(Pair(date, content))
         } catch (e: Exception) {
             Result.failure(e)
         }

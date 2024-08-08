@@ -10,9 +10,13 @@ import androidx.fragment.app.viewModels
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseActivity
 import com.nabi.nabi.base.BaseFragment
+import com.nabi.nabi.custom.EmotionLoadingDialog
 import com.nabi.nabi.databinding.FragmentAddDiaryBinding
 import com.nabi.nabi.utils.Constants
+import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
+import com.nabi.nabi.views.MainActivity
+import com.nabi.nabi.views.diary.detail.DetailDiaryFragment
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -28,6 +32,8 @@ class AddDiaryFragment(
     private lateinit var speechRecognizer: SpeechRecognizer
     private lateinit var recognizerIntent: Intent
     private var isListening: Boolean = false
+    private lateinit var emotionLoadingDialog: EmotionLoadingDialog
+    private var currentDiaryId: Int? = null
 
     override fun initView() {
         binding.tvDiaryDate.text = diaryDate
@@ -44,12 +50,22 @@ class AddDiaryFragment(
         // SpeechRecognizer 초기화
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(requireContext())
         speechRecognizer.setRecognitionListener(recognitionListener)
+
+        emotionLoadingDialog = EmotionLoadingDialog()
     }
 
     override fun initListener() {
         super.initListener()
 
+        val inputFormatter = DateTimeFormatter.ofPattern("yyyy년 M월 d일")
+        val outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val date = LocalDate.parse(diaryDate, inputFormatter)
+        val diaryEntryDate = date.format(outputFormatter)
+
         binding.ibBack.setOnClickListener {
+            // dataStore에 임시저장
+            val content = binding.etDiary.text.toString().trim()
+            viewModel.saveTempData(diaryEntryDate, content)
             requireActivity().supportFragmentManager.popBackStack()
         }
 
@@ -57,7 +73,6 @@ class AddDiaryFragment(
             if (!(requireActivity() as BaseActivity<*>).checkPermissions(Constants.AUDIO_PERMISSIONS)) {
                 (requireActivity() as BaseActivity<*>).requestPermissions(Constants.AUDIO_PERMISSIONS)
             } else {
-                // mic 버튼 눌렀을 때 로직
                 if (!isListening) {
                     startListening()
                 } else {
@@ -70,17 +85,21 @@ class AddDiaryFragment(
             val content = binding.etDiary.text.toString().trim()
 
             if (content.isNotEmpty()) {
-                val inputFormatter = DateTimeFormatter.ofPattern("yyyy년 M월 d일")
-                val outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-
-                val date = LocalDate.parse(diaryDate, inputFormatter)
-                val diaryEntryDate = date.format(outputFormatter)
                 if (isEdit) {
+                    // 일기 수정일 때
+                    emotionLoadingDialog.show(
+                        requireActivity().supportFragmentManager, "EmotionLoadingDialog"
+                    )
                     viewModel.updateDiary(diaryId!!, content, diaryEntryDate)
                 } else {
+                    // 일기 작성일 때
+                    emotionLoadingDialog.show(
+                        requireActivity().supportFragmentManager, "EmotionLoadingDialog"
+                    )
                     viewModel.addDiary(content, diaryEntryDate)
                 }
             } else {
+                // content가 empty일 때
                 showToast("일기 내용을 입력해주세요")
             }
         }
@@ -97,8 +116,8 @@ class AddDiaryFragment(
                 }
 
                 is UiState.Success -> {
-                    binding.etDiary.text.clear()
-                    requireActivity().supportFragmentManager.popBackStack()
+                    currentDiaryId = it.data.id
+                    viewModel.getDiaryEmotion(currentDiaryId!!)
                 }
             }
         }
@@ -110,7 +129,46 @@ class AddDiaryFragment(
                     showToast("일기 수정 실패")
                 }
 
-                is UiState.Success -> {}
+                is UiState.Success -> {
+                    currentDiaryId = it.data.diaryId
+                    viewModel.getDiaryEmotion(currentDiaryId!!)
+                }
+            }
+        }
+
+        viewModel.getEmotionState.observe(viewLifecycleOwner) {
+            when (it) {
+                is UiState.Loading -> {}
+                is UiState.Failure -> {
+                    showToast("일기 감정분석 실패")
+                }
+
+                is UiState.Success -> {
+                    val emotionState = it.data
+                    viewModel.addDiaryEmotion(currentDiaryId!!, emotionState)
+                }
+            }
+        }
+
+        viewModel.addEmotionState.observe(viewLifecycleOwner) {
+            when (it) {
+                is UiState.Loading -> {}
+                is UiState.Failure -> {
+                    showToast("일기에 감정 추가 실패")
+                    emotionLoadingDialog.dismiss()
+                }
+
+                is UiState.Success -> {
+                    emotionLoadingDialog.dismiss()
+                    if (isEdit) {
+                        requireActivity().supportFragmentManager.popBackStack()
+                    } else {
+                        (requireActivity() as MainActivity).replaceFragment(
+                            DetailDiaryFragment(currentDiaryId!!),
+                            false
+                        )
+                    }
+                }
             }
         }
     }
@@ -120,7 +178,6 @@ class AddDiaryFragment(
         override fun onReadyForSpeech(params: Bundle) {
             showToast("음성 인식 시작")
         }
-
 
         override fun onBeginningOfSpeech() {} // 말하기 시작했을 때 호출
         override fun onRmsChanged(rmsdB: Float) {} // 입력받는 소리의 크기를 알려줌
