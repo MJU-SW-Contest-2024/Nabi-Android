@@ -70,7 +70,7 @@ class DiaryStatisticsFragment: BaseFragment<FragmentStatisticsDiaryBinding>(R.la
 
         binding.ivEmotionAnger.setOnClickListener { (requireActivity() as MainActivity).replaceFragment(EmotionSearchFragment("화남"), true)}
         binding.ivEmotionHappiness.setOnClickListener { (requireActivity() as MainActivity).replaceFragment(EmotionSearchFragment("행복"), true)}
-        binding.ivEmotionBoredom.setOnClickListener { (requireActivity() as MainActivity).replaceFragment(EmotionSearchFragment("지루"), true)}
+        binding.ivEmotionBoredom.setOnClickListener { (requireActivity() as MainActivity).replaceFragment(EmotionSearchFragment("지루함"), true)}
         binding.ivEmotionSadness.setOnClickListener { (requireActivity() as MainActivity).replaceFragment(EmotionSearchFragment("우울"), true)}
         binding.ivEmotionAnxiety.setOnClickListener { (requireActivity() as MainActivity).replaceFragment(EmotionSearchFragment("불안"), true)}
     }
