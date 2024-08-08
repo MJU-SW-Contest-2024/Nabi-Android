@@ -1,6 +1,7 @@
 package com.nabi.nabi.views.diary.view
 
 import android.app.AlertDialog
+import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.core.content.res.ResourcesCompat
 import androidx.viewpager2.widget.ViewPager2
@@ -9,6 +10,7 @@ import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.databinding.DialogNonDayDatePickerBinding
 import com.nabi.nabi.databinding.FragmentSelectDiaryBinding
 import com.nabi.nabi.extension.dialogResize
+import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.views.MainActivity
 import com.nabi.nabi.views.diary.search.SearchDiaryFragment
 import com.nabi.nabi.views.diary.statistics.DiaryStatisticsFragment
@@ -28,7 +30,6 @@ import java.util.Locale
 class SelectDiaryFragment : BaseFragment<FragmentSelectDiaryBinding>(R.layout.fragment_select_diary) {
     private lateinit var calendarAdapter: SelectDiaryMonthCalendarStateAdapter
 
-    // Define min and max year
     private val minYear = 1950
     private val maxYear = Calendar.getInstance().get(Calendar.YEAR)
 
@@ -40,6 +41,12 @@ class SelectDiaryFragment : BaseFragment<FragmentSelectDiaryBinding>(R.layout.fr
 
         val currentMonth = SimpleDateFormat("MMMM yyyy", Locale.ENGLISH).format(Date())
         binding.tvCurrentMonth.text = currentMonth
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        updateCurrentMonthText(binding.vpCalendarMonth.currentItem)
     }
 
     override fun initListener() {
@@ -165,10 +172,9 @@ class SelectDiaryFragment : BaseFragment<FragmentSelectDiaryBinding>(R.layout.fr
         val positiveButton = builder.getButton(AlertDialog.BUTTON_POSITIVE)
         val negativeButton = builder.getButton(AlertDialog.BUTTON_NEGATIVE)
 
-        positiveButton?.setTextAppearance(requireContext(), R.style.DialogButtonStyle)
-        negativeButton?.setTextAppearance(requireContext(), R.style.DialogButtonStyle)
+        positiveButton?.setTextAppearance(R.style.DialogButtonStyle)
+        negativeButton?.setTextAppearance(R.style.DialogButtonStyle)
 
         builder.context.dialogResize(builder, 0.8f, 0.3f)
     }
-
 }
