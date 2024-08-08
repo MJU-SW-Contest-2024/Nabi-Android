@@ -1,6 +1,5 @@
 package com.nabi.nabi.di
 
-import com.nabi.data.repository.ChatBotRepositoryImpl
 import com.nabi.data.service.AuthService
 import com.nabi.data.service.BookmarkService
 import com.nabi.data.service.ChatBotService

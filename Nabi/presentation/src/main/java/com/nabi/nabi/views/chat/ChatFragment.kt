@@ -1,7 +1,6 @@
 package com.nabi.nabi.views.chat
 
 import android.annotation.SuppressLint
-import android.view.MotionEvent
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,12 +13,10 @@ import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import com.nabi.nabi.views.OnRvItemClickListener
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.internal.addHeaderLenient
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.util.Calendar
 import java.util.Locale
 
 @AndroidEntryPoint

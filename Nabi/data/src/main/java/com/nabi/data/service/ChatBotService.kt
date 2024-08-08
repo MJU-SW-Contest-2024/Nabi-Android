@@ -1,7 +1,6 @@
 package com.nabi.data.service
 
 import com.nabi.data.model.BaseResponse
-import com.nabi.data.model.MessageResponseDTO
 import com.nabi.data.model.PageableResponse
 import com.nabi.data.model.chat.ChatHistoryResponseDTO
 import com.nabi.data.model.chat.SendChatRequestDTO

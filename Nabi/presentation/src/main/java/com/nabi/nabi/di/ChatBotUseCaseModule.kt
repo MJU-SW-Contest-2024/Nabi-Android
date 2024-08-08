@@ -1,9 +1,6 @@
 package com.nabi.nabi.di
 
-import com.nabi.domain.repository.AuthRepository
 import com.nabi.domain.repository.ChatBotRepository
-import com.nabi.domain.usecase.auth.SetNicknameUseCase
-import com.nabi.domain.usecase.auth.SignInUseCase
 import com.nabi.domain.usecase.chat.EmbeddingDiaryUseCase
 import com.nabi.domain.usecase.chat.GetChatHistoryUseCase
 import com.nabi.domain.usecase.chat.RetryChatResUseCase

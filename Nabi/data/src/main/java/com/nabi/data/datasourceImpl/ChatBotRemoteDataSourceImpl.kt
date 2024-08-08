@@ -2,7 +2,6 @@ package com.nabi.data.datasourceImpl
 
 import com.nabi.data.datasource.ChatBotRemoteDataSource
 import com.nabi.data.model.BaseResponse
-import com.nabi.data.model.MessageResponseDTO
 import com.nabi.data.model.PageableResponse
 import com.nabi.data.model.chat.ChatHistoryResponseDTO
 import com.nabi.data.model.chat.SendChatRequestDTO

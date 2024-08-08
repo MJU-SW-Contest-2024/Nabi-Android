@@ -1,13 +1,9 @@
 package com.nabi.data.datasource
 
 import com.nabi.data.model.BaseResponse
-import com.nabi.data.model.MessageResponseDTO
 import com.nabi.data.model.PageableResponse
 import com.nabi.data.model.chat.ChatHistoryResponseDTO
 import com.nabi.data.model.chat.SendChatRequestDTO
-import com.nabi.data.model.diary.ResponseMonthDiaryDTO
-import retrofit2.Response
-import retrofit2.http.Header
 
 interface ChatBotRemoteDataSource {
 

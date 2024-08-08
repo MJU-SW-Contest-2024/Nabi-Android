@@ -1,17 +1,9 @@
 package com.nabi.data.repository
 
-import com.nabi.data.datasource.AuthRemoteDataSource
 import com.nabi.data.datasource.ChatBotRemoteDataSource
-import com.nabi.data.model.auth.SignInRequestDTO
 import com.nabi.data.model.chat.SendChatRequestDTO
-import com.nabi.data.service.ChatBotService
-import com.nabi.domain.enums.AuthProvider
 import com.nabi.domain.model.PageableInfo
-import com.nabi.domain.model.auth.NicknameInfo
-import com.nabi.domain.model.auth.SignInInfo
 import com.nabi.domain.model.chat.ChatItem
-import com.nabi.domain.model.diary.SearchDiary
-import com.nabi.domain.repository.AuthRepository
 import com.nabi.domain.repository.ChatBotRepository
 import com.nabi.domain.utils.DateTimeUtils
 import javax.inject.Inject
