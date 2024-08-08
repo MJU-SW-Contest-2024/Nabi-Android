@@ -83,7 +83,7 @@ class ChatViewModel @Inject constructor(
                     _resState.value = UiState.Success(it)
                 }
                 .onFailure {
-                    _resState.value = UiState.Failure(it.message ?: "")
+                    _resState.value = UiState.Failure(message = it.message.toString())
                 }
         }
     }
@@ -99,7 +99,7 @@ class ChatViewModel @Inject constructor(
                     _embedState.value = UiState.Success(Unit)
                 }
                 .onFailure {
-                    _embedState.value = UiState.Failure(it.message.toString())
+                    _embedState.value = UiState.Failure(message = it.message.toString())
                 }
         }
     }
@@ -115,7 +115,7 @@ class ChatViewModel @Inject constructor(
                     _retryState.value = UiState.Success(itemPos)
                 }
                 .onFailure {
-                    _retryState.value = UiState.Failure(it.message.toString())
+                    _retryState.value = UiState.Failure(message = it.message.toString())
                 }
         }
     }
