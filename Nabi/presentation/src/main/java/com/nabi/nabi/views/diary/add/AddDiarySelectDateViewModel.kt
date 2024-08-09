@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.nabi.domain.model.diary.DiaryInfo
 import com.nabi.domain.repository.DataStoreRepository
 import com.nabi.domain.usecase.diary.GetMonthlyDiaryUseCase
-import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

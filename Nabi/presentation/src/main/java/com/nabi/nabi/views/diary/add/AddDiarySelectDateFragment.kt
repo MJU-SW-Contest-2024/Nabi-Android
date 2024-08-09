@@ -4,9 +4,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LifecycleObserver
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nabi.data.room.DiaryDatabase
 import com.nabi.data.room.DiaryEntity

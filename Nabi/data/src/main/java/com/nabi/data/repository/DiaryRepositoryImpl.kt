@@ -10,7 +10,6 @@ import com.nabi.domain.model.diary.DeleteDiaryMsg
 import com.nabi.domain.model.diary.DiaryInfo
 import com.nabi.domain.model.diary.SearchDiary
 import com.nabi.domain.model.diary.UpdateDiaryInfo
-import com.nabi.domain.model.emotion.AddDiaryEmotionMsg
 import com.nabi.domain.repository.DiaryRepository
 import javax.inject.Inject
 

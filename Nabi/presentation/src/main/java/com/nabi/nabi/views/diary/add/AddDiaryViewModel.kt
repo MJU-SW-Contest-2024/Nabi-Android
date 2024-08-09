@@ -1,7 +1,5 @@
 package com.nabi.nabi.views.diary.add
 
-import android.content.Context
-import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,18 +9,12 @@ import com.nabi.domain.model.diary.UpdateDiaryInfo
 import com.nabi.domain.model.emotion.AddDiaryEmotionMsg
 import com.nabi.domain.repository.DataStoreRepository
 import com.nabi.domain.usecase.diary.AddDiaryUseCase
-import com.nabi.domain.usecase.diary.GetDiaryDetailUseCase
 import com.nabi.domain.usecase.diary.UpdateDiaryUseCase
 import com.nabi.domain.usecase.emotion.AddDiaryEmotionUseCase
 import com.nabi.domain.usecase.emotion.GetDiaryEmotionUseCase
 import com.nabi.domain.utils.EmotionStateUtils
-import com.nabi.nabi.di.dataStore
-import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

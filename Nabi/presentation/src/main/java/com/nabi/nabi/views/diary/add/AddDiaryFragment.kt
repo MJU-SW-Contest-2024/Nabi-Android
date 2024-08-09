@@ -9,7 +9,6 @@ import android.speech.SpeechRecognizer
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.EditText
 import androidx.fragment.app.viewModels
 import com.nabi.data.room.DiaryDatabase
 import com.nabi.data.room.DiaryEntity
@@ -19,7 +18,6 @@ import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.custom.EmotionLoadingDialog
 import com.nabi.nabi.databinding.FragmentAddDiaryBinding
 import com.nabi.nabi.utils.Constants
-import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import com.nabi.nabi.views.MainActivity
 import com.nabi.nabi.views.diary.detail.DetailDiaryFragment
