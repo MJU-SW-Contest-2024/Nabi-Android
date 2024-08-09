@@ -135,6 +135,13 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     style="@style/weekdays_bold_10px"
+                    android:text="@string/text_week_thursday"
+                    android:gravity="center"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    style="@style/weekdays_bold_10px"
                     android:text="@string/text_week_friday"
                     android:gravity="center"/>
                 <TextView
@@ -143,13 +150,6 @@
                     android:layout_weight="1"
                     style="@style/weekdays_bold_10px"
                     android:text="@string/text_week_saturday"
-                    android:gravity="center"/>
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    style="@style/weekdays_bold_10px"
-                    android:text="@string/text_week_sunday"
                     android:gravity="center"/>
             </LinearLayout>
 
