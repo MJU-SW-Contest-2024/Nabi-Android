@@ -24,10 +24,4 @@ interface DataStoreRepository {
 
     suspend fun getAuthProvider(): Result<AuthProvider>
 
-    suspend fun setTempData(
-        date: String,
-        content: String
-    )
-
-    suspend fun getTempData(): Result<Pair<String, String>>
 }

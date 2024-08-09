@@ -9,12 +9,10 @@ import com.nabi.domain.model.diary.UpdateDiaryInfo
 import com.nabi.domain.model.emotion.AddDiaryEmotionMsg
 import com.nabi.domain.repository.DataStoreRepository
 import com.nabi.domain.usecase.diary.AddDiaryUseCase
-import com.nabi.domain.usecase.diary.GetDiaryDetailUseCase
 import com.nabi.domain.usecase.diary.UpdateDiaryUseCase
 import com.nabi.domain.usecase.emotion.AddDiaryEmotionUseCase
 import com.nabi.domain.usecase.emotion.GetDiaryEmotionUseCase
 import com.nabi.domain.utils.EmotionStateUtils
-import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -102,9 +100,4 @@ class AddDiaryViewModel @Inject constructor(
         }
     }
 
-    fun saveTempData(date: String, content: String) {
-        viewModelScope.launch {
-            dataStoreRepository.setTempData(date, content)
-        }
-    }
 }

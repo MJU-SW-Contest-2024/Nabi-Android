@@ -1,7 +1,6 @@
 package com.nabi.nabi.views.diary.view
 
 import android.app.AlertDialog
-import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.core.content.res.ResourcesCompat
 import androidx.viewpager2.widget.ViewPager2
@@ -10,7 +9,6 @@ import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.databinding.DialogNonDayDatePickerBinding
 import com.nabi.nabi.databinding.FragmentSelectDiaryBinding
 import com.nabi.nabi.extension.dialogResize
-import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.views.MainActivity
 import com.nabi.nabi.views.diary.search.SearchDiaryFragment
 import com.nabi.nabi.views.diary.statistics.DiaryStatisticsFragment
