@@ -21,8 +21,7 @@ class AddDiarySelectDateViewModel @Inject constructor(
     private val _diaryState = MutableLiveData<UiState<List<DiaryInfo>>>(UiState.Loading)
     val diaryState: LiveData<UiState<List<DiaryInfo>>> get() = _diaryState
 
-    private val _tempData = MutableLiveData<UiState<Pair<String, String>>>()
-    val tempData: LiveData<UiState<Pair<String, String>>> get() = _tempData
+    val selectedDate = MutableLiveData<String>()
 
     fun checkMonthDiary(year: Int, month: Int) {
         _diaryState.value = UiState.Loading
@@ -43,17 +42,4 @@ class AddDiarySelectDateViewModel @Inject constructor(
         }
     }
 
-    fun checkTempData(selectedDate: String) {
-//        _tempData.value = UiState.Loading
-//        viewModelScope.launch {
-//            val tempDataResult = dataStoreRepository.getTempData()
-//            val tempData = tempDataResult.getOrNull()?.takeIf { it.first == selectedDate }
-//
-//            if (tempData != null) {
-//                _tempData.value = UiState.Success(tempData)
-//            } else {
-//                _tempData.value = UiState.Failure(message = "dataStore 조회 실패")
-//            }
-//        }
-    }
 }

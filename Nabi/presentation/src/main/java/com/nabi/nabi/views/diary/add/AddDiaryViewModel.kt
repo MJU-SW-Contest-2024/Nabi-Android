@@ -20,6 +20,7 @@ import com.nabi.nabi.di.dataStore
 import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -107,17 +108,4 @@ class AddDiaryViewModel @Inject constructor(
         }
     }
 
-    fun saveTempData(date: String, content: String) {
-        viewModelScope.launch {
-            try {
-                dataStoreRepository.setTempData(date, content).onSuccess {
-                    LoggerUtils.d("데이터 저장 성공: 날짜 - $date, 내용 - $content")
-                }.onFailure { e ->
-                    LoggerUtils.e("데이터 저장 실패: ${e.message}")
-                }
-            } catch (e: Exception) {
-                LoggerUtils.e("데이터 저장 중 예외 발생: ${e.message}")
-            }
-        }
-    }
 }

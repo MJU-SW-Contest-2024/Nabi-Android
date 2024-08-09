@@ -11,6 +11,8 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import androidx.fragment.app.viewModels
+import com.nabi.data.room.DiaryDatabase
+import com.nabi.data.room.DiaryEntity
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseActivity
 import com.nabi.nabi.base.BaseFragment
@@ -22,6 +24,9 @@ import com.nabi.nabi.utils.UiState
 import com.nabi.nabi.views.MainActivity
 import com.nabi.nabi.views.diary.detail.DetailDiaryFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -30,7 +35,7 @@ class AddDiaryFragment(
     private val isEdit: Boolean,
     private val diaryId: Int? = null,
     private val content: String? = null,
-    private val diaryDate: String,
+    private var diaryDate: String,
 ) : BaseFragment<FragmentAddDiaryBinding>(R.layout.fragment_add_diary) {
     private val viewModel: AddDiaryViewModel by viewModels()
     private lateinit var speechRecognizer: SpeechRecognizer
@@ -39,11 +44,18 @@ class AddDiaryFragment(
     private lateinit var emotionLoadingDialog: EmotionLoadingDialog
     private var currentDiaryId: Int? = null
 
+    private lateinit var db: DiaryDatabase
+    private val coroutineScope = CoroutineScope(Dispatchers.IO)
+
     override fun initView() {
+        db = DiaryDatabase.getInstance(requireContext())
+
         binding.tvDiaryDate.text = diaryDate
         if (isEdit) {
             binding.etDiary.setText(content)
             binding.btnSave.visibility = View.VISIBLE
+        } else if (content != null) {
+            binding.etDiary.setText(content)
         }
 
         binding.etDiary.addTextChangedListener(object : TextWatcher {
@@ -85,10 +97,29 @@ class AddDiaryFragment(
         val diaryEntryDate = date.format(outputFormatter)
 
         binding.ibBack.setOnClickListener {
-            // dataStore에 임시저장
             val content = binding.etDiary.text.toString().trim()
-            viewModel.saveTempData(diaryEntryDate, content)
+            val diaryEntity = DiaryEntity(
+                diaryTempDate = diaryEntryDate,
+                diaryTempContent = content
+            )
+
+            if (content.isNotEmpty()) {
+                coroutineScope.launch {
+                    try {
+                        val existingDiary = db.getDiaryDao().getDiaryByDate(diaryEntryDate)
+                        if (existingDiary != null) {
+                            db.getDiaryDao()
+                                .updateTempDiary(diaryEntity.copy(id = existingDiary.id))
+                        } else {
+                            db.getDiaryDao().addTempDiary(diaryEntity)
+                        }
+                    } catch (e: Exception) {
+                        showToast("임시 일기 저장 실패: ${e.message}")
+                    }
+                }
+            }
             requireActivity().supportFragmentManager.popBackStack()
+
         }
 
         binding.ibMic.setOnClickListener {
