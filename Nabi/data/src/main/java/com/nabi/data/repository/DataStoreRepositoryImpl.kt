@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class DataStoreRepositoryImpl @Inject constructor(
     private val dataStorePreferences: DataStore<Preferences>
-): DataStoreRepository {
+) : DataStoreRepository {
 
     private companion object {
         private val ACCESS_TOKEN_KEY = stringPreferencesKey("access_token")
@@ -79,22 +79,6 @@ class DataStoreRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             Result.failure(e)
         }
-    }
-
-    override suspend fun setTempData(date: String, content: String): Result<Boolean> {
-        return try {
-            dataStorePreferences.edit { preferences ->
-                preferences[DIARY_DATE] = date
-                preferences[DIARY_CONTENT] = content
-            }
-            Result.success(true)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-
-    override suspend fun getTempData(): Result<Boolean> {
-        TODO("Not yet implemented")
     }
 
 }

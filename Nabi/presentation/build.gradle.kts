@@ -135,4 +135,8 @@ dependencies {
 
     // ReadMoreView
     implementation("com.github.jeonjungin:ReadMoreView:v1.0.4")
+
+    // RoomDB
+    implementation("androidx.room:room-ktx:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
 }
