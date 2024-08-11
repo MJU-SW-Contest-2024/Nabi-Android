@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.nabi.domain.model.diary.AddDiaryCallbackItem
 import com.nabi.domain.model.diary.DiaryDbEntity
+import com.nabi.domain.model.diary.DiarySelectInfo
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.databinding.DialogNonDayDatePickerBinding
@@ -27,14 +28,15 @@ import java.util.Locale
 @AndroidEntryPoint
 class AddDiarySelectDateFragment :
     BaseFragment<FragmentSelectDateBinding>(R.layout.fragment_select_date) {
-    private val sharedDateViewModel: SharedDateViewModel by activityViewModels()
     private val viewModel: AddDiarySelectDateViewModel by viewModels()
+    private val sharedViewModel: SharedDateViewModel by activityViewModels()
     private var diaryDates: Set<String> = emptySet()
-    private var selectedDate: AddDiaryCallbackItem? = null
+    private lateinit var selectedDate: DiarySelectInfo
     private var tempDiary: DiaryDbEntity? = null
     private val minYear = 1950
     private val maxYear = Calendar.getInstance().get(Calendar.YEAR)
     private var tempDate: String? = ""
+    private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
 
     private lateinit var calendarAdapter: AddDiaryMonthCalendarStateAdapter
 
@@ -44,7 +46,6 @@ class AddDiarySelectDateFragment :
         if (tempDate == "") {
             updateCurrentMonthText(binding.vpCalendarMonth.currentItem)
         } else {
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
             val date = dateFormat.parse(tempDate!!)
             val currentDate = SimpleDateFormat("yyyy년 M월 d일", Locale.ENGLISH).format(date!!)
             val currentYear = SimpleDateFormat("yyyy", Locale.ENGLISH).format(date)
@@ -57,12 +58,24 @@ class AddDiarySelectDateFragment :
 
     @SuppressLint("NotifyDataSetChanged")
     override fun initView() {
+        if (sharedViewModel.selectedDate.value == "") {
+            val todayDate: String = dateFormat.format(Calendar.getInstance().time)
+            sharedViewModel.changeSelectedDate(todayDate)
+        }
+
+        selectedDate = DiarySelectInfo(
+            false,
+            sharedViewModel.selectedDate.value!!,
+            true
+        )
+        LoggerUtils.d(selectedDate.toString())
+
         calendarAdapter = AddDiaryMonthCalendarStateAdapter(requireActivity()).apply {
             setOnDateSelectedListener(object :
                 AddDiaryMonthCalendarStateAdapter.OnDateSelectedListener {
-                override fun onDateSelected(item: AddDiaryCallbackItem) {
+                override fun onDateSelected(item: DiarySelectInfo) {
                     selectedDate = item
-                    updateSelectedDate(item.date)
+                    updateSelectedDate(item.diaryEntryDate)
                 }
             })
         }
@@ -77,24 +90,15 @@ class AddDiarySelectDateFragment :
     @SuppressLint("ClickableViewAccessibility")
     override fun initListener() {
 
-        binding.vpCalendarMonth.registerOnPageChangeCallback(object :
-            ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-
-                updateCurrentMonthText(position)
-            }
-        })
-
         binding.btnDone.setOnClickListener {
-            if (selectedDate == null) {
+            if (sharedViewModel.selectedDate.value!!.isEmpty()) {
                 showToast("날짜를 선택해주세요")
             } else {
-                if (!selectedDate!!.isClickable) {
+                if (selectedDate.existDiary) {
                     showToast("이미 일기를 쓴 날이에요!")
                 } else {
                     // 임시 일기 데이터 확인
-                    viewModel.getTempDiary(selectedDate!!.date)
+                    viewModel.getTempDiary(selectedDate.diaryEntryDate)
                     viewModel.getTempState.observe(viewLifecycleOwner) { state ->
                         when (state) {
                             is UiState.Loading -> {
@@ -107,9 +111,9 @@ class AddDiarySelectDateFragment :
                                     false,
                                     null,
                                     tempDiary?.diaryTempContent,
-                                    selectedDate!!.date,
+                                    selectedDate.diaryEntryDate
                                 )
-                                this.tempDate = selectedDate!!.date
+                                this.tempDate = selectedDate.diaryEntryDate
                                 (requireActivity() as MainActivity).replaceFragment(fragment, true)
                             }
 
@@ -125,30 +129,17 @@ class AddDiarySelectDateFragment :
         binding.ivLeftMonth.setOnClickListener {
             val currentPos = binding.vpCalendarMonth.currentItem
             updateMonthYear(currentPos - 1)
-            Calendar.getInstance().set(Calendar.DAY_OF_MONTH, 1)
             binding.vpCalendarMonth.setCurrentItem(currentPos - 1, false)
-
-            // 날짜 선택 초기화
-            sharedDateViewModel.clearSelectedDate()
-            sharedDateViewModel.notifyMonthChanged()
-
-            this.selectedDate = null
-            updateSelectedDateToFirstDayOfMonth(currentPos - 1)
         }
+
         binding.ivRightMonth.setOnClickListener {
             val currentPos = binding.vpCalendarMonth.currentItem
             updateMonthYear(currentPos + 1)
-            Calendar.getInstance().set(Calendar.DAY_OF_MONTH, 1)
             binding.vpCalendarMonth.setCurrentItem(currentPos + 1, false)
-
-            sharedDateViewModel.clearSelectedDate()
-            sharedDateViewModel.notifyMonthChanged()
-
-            this.selectedDate = null
-            updateSelectedDateToFirstDayOfMonth(currentPos + 1)
         }
 
         binding.ivBack.setOnClickListener {
+            sharedViewModel.clearData()
             requireActivity().supportFragmentManager.popBackStack()
         }
 
@@ -169,16 +160,6 @@ class AddDiarySelectDateFragment :
                 }
             }
         }
-    }
-
-    private fun updateMonthYear(newPosition: Int) {
-        val calendar = Calendar.getInstance().apply {
-            add(Calendar.MONTH, newPosition - (Int.MAX_VALUE / 2))
-        }
-
-        val newYear = calendar.get(Calendar.YEAR)
-        binding.tvSelectYear.text = newYear.toString()
-        binding.tvSelectMonth.text = SimpleDateFormat("MMMM", Locale.ENGLISH).format(calendar.time)
     }
 
     private fun updateCurrentMonthText(position: Int) {
@@ -250,21 +231,21 @@ class AddDiarySelectDateFragment :
     }
 
     private fun updateSelectedDate(date: String) {
-        val originalFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val targetFormat = SimpleDateFormat("yyyy년 M월 d일", Locale.getDefault())
+        val originalFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+        val targetFormat = SimpleDateFormat("yyyy년 M월 d일", Locale.KOREAN)
         val parsedDate = originalFormat.parse(date)
         val formattedDate = targetFormat.format(parsedDate!!)
         binding.tvSelectDate.text = formattedDate
     }
 
-    private fun updateSelectedDateToFirstDayOfMonth(position: Int) {
+    private fun updateMonthYear(newPosition: Int) {
         val calendar = Calendar.getInstance().apply {
-            add(Calendar.MONTH, position - (Int.MAX_VALUE / 2))
-            set(Calendar.DAY_OF_MONTH, 1)
+            add(Calendar.MONTH, newPosition - (Int.MAX_VALUE / 2))
         }
 
-        val firstDayOfMonth =
-            SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
-        updateSelectedDate(firstDayOfMonth)
+        val newYear = calendar.get(Calendar.YEAR)
+        binding.tvSelectYear.text = newYear.toString()
+        binding.tvSelectMonth.text = SimpleDateFormat("MMMM", Locale.ENGLISH).format(calendar.time)
     }
+
 }

@@ -5,15 +5,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.nabi.domain.model.diary.AddDiaryCallbackItem
-import com.nabi.domain.model.diary.DiaryInfo
+import com.nabi.domain.model.diary.DiarySelectInfo
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.databinding.FragmentAddDiaryMonthBinding
 import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
-import com.nabi.nabi.views.MainActivity
 import com.nabi.nabi.views.OnRvItemClickListener
-import com.nabi.nabi.views.diary.detail.DetailDiaryFragment
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -21,7 +19,7 @@ import java.util.Date
 import java.util.Locale
 
 @AndroidEntryPoint
-class AddDiaryMonthFragment(private val callback: ((Throwable?) -> AddDiaryCallbackItem)? = null) :
+class AddDiaryMonthFragment :
     BaseFragment<FragmentAddDiaryMonthBinding>(R.layout.fragment_add_diary_month) {
     private val viewModel: AddDiarySelectDateViewModel by viewModels()
     private val sharedDateViewModel: SharedDateViewModel by activityViewModels()
@@ -31,7 +29,6 @@ class AddDiaryMonthFragment(private val callback: ((Throwable?) -> AddDiaryCallb
     private lateinit var date: Date
     private var onDateSelectedListener: OnDateSelectedListener? = null
     private var diaryDates: Set<String> = emptySet()
-    private var selectedDate: String? = null
     private var isClickable = true
 
     companion object {
@@ -49,19 +46,6 @@ class AddDiaryMonthFragment(private val callback: ((Throwable?) -> AddDiaryCallb
     override fun initView() {
         date = arguments?.getLong(ARG_DATE)?.let { Date(it) } ?: Date()
 
-        sharedDateViewModel.clearSelectedDate()
-        // 날짜 선택 옵저버
-        sharedDateViewModel.selectedDate.observe(viewLifecycleOwner) {
-            dayAdapter.setSelectedDate("")
-        }
-
-        sharedDateViewModel.monthChanged.observe(viewLifecycleOwner) { monthChanged ->
-            if (monthChanged) {
-                dayAdapter.notifyDataSetChanged()
-                sharedDateViewModel.resetMonthChangedFlag()
-            }
-        }
-
         val calendar = Calendar.getInstance()
         calendar.time = date
         val year = calendar.get(Calendar.YEAR)
@@ -69,28 +53,22 @@ class AddDiaryMonthFragment(private val callback: ((Throwable?) -> AddDiaryCallb
         val daysInMonth = getDaysInMonth(date)
 
         dayAdapter = AddDiaryCalendarAdapter().apply {
-            setRvItemClickListener(object : OnRvItemClickListener<String> {
-                override fun onClick(item: String) {
+            setRvItemClickListener(object : OnRvItemClickListener<DiarySelectInfo> {
+                override fun onClick(item: DiarySelectInfo) {
+                    sharedDateViewModel.changeSelectedDate(item.diaryEntryDate)
 
-                    val day = item.padStart(2, '0')
-                    val selectedDateStr = String.format("%d-%02d-%s", year, month, day)
-                    setSelectedDate(item)
-                    isClickable = !diaryDates.contains(selectedDateStr)
-
+                    isClickable = !diaryDates.contains(item.diaryEntryDate)
                     onDateSelectedListener?.onDateSelected(
-                        AddDiaryCallbackItem(
-                            selectedDateStr, isClickable
-                        )
+                        item
                     )
-                    selectedDate = selectedDateStr
                 }
             })
         }
-        dayAdapter.submitList(
+        dayAdapter.setList(
             matchDiaryEntriesWithDays(
-                List<DiaryInfo?>(daysInMonth.size) { null },
+                List<DiarySelectInfo?>(daysInMonth.size) { null },
                 daysInMonth, year, month
-            )
+            ).toMutableList()
         )
 
         binding.rvCalendarDays.layoutManager = GridLayoutManager(requireContext(), 7)
@@ -123,12 +101,12 @@ class AddDiaryMonthFragment(private val callback: ((Throwable?) -> AddDiaryCallb
     }
 
     private fun matchDiaryEntriesWithDays(
-        diaryInfos: List<DiaryInfo?>,
+        diaryInfos: List<DiarySelectInfo?>,
         days: List<String>,
         year: Int,
         month: Int
-    ): List<Pair<String, DiaryInfo?>> {
-        val result = mutableListOf<Pair<String, DiaryInfo?>>()
+    ): List<Pair<String, DiarySelectInfo?>> {
+        val result = mutableListOf<Pair<String, DiarySelectInfo?>>()
         val datePattern = """\d{4}-\d{2}-(\d{2})""".toRegex()
 
         for (day in days) {
@@ -138,10 +116,22 @@ class AddDiaryMonthFragment(private val callback: ((Throwable?) -> AddDiaryCallb
                 val dayWithLeadingZero = day.padStart(2, '0')  // day 앞에 0을 붙여 두 자리로 맞춤
                 val dateString = String.format("%04d-%02d-%s", year, month, dayWithLeadingZero)
 
-                val matchedDiaryInfo = diaryInfos.find { diaryInfo ->
+                var matchedDiaryInfo = diaryInfos.find { diaryInfo ->
                     val entryDate = diaryInfo?.diaryEntryDate
                     entryDate?.let { datePattern.find(it)?.groupValues?.get(1) == dayWithLeadingZero }
                         ?: false
+                }
+                if (matchedDiaryInfo == null) {
+                    matchedDiaryInfo = DiarySelectInfo(false, dateString, false)
+                } else {
+                    matchedDiaryInfo.existDiary = true
+                }
+
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+                val todayDate = dateFormat.format(Calendar.getInstance().time)
+
+                if (todayDate == dateString) {
+                    matchedDiaryInfo.isSelected = true
                 }
 
                 result.add(dateString to matchedDiaryInfo)
@@ -149,7 +139,6 @@ class AddDiaryMonthFragment(private val callback: ((Throwable?) -> AddDiaryCallb
         }
         return result
     }
-
 
     override fun setObserver() {
         super.setObserver()
@@ -162,19 +151,28 @@ class AddDiaryMonthFragment(private val callback: ((Throwable?) -> AddDiaryCallb
                 }
 
                 is UiState.Success -> {
-                    dayAdapter.submitList(
+                    dayAdapter.setList(
                         matchDiaryEntriesWithDays(
                             state.data,
                             getDaysInMonth(date),
                             year = dateYearFormat.format(date.time).toInt(),
                             month = dateMonthFormat.format(date.time).toInt()
-                        )
+                        ).toMutableList()
                     )
                     val dates = state.data.map { it.diaryEntryDate }
                     diaryDates = dates.toSet()
                     viewModel.setDiaryDates(diaryDates)
                 }
             }
+        }
+
+        sharedDateViewModel.selectedDate.observe(viewLifecycleOwner) { selectedDate ->
+            val curList = dayAdapter.currentList.toMutableList()
+            curList.forEach {
+                it.second?.isSelected = false
+            }
+            curList.find { it.first == selectedDate }?.second?.isSelected = true
+            dayAdapter.setList(curList)
         }
     }
 
@@ -183,7 +181,7 @@ class AddDiaryMonthFragment(private val callback: ((Throwable?) -> AddDiaryCallb
     }
 
     interface OnDateSelectedListener {
-        fun onDateSelected(item: AddDiaryCallbackItem)
+        fun onDateSelected(item: DiarySelectInfo)
     }
 
 }

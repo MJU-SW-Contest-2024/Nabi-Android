@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabi.domain.model.diary.DiaryDbEntity
 import com.nabi.domain.model.diary.DiaryInfo
+import com.nabi.domain.model.diary.DiarySelectInfo
 import com.nabi.domain.repository.DataStoreRepository
 import com.nabi.domain.repository.DiaryDbRepository
 import com.nabi.domain.usecase.diary.AddTempDiaryUseCase
@@ -24,8 +25,8 @@ class AddDiarySelectDateViewModel @Inject constructor(
     private val getTempDiaryUseCase: GetTempDiaryUseCase,
     private val dataStoreRepository: DataStoreRepository,
 ) : ViewModel() {
-    private val _diaryState = MutableLiveData<UiState<List<DiaryInfo>>>(UiState.Loading)
-    val diaryState: LiveData<UiState<List<DiaryInfo>>> get() = _diaryState
+    private val _diaryState = MutableLiveData<UiState<List<DiarySelectInfo>>>(UiState.Loading)
+    val diaryState: LiveData<UiState<List<DiarySelectInfo>>> get() = _diaryState
 
     private val _diaryDates = MutableLiveData<Set<String>>()
     val diaryDates: LiveData<Set<String>> get() = _diaryDates
@@ -44,7 +45,13 @@ class AddDiarySelectDateViewModel @Inject constructor(
             val accessToken = dataStoreRepository.getAccessToken().getOrNull().orEmpty()
 
             getMonthlyDiaryUseCase(accessToken, year, month).onSuccess {
-                _diaryState.value = UiState.Success(it)
+                _diaryState.value = UiState.Success(
+                    it.map { data ->
+                        DiarySelectInfo(
+                            diaryEntryDate = data.diaryEntryDate
+                        )
+                    }
+                )
             }.onFailure { e ->
                 _diaryState.value = UiState.Failure(message = e.message.toString())
             }
@@ -66,5 +73,4 @@ class AddDiarySelectDateViewModel @Inject constructor(
             }
         }
     }
-
 }

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.nabi.domain.model.diary.DiaryInfo
+import com.nabi.domain.model.diary.DiarySelectInfo
 import com.nabi.nabi.R
 import com.nabi.nabi.databinding.ItemDayBinding
 import com.nabi.nabi.databinding.ItemSelectDiaryDayBinding
@@ -25,24 +26,29 @@ import java.util.Date
 import java.util.Locale
 
 class AddDiaryCalendarAdapter :
-    ListAdapter<Pair<String, DiaryInfo?>, AddDiaryCalendarAdapter.DateViewHolder>(diaryDiffUtil) {
-    private var selectedDate: String? = null
+    ListAdapter<Pair<String, DiarySelectInfo?>, AddDiaryCalendarAdapter.DateViewHolder>(
+        diaryDiffUtil
+    ) {
 
     companion object {
-        private val diaryDiffUtil = object : DiffUtil.ItemCallback<Pair<String, DiaryInfo?>>() {
-            override fun areItemsTheSame(
-                oldItem: Pair<String, DiaryInfo?>,
-                newItem: Pair<String, DiaryInfo?>
-            ): Boolean =
-                oldItem.second?.diaryId == newItem.second?.diaryId
+        private val diaryDiffUtil =
+            object : DiffUtil.ItemCallback<Pair<String, DiarySelectInfo?>>() {
+                override fun areItemsTheSame(
+                    oldItem: Pair<String, DiarySelectInfo?>,
+                    newItem: Pair<String, DiarySelectInfo?>
+                ): Boolean {
+                    return oldItem == newItem
+                }
 
-            override fun areContentsTheSame(
-                oldItem: Pair<String, DiaryInfo?>,
-                newItem: Pair<String, DiaryInfo?>
-            ): Boolean =
-                oldItem == newItem
-        }
+                override fun areContentsTheSame(
+                    oldItem: Pair<String, DiarySelectInfo?>,
+                    newItem: Pair<String, DiarySelectInfo?>
+                ): Boolean {
+                    return oldItem == newItem
+                }
+            }
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DateViewHolder {
         val binding =
@@ -58,16 +64,11 @@ class AddDiaryCalendarAdapter :
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun setSelectedDate(date: String) {
-        selectedDate = date
-        notifyDataSetChanged()
-    }
-
     inner class DateViewHolder(val binding: ItemDayBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(diaryInfo: Pair<String, DiaryInfo?>) {
+        fun bind(diaryInfo: Pair<String, DiarySelectInfo?>) {
+
             val day = diaryInfo.first
             binding.root.isClickable = true
             binding.root.visibility = View.VISIBLE
@@ -78,6 +79,7 @@ class AddDiaryCalendarAdapter :
             val selectedCalendar = Calendar.getInstance().apply {
                 time = dates!!
             }
+
             val dayOfMonth = selectedCalendar.get(Calendar.DAY_OF_MONTH).toString()
             binding.tvDay.text = dayOfMonth
             val todayCalendar = Calendar.getInstance()
@@ -87,17 +89,13 @@ class AddDiaryCalendarAdapter :
                 binding.root.isClickable = false
                 binding.ivDiaryCheck.alpha = 0.0f
             } else {
-                val isToday =
-                    selectedCalendar.get(Calendar.YEAR) == todayCalendar.get(Calendar.YEAR) &&
-                            selectedCalendar.get(Calendar.MONTH) == todayCalendar.get(Calendar.MONTH) &&
-                            selectedCalendar.get(Calendar.DAY_OF_MONTH) == todayCalendar.get(
-                        Calendar.DAY_OF_MONTH
-                    )
+                binding.tvDay.setTextColor(ContextCompat.getColor(itemView.context, R.color.black))
+                binding.root.isClickable = true
+                binding.ivDiaryCheck.alpha = 1.0f
 
-                val isSelectedDate = dayOfMonth == selectedDate
-                if (diaryInfo.second?.content != null) {
-                    // 작성한 일기가 있는 날짜에 .표시
-                    if (isSelectedDate) {
+                if (diaryInfo.second!!.existDiary) {
+                    // 작성한 일기가 있는 경우
+                    if (diaryInfo.second!!.isSelected) {
                         // 작성한 일기가 있는 날짜 선택
                         binding.ivSelectDate.alpha = 1.0f
                         binding.ivDiaryCheck.backgroundTintList = ContextCompat.getColorStateList(
@@ -105,13 +103,16 @@ class AddDiaryCalendarAdapter :
                         )
                     } else {
                         binding.ivSelectDate.alpha = 0.0f
+                        binding.ivDiaryCheck.backgroundTintList = ContextCompat.getColorStateList(
+                            itemView.context, R.color.primary
+                        )
                     }
                 } else {
                     binding.ivDiaryCheck.backgroundTintList = ContextCompat.getColorStateList(
                         itemView.context, R.color.white
                     )
 
-                    if (isSelectedDate) {
+                    if (diaryInfo.second!!.isSelected) {
                         // 작성한 일기가 없는 날짜 선택
                         binding.ivSelectDate.alpha = 1.0f
                         binding.ivDiaryCheck.backgroundTintList = ContextCompat.getColorStateList(
@@ -119,20 +120,14 @@ class AddDiaryCalendarAdapter :
                         )
                     } else {
                         binding.ivSelectDate.alpha = 0.0f
-                    }
-                }
-
-                if (isToday) {
-                    binding.ivSelectDate.alpha = 1.0f
-                    if (diaryInfo.second?.content == null) {
                         binding.ivDiaryCheck.backgroundTintList = ContextCompat.getColorStateList(
-                            itemView.context, R.color.primary
+                            itemView.context, R.color.white
                         )
                     }
                 }
 
                 itemView.setOnClickListener {
-                    rvItemClickListener.onClick(dayOfMonth)
+                    rvItemClickListener.onClick(diaryInfo.second!!)
                 }
             }
         }
@@ -144,9 +139,14 @@ class AddDiaryCalendarAdapter :
         }
     }
 
-    private lateinit var rvItemClickListener: OnRvItemClickListener<String>
+    private lateinit var rvItemClickListener: OnRvItemClickListener<DiarySelectInfo>
 
-    fun setRvItemClickListener(rvItemClickListener: OnRvItemClickListener<String>) {
+    fun setRvItemClickListener(rvItemClickListener: OnRvItemClickListener<DiarySelectInfo>) {
         this.rvItemClickListener = rvItemClickListener
+    }
+
+    fun setList(newList: List<Pair<String, DiarySelectInfo?>>?) {
+        submitList(newList)
+        notifyDataSetChanged()
     }
 }

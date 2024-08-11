@@ -3,24 +3,20 @@ package com.nabi.nabi.views.diary.add
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class SharedDateViewModel : ViewModel() {
 
-    private val _selectedDate = MutableLiveData<String?>()
-    val selectedDate: LiveData<String?> get() = _selectedDate
+    private val _selectedDate = MutableLiveData("")
+    val selectedDate: LiveData<String> get() = _selectedDate
 
-    private val _monthChanged = MutableLiveData<Boolean>()
-    val monthChanged: LiveData<Boolean> get() = _monthChanged
-
-    fun clearSelectedDate() {
-        _selectedDate.value = null
+    fun changeSelectedDate(date: String) {
+        _selectedDate.value = date
     }
 
-    fun notifyMonthChanged() {
-        _monthChanged.value = true
-    }
-
-    fun resetMonthChangedFlag() {
-        _monthChanged.value = false
+    fun clearData() {
+        _selectedDate.value = ""
     }
 }

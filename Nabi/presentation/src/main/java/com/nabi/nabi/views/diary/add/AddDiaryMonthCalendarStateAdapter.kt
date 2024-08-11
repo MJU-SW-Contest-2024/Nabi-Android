@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.nabi.domain.model.diary.AddDiaryCallbackItem
+import com.nabi.domain.model.diary.DiarySelectInfo
 import java.util.Calendar
 
 class AddDiaryMonthCalendarStateAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
@@ -16,7 +17,7 @@ class AddDiaryMonthCalendarStateAdapter(fa: FragmentActivity) : FragmentStateAda
         }
         val fragment = AddDiaryMonthFragment.newInstance(calendar.time).apply {
             setOnDateSelectedListener(object : AddDiaryMonthFragment.OnDateSelectedListener {
-                override fun onDateSelected(item: AddDiaryCallbackItem) {
+                override fun onDateSelected(item: DiarySelectInfo) {
                     onDateSelectedListener.onDateSelected(item)
                 }
             })
@@ -29,6 +30,6 @@ class AddDiaryMonthCalendarStateAdapter(fa: FragmentActivity) : FragmentStateAda
     }
 
     interface OnDateSelectedListener {
-        fun onDateSelected(item: AddDiaryCallbackItem)
+        fun onDateSelected(item: DiarySelectInfo)
     }
 }
