@@ -11,6 +11,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import com.nabi.nabi.custom.CustomToast
 import com.nabi.nabi.utils.LoggerUtils
 
 abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes private val layoutId: Int) :
@@ -40,7 +41,7 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes private val layoutId
 
     protected fun showToast(msg: String) {
         currentToast?.cancel()
-        currentToast = Toast.makeText(this, msg, Toast.LENGTH_SHORT)
+        currentToast = CustomToast.makeToast(this, msg)
         currentToast?.show()
     }
 
