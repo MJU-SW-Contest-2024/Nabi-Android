@@ -11,111 +11,114 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         tools:context=".views.sign.SignActivity">
 
         <ImageView
             android:id="@+id/iv_sign_provider_title"
-            android:layout_width="204dp"
-            android:layout_height="54dp"
-            android:src="@drawable/img_sign_title"
-
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.2"
-
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_marginStart="20dp"
 
-            android:contentDescription="@string/sign_provider_title"/>
+            android:layout_marginEnd="162dp"
+            android:contentDescription="@string/sign_provider_title"
+            android:src="@drawable/img_sign_title"
+            app:layout_constraintDimensionRatio="1:0.303"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            app:layout_constraintVertical_bias="0.2" />
 
         <ImageButton
             android:id="@+id/btn_naver"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/img_naver_btn"
             android:background="#00000000"
+            android:contentDescription="@string/sign_provider_btn_kakao_login"
             android:scaleType="centerInside"
 
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btn_kakao"
-            app:layout_constraintTop_toBottomOf="@id/iv_sign_provider_title"
+            android:src="@drawable/img_naver_btn"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_kakao"
             app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
 
-            android:contentDescription="@string/sign_provider_btn_kakao_login" />
+            app:layout_constraintTop_toBottomOf="@id/iv_sign_provider_title" />
 
         <ImageButton
             android:id="@+id/btn_kakao"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/img_kakao_btn"
             android:background="#00000000"
+            android:contentDescription="@string/sign_provider_btn_kakao_login"
             android:scaleType="centerInside"
 
-            app:layout_constraintStart_toEndOf="@id/btn_naver"
-            app:layout_constraintEnd_toStartOf="@id/btn_google"
-            app:layout_constraintTop_toBottomOf="@id/iv_sign_provider_title"
+            android:src="@drawable/img_kakao_btn"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_google"
+            app:layout_constraintStart_toEndOf="@id/btn_naver"
 
-            android:contentDescription="@string/sign_provider_btn_kakao_login" />
+            app:layout_constraintTop_toBottomOf="@id/iv_sign_provider_title" />
 
         <ImageButton
             android:id="@+id/btn_google"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/img_google_btn"
             android:background="#00000000"
+            android:contentDescription="@string/sign_provider_btn_kakao_login"
             android:scaleType="centerInside"
 
-            app:layout_constraintStart_toEndOf="@id/btn_kakao"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_sign_provider_title"
+            android:src="@drawable/img_google_btn"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btn_kakao"
 
-            android:contentDescription="@string/sign_provider_btn_kakao_login" />
+            app:layout_constraintTop_toBottomOf="@id/iv_sign_provider_title" />
 
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/divider_1"
             android:layout_width="0dp"
             android:layout_height="0.5dp"
 
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tv_recent_provider"
-            app:layout_constraintTop_toTopOf="@id/tv_recent_provider"
-            app:layout_constraintBottom_toBottomOf="@id/tv_recent_provider"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="4dp"
+            app:dividerColor="#A4A4A4"
+            app:layout_constraintBottom_toBottomOf="@id/tv_recent_provider"
+            app:layout_constraintEnd_toStartOf="@id/tv_recent_provider"
+            app:layout_constraintStart_toStartOf="parent"
 
-            app:dividerColor="#A4A4A4"/>
+            app:layout_constraintTop_toTopOf="@id/tv_recent_provider" />
 
         <TextView
             android:id="@+id/tv_recent_provider"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            app:layout_constraintStart_toEndOf="@id/divider_1"
-            app:layout_constraintTop_toBottomOf="@id/btn_kakao"
-            app:layout_constraintEnd_toStartOf="@id/divider_2"
             android:layout_marginTop="32dp"
-
-            android:text="최근에 이용했어요!"
             android:fontFamily="@font/pretendard_medium"
+            android:text="최근에 이용했어요!"
+            android:textColor="#A4A4A4"
+
             android:textSize="12sp"
-            android:textColor="#A4A4A4"/>
+            app:layout_constraintEnd_toStartOf="@id/divider_2"
+            app:layout_constraintStart_toEndOf="@id/divider_1"
+            app:layout_constraintTop_toBottomOf="@id/btn_kakao" />
 
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/divider_2"
             android:layout_width="0dp"
             android:layout_height="0.5dp"
 
-            app:layout_constraintTop_toTopOf="@id/tv_recent_provider"
-            app:layout_constraintBottom_toBottomOf="@id/tv_recent_provider"
-            app:layout_constraintStart_toEndOf="@id/tv_recent_provider"
-            app:layout_constraintEnd_toEndOf="parent"
-
             android:layout_marginStart="4dp"
             android:layout_marginEnd="20dp"
-            app:dividerColor="#A4A4A4" />
+            app:dividerColor="#A4A4A4"
+            app:layout_constraintBottom_toBottomOf="@id/tv_recent_provider"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_recent_provider"
+            app:layout_constraintTop_toTopOf="@id/tv_recent_provider" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
