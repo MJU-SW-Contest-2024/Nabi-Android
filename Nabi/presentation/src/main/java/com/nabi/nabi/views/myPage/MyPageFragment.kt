@@ -7,6 +7,9 @@ import com.nabi.nabi.base.NabiApplication.Companion.consecutiveDay
 import com.nabi.nabi.base.NabiApplication.Companion.nickname
 import com.nabi.nabi.custom.CustomDialog
 import com.nabi.nabi.databinding.FragmentMypageBinding
+import com.nabi.nabi.views.MainActivity
+import com.nabi.nabi.views.home.HomeFragment
+import com.nabi.nabi.views.sign.SignInNicknameFragment
 
 class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_mypage) {
 
@@ -22,7 +25,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
         }
 
         binding.btnChangeNickname.setOnClickListener {
-
+            (requireActivity() as MainActivity).replaceFragment(SignInNicknameFragment(), true)
         }
 
         binding.btnLoadDiary.setOnClickListener {
