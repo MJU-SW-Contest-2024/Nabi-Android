@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabi.domain.repository.DataStoreRepository
+import com.nabi.domain.usecase.datastore.GetAccessTokenUseCase
 import com.nabi.domain.usecase.user.GetUserInfoUseCase
 import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
@@ -15,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class StartViewModel @Inject constructor(
     private val getUserInfoUseCase: GetUserInfoUseCase,
-    private val dataStoreRepository: DataStoreRepository
+    private val getAccessTokenUseCase: GetAccessTokenUseCase
 ) : ViewModel() {
 
     var isRegister = false
@@ -28,7 +29,7 @@ class StartViewModel @Inject constructor(
 
         viewModelScope.launch {
             try {
-                val accessToken = dataStoreRepository.getAccessToken().getOrNull().orEmpty()
+                val accessToken = getAccessTokenUseCase.invoke().getOrNull().orEmpty()
 
                 getUserInfoUseCase(accessToken)
                     .onSuccess {

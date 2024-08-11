@@ -17,8 +17,7 @@ class DataStoreRepositoryImpl @Inject constructor(
         private val ACCESS_TOKEN_KEY = stringPreferencesKey("access_token")
         private val REFRESH_TOKEN_KEY = stringPreferencesKey("refresh_token")
         private val LOGIN_PROVIDER_KEY = stringPreferencesKey("login_provider")
-        private val DIARY_DATE = stringPreferencesKey("diary_date")
-        private val DIARY_CONTENT = stringPreferencesKey("diary_content")
+        private val RECENT_LOGIN_PROVIDER_KEY = stringPreferencesKey("recent_login_provider")
     }
 
     override suspend fun clearData(): Result<Boolean> {
@@ -32,9 +31,29 @@ class DataStoreRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun setAccessToken(accessToken: String) {
-        dataStorePreferences.edit { preferences ->
-            preferences[ACCESS_TOKEN_KEY] = accessToken
+    override suspend fun clearUserData(): Result<Boolean> {
+        return try {
+            dataStorePreferences.edit { preferences ->
+                val keys = listOf(ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY, LOGIN_PROVIDER_KEY)
+
+                keys.forEach { key ->
+                    preferences.remove(key)
+                }
+            }
+            Result.success(true)
+        } catch (e: Exception) {
+            Result.success(false)
+        }
+    }
+
+    override suspend fun setAccessToken(accessToken: String): Result<Boolean> {
+        return try {
+            dataStorePreferences.edit { preferences ->
+                preferences[ACCESS_TOKEN_KEY] = accessToken
+            }
+            Result.success(true)
+        } catch (e: Exception){
+            Result.success(false)
         }
     }
 
@@ -48,9 +67,14 @@ class DataStoreRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun setRefreshToken(refreshToken: String) {
-        dataStorePreferences.edit { preferences ->
-            preferences[REFRESH_TOKEN_KEY] = refreshToken
+    override suspend fun setRefreshToken(refreshToken: String): Result<Boolean> {
+        return try {
+            dataStorePreferences.edit { preferences ->
+                preferences[REFRESH_TOKEN_KEY] = refreshToken
+            }
+            Result.success(true)
+        } catch (e: Exception){
+            Result.success(false)
         }
     }
 
@@ -64,9 +88,15 @@ class DataStoreRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun setAuthProvider(provider: AuthProvider) {
-        dataStorePreferences.edit { preferences ->
-            preferences[LOGIN_PROVIDER_KEY] = provider.name
+    override suspend fun setAuthProvider(provider: AuthProvider): Result<Boolean> {
+        return try {
+            dataStorePreferences.edit { preferences ->
+                preferences[LOGIN_PROVIDER_KEY] = provider.name
+                preferences[RECENT_LOGIN_PROVIDER_KEY] = provider.name
+            }
+            Result.success(true)
+        } catch (e: Exception){
+            Result.success(false)
         }
     }
 
@@ -74,6 +104,17 @@ class DataStoreRepositoryImpl @Inject constructor(
         return try {
             val preferences = dataStorePreferences.data.first()
             val providerName = preferences[LOGIN_PROVIDER_KEY] ?: ""
+            val provider = AuthProvider.valueOf(providerName)
+            Result.success(provider)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun getRecentAuthProvider(): Result<AuthProvider>{
+        return try {
+            val preferences = dataStorePreferences.data.first()
+            val providerName = preferences[RECENT_LOGIN_PROVIDER_KEY] ?: ""
             val provider = AuthProvider.valueOf(providerName)
             Result.success(provider)
         } catch (e: Exception) {

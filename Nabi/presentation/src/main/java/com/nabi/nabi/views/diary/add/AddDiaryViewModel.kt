@@ -8,6 +8,7 @@ import com.nabi.domain.model.diary.AddDiaryInfo
 import com.nabi.domain.model.diary.DiaryDbEntity
 import com.nabi.domain.model.diary.UpdateDiaryInfo
 import com.nabi.domain.repository.DataStoreRepository
+import com.nabi.domain.usecase.datastore.GetAccessTokenUseCase
 import com.nabi.domain.usecase.diary.AddDiaryUseCase
 import com.nabi.domain.usecase.diary.AddTempDiaryUseCase
 import com.nabi.domain.usecase.diary.GetTempDiaryUseCase
@@ -25,7 +26,7 @@ class AddDiaryViewModel @Inject constructor(
     private val getTempDiaryUseCase: GetTempDiaryUseCase,
     private val addTempDiaryUseCase: AddTempDiaryUseCase,
     private val updateTempDiaryUseCase: UpdateTempDiaryUseCase,
-    private val dataStoreRepository: DataStoreRepository,
+    private val getAccessTokenUseCase: GetAccessTokenUseCase,
 ) : ViewModel() {
 
     private val _addState = MutableLiveData<UiState<AddDiaryInfo>>(UiState.Loading)
@@ -47,7 +48,7 @@ class AddDiaryViewModel @Inject constructor(
         _addState.value = UiState.Loading
 
         viewModelScope.launch {
-            val accessToken = dataStoreRepository.getAccessToken().getOrNull().orEmpty()
+            val accessToken = getAccessTokenUseCase.invoke().getOrNull().orEmpty()
 
             addDiaryUseCase(accessToken, content, diaryEntryDate)
                 .onSuccess {
@@ -62,7 +63,7 @@ class AddDiaryViewModel @Inject constructor(
         _updateState.value = UiState.Loading
 
         viewModelScope.launch {
-            val accessToken = dataStoreRepository.getAccessToken().getOrNull().orEmpty()
+            val accessToken = getAccessTokenUseCase.invoke().getOrNull().orEmpty()
 
             updateDiaryUseCase(accessToken, id, content, diaryEntryDate)
                 .onSuccess {
