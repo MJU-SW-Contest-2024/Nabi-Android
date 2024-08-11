@@ -17,4 +17,5 @@ object Constants {
     val dateKoreanFormat = SimpleDateFormat("yyyy년 M월 d일", Locale.KOREAN)
     val dateEnglishOnlyYearFormat = SimpleDateFormat("yyyy", Locale.ENGLISH)
     val dateEnglishOnlyMonthFormat = SimpleDateFormat("MMMM", Locale.ENGLISH)
+    val dateNumberOnlyMonthFormat = SimpleDateFormat("M", Locale.getDefault())
 }
