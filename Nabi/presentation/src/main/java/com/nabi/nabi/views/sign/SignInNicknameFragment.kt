@@ -19,7 +19,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.regex.Pattern
 
 @AndroidEntryPoint
-class SignInNicknameFragment: BaseFragment<FragmentSignNicknameBinding>(R.layout.fragment_sign_nickname) {
+class SignInNicknameFragment(
+    private val isSignUp: Boolean = true
+): BaseFragment<FragmentSignNicknameBinding>(R.layout.fragment_sign_nickname) {
     private val viewModel: SignNicknameViewModel by viewModels()
 
     override fun initView() {
@@ -78,9 +80,13 @@ class SignInNicknameFragment: BaseFragment<FragmentSignNicknameBinding>(R.layout
                 is UiState.Success -> {
                     nickname = binding.etNick.text.toString()
 
-                    val intent = Intent(requireContext(), MainActivity::class.java)
-                    startActivity(intent)
-                    requireActivity().finish()
+                    if(isSignUp){
+                        val intent = Intent(requireContext(), MainActivity::class.java)
+                        startActivity(intent)
+                        requireActivity().finish()
+                    } else {
+                        requireActivity().supportFragmentManager.popBackStack()
+                    }
                 }
             }
         }

@@ -29,9 +29,6 @@ class HomeViewModel @Inject constructor(
     private val _homeState = MutableLiveData<UiState<HomeInfo>>(UiState.Loading)
     val homeState: LiveData<UiState<HomeInfo>> get() = _homeState
 
-    private val _fcmState = MutableLiveData<UiState<Unit>>(UiState.Loading)
-    val fcmState: LiveData<UiState<Unit>> get() = _fcmState
-
     private val _addState = MutableLiveData<UiState<Int>>(UiState.Loading)
     val addState: LiveData<UiState<Int>> get() = _addState
 
@@ -58,25 +55,26 @@ class HomeViewModel @Inject constructor(
     }
 
     fun registerFcmToken() {
-        _fcmState.value = UiState.Loading
+        try {
+            MyFirebaseMessagingService().getRegistrationToken { token ->
+                if (token != null) {
+                    viewModelScope.launch {
+                        val accessToken = dataStoreRepository.getAccessToken().getOrNull().orEmpty()
 
-        viewModelScope.launch {
-            try {
-                val accessToken = dataStoreRepository.getAccessToken().getOrNull().orEmpty()
-                val fcmToken = MyFirebaseMessagingService().getRegistrationToken().orEmpty()
-
-                registerFcmTokenUseCase(accessToken, fcmToken)
-                    .onSuccess {
-                        _fcmState.value = UiState.Success(Unit)
+                        registerFcmTokenUseCase(accessToken, token)
+                            .onSuccess {
+                                LoggerUtils.d("Register fcm success: $token")
+                            }
+                            .onFailure { e ->
+                                LoggerUtils.e("Register fcm failed: ${e.message}")
+                            }
                     }
-                    .onFailure { e ->
-                        LoggerUtils.e("Sign-in failed: ${e.message}")
-                        _fcmState.value = UiState.Failure(message = e.message.toString())
-                    }
-            } catch (e: Exception) {
-                LoggerUtils.e("Sign-in exception: ${e.message}")
-                _fcmState.value = UiState.Failure(message = e.message.toString())
+                } else {
+                    throw Exception("Null Fcm Token Exception")
+                }
             }
+        } catch (e: Exception) {
+            LoggerUtils.e("Register fcm exception: ${e.message}")
         }
     }
 

@@ -115,10 +115,17 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         }
     }
 
-    fun getRegistrationToken(): String? = try {
-            FirebaseMessaging.getInstance().token.result
-        } catch (e: Exception) {
-            LoggerUtils.w("Fetching FCM Registration Token failed")
-            null
-        }
+    fun getRegistrationToken(callback: (String?) -> Unit) {
+        FirebaseMessaging.getInstance().token
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val token = task.result
+                    callback(token)
+                } else {
+                    LoggerUtils.w("Fetching FCM Registration Token failed\n${task.exception}")
+                    callback(null)
+                }
+            }
+    }
+
 }
