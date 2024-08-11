@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabi.domain.model.emotion.AddDiaryEmotionMsg
 import com.nabi.domain.repository.DataStoreRepository
+import com.nabi.domain.usecase.datastore.GetAccessTokenUseCase
 import com.nabi.domain.usecase.emotion.AddDiaryEmotionUseCase
 import com.nabi.domain.usecase.emotion.GetDiaryEmotionUseCase
 import com.nabi.domain.utils.EmotionStateUtils
@@ -18,7 +19,7 @@ import javax.inject.Inject
 class EmotionLoadingViewModel @Inject constructor(
     private val getDiaryEmotionUseCase: GetDiaryEmotionUseCase,
     private val addDiaryEmotionUseCase: AddDiaryEmotionUseCase,
-    private val dataStoreRepository: DataStoreRepository
+    private val getAccessTokenUseCase: GetAccessTokenUseCase
 ) : ViewModel() {
 
     private val _getEmotionState = MutableLiveData<UiState<String>>(UiState.Loading)
@@ -31,7 +32,7 @@ class EmotionLoadingViewModel @Inject constructor(
         _getEmotionState.value = UiState.Loading
 
         viewModelScope.launch {
-            val accessToken = dataStoreRepository.getAccessToken().getOrNull().orEmpty()
+            val accessToken = getAccessTokenUseCase.invoke().getOrNull().orEmpty()
 
             getDiaryEmotionUseCase(accessToken, diaryId)
                 .onSuccess {
@@ -46,7 +47,7 @@ class EmotionLoadingViewModel @Inject constructor(
         _addEmotionState.value = UiState.Loading
 
         viewModelScope.launch {
-            val accessToken = dataStoreRepository.getAccessToken().getOrNull().orEmpty()
+            val accessToken = getAccessTokenUseCase.invoke().getOrNull().orEmpty()
             val emotion = EmotionStateUtils.parseEmotionState(emotionState)
 
             addDiaryEmotionUseCase(accessToken, diaryId, emotion)

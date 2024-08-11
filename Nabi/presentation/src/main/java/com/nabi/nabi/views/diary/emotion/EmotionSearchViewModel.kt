@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabi.domain.model.diary.SearchDiary
 import com.nabi.domain.repository.DataStoreRepository
+import com.nabi.domain.usecase.datastore.GetAccessTokenUseCase
 import com.nabi.domain.usecase.emotion.SearchEmotionUseCase
 import com.nabi.nabi.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class EmotionSearchViewModel @Inject constructor(
     private val searchEmotionUseCase: SearchEmotionUseCase,
-    private val dataStoreRepository: DataStoreRepository
+    private val getAccessTokenUseCase: GetAccessTokenUseCase
 ) : ViewModel() {
 
     private var page = 0
@@ -40,7 +41,7 @@ class EmotionSearchViewModel @Inject constructor(
         _searchEmotion.value = emotion
 
         viewModelScope.launch {
-            val accessToken = dataStoreRepository.getAccessToken().getOrNull().orEmpty()
+            val accessToken = getAccessTokenUseCase.invoke().getOrNull().orEmpty()
 
             searchEmotionUseCase(accessToken, emotion, page, size, sort)
                 .onSuccess {

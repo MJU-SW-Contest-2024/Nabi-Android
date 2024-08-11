@@ -10,6 +10,7 @@ import com.nabi.domain.usecase.chat.EmbeddingDiaryUseCase
 import com.nabi.domain.usecase.chat.GetChatHistoryUseCase
 import com.nabi.domain.usecase.chat.RetryChatResUseCase
 import com.nabi.domain.usecase.chat.SendChatUseCase
+import com.nabi.domain.usecase.datastore.GetAccessTokenUseCase
 import com.nabi.nabi.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -21,7 +22,7 @@ class ChatViewModel @Inject constructor(
     private val sendChatUseCase: SendChatUseCase,
     private val getChatHistoryUseCase: GetChatHistoryUseCase,
     private val retryChatResUseCase: RetryChatResUseCase,
-    private val dataStoreRepository: DataStoreRepository
+    private val getAccessTokenUseCase: GetAccessTokenUseCase
 ): ViewModel() {
     private var page = 0
     private val size = 50
@@ -47,7 +48,7 @@ class ChatViewModel @Inject constructor(
         _uiState.value = UiState.Loading
 
         viewModelScope.launch {
-            val accessToken = dataStoreRepository.getAccessToken().getOrNull().orEmpty()
+            val accessToken = getAccessTokenUseCase.invoke().getOrNull().orEmpty()
 
             getChatHistoryUseCase.invoke(accessToken, page, size, sort)
                 .onSuccess {
@@ -71,7 +72,7 @@ class ChatViewModel @Inject constructor(
         _resState.value = UiState.Loading
 
         viewModelScope.launch {
-            val accessToken = dataStoreRepository.getAccessToken().getOrNull().orEmpty()
+            val accessToken = getAccessTokenUseCase.invoke().getOrNull().orEmpty()
 
             sendChatUseCase.invoke(accessToken, question)
                 .onSuccess {
@@ -87,7 +88,7 @@ class ChatViewModel @Inject constructor(
         _embedState.value = UiState.Loading
 
         viewModelScope.launch {
-            val accessToken = dataStoreRepository.getAccessToken().getOrNull().orEmpty()
+            val accessToken = getAccessTokenUseCase.invoke().getOrNull().orEmpty()
 
             embeddingDiaryUseCase.invoke(accessToken)
                 .onSuccess {
@@ -103,7 +104,7 @@ class ChatViewModel @Inject constructor(
         _retryState.value = UiState.Loading
 
         viewModelScope.launch {
-            val accessToken = dataStoreRepository.getAccessToken().getOrNull().orEmpty()
+            val accessToken = getAccessTokenUseCase.invoke().getOrNull().orEmpty()
 
             retryChatResUseCase.invoke(accessToken)
                 .onSuccess {

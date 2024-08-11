@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabi.domain.model.emotion.EmotionStatistics
 import com.nabi.domain.repository.DataStoreRepository
+import com.nabi.domain.usecase.datastore.GetAccessTokenUseCase
 import com.nabi.domain.usecase.emotion.GetEmotionStatisticsUseCase
 import com.nabi.nabi.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DiaryStatisticsViewModel @Inject constructor(
     private val getEmotionStatisticsUseCase: GetEmotionStatisticsUseCase,
-    private val dataStoreRepository: DataStoreRepository
+    private val getAccessTokenUseCase: GetAccessTokenUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableLiveData<UiState<EmotionStatistics>>(UiState.Loading)
@@ -25,7 +26,7 @@ class DiaryStatisticsViewModel @Inject constructor(
         _uiState.value = UiState.Loading
 
         viewModelScope.launch {
-            val accessToken = dataStoreRepository.getAccessToken().getOrNull().orEmpty()
+            val accessToken = getAccessTokenUseCase.invoke().getOrNull().orEmpty()
 
             getEmotionStatisticsUseCase(accessToken, startDate, endDate)
                 .onSuccess {

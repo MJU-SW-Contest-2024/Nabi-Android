@@ -9,6 +9,7 @@ import com.nabi.domain.model.diary.DiaryInfo
 import com.nabi.domain.repository.DataStoreRepository
 import com.nabi.domain.usecase.bookmark.AddBookmarkUseCase
 import com.nabi.domain.usecase.bookmark.DeleteBookmarkUseCase
+import com.nabi.domain.usecase.datastore.GetAccessTokenUseCase
 import com.nabi.domain.usecase.diary.DeleteDiaryUseCase
 import com.nabi.domain.usecase.diary.GetDiaryDetailUseCase
 import com.nabi.nabi.utils.UiState
@@ -22,7 +23,7 @@ class DetailDiaryViewModel @Inject constructor(
     private val addBookmarkUseCase: AddBookmarkUseCase,
     private val deleteBookmarkUseCase: DeleteBookmarkUseCase,
     private val deleteDiaryUseCase: DeleteDiaryUseCase,
-    private val dataStoreRepository: DataStoreRepository
+    private val getAccessTokenUseCase: GetAccessTokenUseCase
 ) : ViewModel() {
 
     private val _isBookmarked = MutableLiveData<Boolean>(false)
@@ -44,7 +45,7 @@ class DetailDiaryViewModel @Inject constructor(
         _diaryState.value = UiState.Loading
 
         viewModelScope.launch {
-            val accessToken = dataStoreRepository.getAccessToken().getOrNull().orEmpty()
+            val accessToken = getAccessTokenUseCase.invoke().getOrNull().orEmpty()
 
             getDiaryDetailUseCase(accessToken, diaryId)
                 .onSuccess {
@@ -60,7 +61,7 @@ class DetailDiaryViewModel @Inject constructor(
         _addState.value = UiState.Loading
 
         viewModelScope.launch {
-            val accessToken = dataStoreRepository.getAccessToken().getOrNull().orEmpty()
+            val accessToken = getAccessTokenUseCase.invoke().getOrNull().orEmpty()
 
             addBookmarkUseCase(accessToken, diaryId)
                 .onSuccess {
@@ -76,7 +77,7 @@ class DetailDiaryViewModel @Inject constructor(
         _deleteState.value = UiState.Loading
 
         viewModelScope.launch {
-            val accessToken = dataStoreRepository.getAccessToken().getOrNull().orEmpty()
+            val accessToken = getAccessTokenUseCase.invoke().getOrNull().orEmpty()
 
             deleteBookmarkUseCase(accessToken, diaryId)
                 .onSuccess {
@@ -92,7 +93,7 @@ class DetailDiaryViewModel @Inject constructor(
         _deleteDiaryState.value = UiState.Loading
 
         viewModelScope.launch {
-            val accessToken = dataStoreRepository.getAccessToken().getOrNull().orEmpty()
+            val accessToken = getAccessTokenUseCase.invoke().getOrNull().orEmpty()
 
             deleteDiaryUseCase(accessToken, diaryId)
                 .onSuccess {

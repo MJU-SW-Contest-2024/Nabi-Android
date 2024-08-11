@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabi.domain.model.diary.DiaryInfo
 import com.nabi.domain.repository.DataStoreRepository
+import com.nabi.domain.usecase.datastore.GetAccessTokenUseCase
 import com.nabi.domain.usecase.diary.GetMonthlyDiaryUseCase
 import com.nabi.nabi.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SelectDiaryViewModel @Inject constructor(
     private val getMonthlyDiaryUseCase: GetMonthlyDiaryUseCase,
-    private val dataStoreRepository: DataStoreRepository
+    private val getAccessTokenUseCase: GetAccessTokenUseCase
 ) : ViewModel() {
     private val _diaryState = MutableLiveData<UiState<List<DiaryInfo>>>(UiState.Loading)
     val diaryState: LiveData<UiState<List<DiaryInfo>>> get() = _diaryState
@@ -24,7 +25,7 @@ class SelectDiaryViewModel @Inject constructor(
         _diaryState.value = UiState.Loading
 
         viewModelScope.launch {
-            val accessToken = dataStoreRepository.getAccessToken().getOrNull().orEmpty()
+            val accessToken = getAccessTokenUseCase.invoke().getOrNull().orEmpty()
 
             getMonthlyDiaryUseCase(accessToken, year, month)
                 .onSuccess {

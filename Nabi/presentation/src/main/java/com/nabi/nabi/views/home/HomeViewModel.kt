@@ -8,6 +8,7 @@ import com.nabi.domain.model.home.HomeInfo
 import com.nabi.domain.repository.DataStoreRepository
 import com.nabi.domain.usecase.bookmark.AddBookmarkUseCase
 import com.nabi.domain.usecase.bookmark.DeleteBookmarkUseCase
+import com.nabi.domain.usecase.datastore.GetAccessTokenUseCase
 import com.nabi.domain.usecase.home.HomeUseCase
 import com.nabi.domain.usecase.notification.RegisterFcmTokenUseCase
 import com.nabi.nabi.fcm.MyFirebaseMessagingService
@@ -23,7 +24,7 @@ class HomeViewModel @Inject constructor(
     private val registerFcmTokenUseCase: RegisterFcmTokenUseCase,
     private val addBookmarkUseCase: AddBookmarkUseCase,
     private val deleteBookmarkUseCase: DeleteBookmarkUseCase,
-    private val dataStoreRepository: DataStoreRepository
+    private val getAccessTokenUseCase: GetAccessTokenUseCase
 ) : ViewModel() {
 
     private val _homeState = MutableLiveData<UiState<HomeInfo>>(UiState.Loading)
@@ -39,7 +40,7 @@ class HomeViewModel @Inject constructor(
         _homeState.value = UiState.Loading
 
         viewModelScope.launch {
-            val accessTokenResult = dataStoreRepository.getAccessToken()
+            val accessTokenResult = getAccessTokenUseCase.invoke()
             if (accessTokenResult.isSuccess) {
                 val accessToken = accessTokenResult.getOrNull().orEmpty()
 
@@ -59,7 +60,7 @@ class HomeViewModel @Inject constructor(
             MyFirebaseMessagingService().getRegistrationToken { token ->
                 if (token != null) {
                     viewModelScope.launch {
-                        val accessToken = dataStoreRepository.getAccessToken().getOrNull().orEmpty()
+                        val accessToken = getAccessTokenUseCase.invoke().getOrNull().orEmpty()
 
                         registerFcmTokenUseCase(accessToken, token)
                             .onSuccess {
@@ -82,7 +83,7 @@ class HomeViewModel @Inject constructor(
         _addState.value = UiState.Loading
 
         viewModelScope.launch {
-            val accessToken = dataStoreRepository.getAccessToken().getOrNull().orEmpty()
+            val accessToken = getAccessTokenUseCase.invoke().getOrNull().orEmpty()
 
             addBookmarkUseCase(accessToken, diaryId)
                 .onSuccess {
@@ -97,7 +98,7 @@ class HomeViewModel @Inject constructor(
         _deleteState.value = UiState.Loading
 
         viewModelScope.launch {
-            val accessToken = dataStoreRepository.getAccessToken().getOrNull().orEmpty()
+            val accessToken = getAccessTokenUseCase.invoke().getOrNull().orEmpty()
 
             deleteBookmarkUseCase(accessToken, diaryId)
                 .onSuccess {
