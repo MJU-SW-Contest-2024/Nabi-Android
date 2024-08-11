@@ -39,6 +39,7 @@ class AddDiaryFragment(
     private var currentDiaryId: Int? = null
 
     override fun initView() {
+        (requireActivity() as MainActivity).setStatusBarColor(R.color.white, false)
 
         if (isEdit) {
             binding.tvDiaryDate.text = diaryDate

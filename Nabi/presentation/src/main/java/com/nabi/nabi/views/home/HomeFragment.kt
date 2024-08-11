@@ -27,6 +27,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private val viewModel: HomeViewModel by viewModels()
 
     override fun initView() {
+        (requireActivity() as MainActivity).setStatusBarColor(R.color.white, false)
+
         binding.tvNickname.text = "$nickname 님"
         viewModel.registerFcmToken()
         viewModel.fetchData()
