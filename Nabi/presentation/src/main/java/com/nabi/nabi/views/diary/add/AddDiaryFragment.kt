@@ -10,7 +10,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import androidx.fragment.app.viewModels
-import com.nabi.data.room.DiaryEntity
 import com.nabi.domain.model.diary.DiaryDbEntity
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseActivity
@@ -20,15 +19,10 @@ import com.nabi.nabi.utils.Constants
 import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import com.nabi.nabi.views.MainActivity
-import com.nabi.nabi.views.diary.detail.DetailDiaryFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
-import java.util.logging.Logger
 
 @AndroidEntryPoint
 class AddDiaryFragment(

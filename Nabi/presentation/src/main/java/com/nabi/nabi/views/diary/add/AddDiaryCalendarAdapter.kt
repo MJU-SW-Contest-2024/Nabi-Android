@@ -1,28 +1,18 @@
 package com.nabi.nabi.views.diary.add
 
-import android.annotation.SuppressLint
-import android.graphics.Color
-import android.graphics.PorterDuff
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.nabi.domain.model.diary.DiaryInfo
 import com.nabi.domain.model.diary.DiarySelectInfo
 import com.nabi.nabi.R
 import com.nabi.nabi.databinding.ItemDayBinding
-import com.nabi.nabi.databinding.ItemSelectDiaryDayBinding
-import com.nabi.nabi.utils.LoggerUtils
-import com.nabi.nabi.views.MainActivity
 import com.nabi.nabi.views.OnRvItemClickListener
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
 import java.util.Locale
 
 class AddDiaryCalendarAdapter :

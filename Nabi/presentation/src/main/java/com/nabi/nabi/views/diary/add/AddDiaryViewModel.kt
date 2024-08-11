@@ -7,17 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.nabi.domain.model.diary.AddDiaryInfo
 import com.nabi.domain.model.diary.DiaryDbEntity
 import com.nabi.domain.model.diary.UpdateDiaryInfo
-import com.nabi.domain.model.emotion.AddDiaryEmotionMsg
 import com.nabi.domain.repository.DataStoreRepository
-import com.nabi.domain.repository.DiaryDbRepository
 import com.nabi.domain.usecase.diary.AddDiaryUseCase
 import com.nabi.domain.usecase.diary.AddTempDiaryUseCase
 import com.nabi.domain.usecase.diary.GetTempDiaryUseCase
 import com.nabi.domain.usecase.diary.UpdateDiaryUseCase
 import com.nabi.domain.usecase.diary.UpdateTempDiaryUseCase
-import com.nabi.domain.usecase.emotion.AddDiaryEmotionUseCase
-import com.nabi.domain.usecase.emotion.GetDiaryEmotionUseCase
-import com.nabi.domain.utils.EmotionStateUtils
 import com.nabi.nabi.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
