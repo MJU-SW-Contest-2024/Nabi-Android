@@ -34,10 +34,10 @@ class SignInProviderFragment: BaseFragment<FragmentSignProviderBinding>(R.layout
         binding.btnRecentKakao.setOnClickListener {
             kakaoAuthService.signInKakao(signViewModel::signIn)
         }
-        binding.btnNaver.setOnClickListener {  }
-        binding.btnRecentNaver.setOnClickListener {  }
-        binding.btnGoogle.setOnClickListener {  }
-        binding.btnRecentGoogle.setOnClickListener {  }
+        binding.btnNaver.setOnClickListener { showToast("해당 기능은 추후 제공될 예정입니다\n조금만 기다려 주세요!") }
+        binding.btnRecentNaver.setOnClickListener { showToast("해당 기능은 추후 제공될 예정입니다\n조금만 기다려 주세요!") }
+        binding.btnGoogle.setOnClickListener { showToast("해당 기능은 추후 제공될 예정입니다\n조금만 기다려 주세요!") }
+        binding.btnRecentGoogle.setOnClickListener { showToast("해당 기능은 추후 제공될 예정입니다\n조금만 기다려 주세요!") }
     }
 
     override fun setObserver() {
