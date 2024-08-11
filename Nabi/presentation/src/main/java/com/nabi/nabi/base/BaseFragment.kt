@@ -9,6 +9,7 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import com.nabi.nabi.custom.CustomToast
 
 abstract class BaseFragment<T : ViewDataBinding>(@LayoutRes val layoutId : Int): Fragment() {
     private var _binding : T? = null
@@ -44,7 +45,7 @@ abstract class BaseFragment<T : ViewDataBinding>(@LayoutRes val layoutId : Int):
 
     protected fun showToast(msg: String) {
         currentToast?.cancel()
-        currentToast = Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT)
+        currentToast = CustomToast.makeToast(requireContext(), msg)
         currentToast?.show()
     }
 }
