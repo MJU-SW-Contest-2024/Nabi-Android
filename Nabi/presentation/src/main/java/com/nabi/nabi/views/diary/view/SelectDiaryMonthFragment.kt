@@ -22,8 +22,8 @@ import java.util.Locale
 class SelectDiaryMonthFragment: BaseFragment<FragmentSelectDiaryMonthBinding>(R.layout.fragment_select_diary_month) {
     private val viewModel: SelectDiaryViewModel by viewModels()
     private lateinit var dayAdapter: SelectDiaryDayCalendarAdapter
-    private val dateMonthFormat = SimpleDateFormat("M", Locale.getDefault())
-    private val dateYearFormat = SimpleDateFormat("yyyy", Locale.getDefault())
+    private val dateMonthFormat = SimpleDateFormat("M", Locale.ENGLISH)
+    private val dateYearFormat = SimpleDateFormat("yyyy", Locale.ENGLISH)
     private lateinit var date: Date
 
     companion object {

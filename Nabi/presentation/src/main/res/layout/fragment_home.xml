@@ -14,10 +14,10 @@
 
         <ImageButton
             android:id="@+id/ib_notification"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
 
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="4dp"
             android:background="@color/transparent"
             android:contentDescription="@null"
             android:src="@drawable/ic_notify"
@@ -28,13 +28,12 @@
 
         <ImageButton
             android:id="@+id/ib_mypage"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
 
             android:background="@color/transparent"
             android:contentDescription="@null"
             android:src="@drawable/ic_mypage"
-            android:layout_marginStart="4dp"
 
             app:layout_constraintStart_toEndOf="@id/ib_notification"
             app:layout_constraintBottom_toBottomOf="@id/ib_notification"
@@ -45,8 +44,8 @@
             style="@style/heading2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
 
+            android:layout_marginTop="12dp"
             android:fontFamily="@font/pretendard_medium"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"

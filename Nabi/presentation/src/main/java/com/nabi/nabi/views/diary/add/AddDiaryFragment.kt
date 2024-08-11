@@ -10,23 +10,19 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import androidx.fragment.app.viewModels
-import com.nabi.data.room.DiaryDatabase
-import com.nabi.data.room.DiaryEntity
+import com.nabi.domain.model.diary.DiaryDbEntity
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseActivity
 import com.nabi.nabi.base.BaseFragment
-import com.nabi.nabi.custom.EmotionLoadingDialog
 import com.nabi.nabi.databinding.FragmentAddDiaryBinding
 import com.nabi.nabi.utils.Constants
+import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import com.nabi.nabi.views.MainActivity
-import com.nabi.nabi.views.diary.detail.DetailDiaryFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 @AndroidEntryPoint
 class AddDiaryFragment(
@@ -42,18 +38,23 @@ class AddDiaryFragment(
     private lateinit var emotionLoadingDialog: EmotionLoadingDialog
     private var currentDiaryId: Int? = null
 
-    private lateinit var db: DiaryDatabase
-    private val coroutineScope = CoroutineScope(Dispatchers.IO)
-
     override fun initView() {
-        db = DiaryDatabase.getInstance(requireContext())
+        (requireActivity() as MainActivity).setStatusBarColor(R.color.white, false)
 
-        binding.tvDiaryDate.text = diaryDate
         if (isEdit) {
+            binding.tvDiaryDate.text = diaryDate
             binding.etDiary.setText(content)
             binding.btnSave.visibility = View.VISIBLE
-        } else if (content != null) {
-            binding.etDiary.setText(content)
+        } else {
+            val parsedDate = LocalDate.parse(diaryDate, DateTimeFormatter.ISO_DATE)
+            val formattedDate =
+                parsedDate.format(DateTimeFormatter.ofPattern("yyyy년 M월 d일", Locale.KOREAN))
+            binding.tvDiaryDate.text = formattedDate
+
+            // 임시 일기가 있는 경우
+            if (content != "null") {
+                binding.etDiary.setText(content)
+            }
         }
 
         binding.etDiary.addTextChangedListener(object : TextWatcher {
@@ -83,41 +84,40 @@ class AddDiaryFragment(
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(requireContext())
         speechRecognizer.setRecognitionListener(recognitionListener)
 
-        emotionLoadingDialog = EmotionLoadingDialog()
+        emotionLoadingDialog = EmotionLoadingDialog(false, -1)
     }
 
     override fun initListener() {
         super.initListener()
 
-        val inputFormatter = DateTimeFormatter.ofPattern("yyyy년 M월 d일")
-        val outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        val date = LocalDate.parse(diaryDate, inputFormatter)
-        val diaryEntryDate = date.format(outputFormatter)
-
         binding.ibBack.setOnClickListener {
             val content = binding.etDiary.text.toString().trim()
-            val diaryEntity = DiaryEntity(
-                diaryTempDate = diaryEntryDate,
-                diaryTempContent = content
-            )
 
             if (content.isNotEmpty()) {
-                coroutineScope.launch {
-                    try {
-                        val existingDiary = db.getDiaryDao().getDiaryByDate(diaryEntryDate)
-                        if (existingDiary != null) {
-                            db.getDiaryDao()
-                                .updateTempDiary(diaryEntity.copy(id = existingDiary.id))
-                        } else {
-                            db.getDiaryDao().addTempDiary(diaryEntity)
+                val diaryEntity = DiaryDbEntity(
+                    diaryTempDate = diaryDate,
+                    diaryTempContent = content
+                )
+                viewModel.getTempDiary(diaryDate)
+                viewModel.getTempState.observe(viewLifecycleOwner) {
+                    when (it) {
+                        is UiState.Loading -> {}
+                        is UiState.Failure -> {
+                            showToast("일기 임시 조회 실패: ${it.message}")
                         }
-                    } catch (e: Exception) {
-                        showToast("임시 일기 저장 실패: ${e.message}")
+
+                        is UiState.Success -> {
+                            if (it.data) {
+                                viewModel.updateTempDiary(diaryEntity)
+                            } else {
+                                viewModel.addTempDiary(diaryEntity)
+                            }
+                        }
                     }
                 }
+            } else {
+                requireActivity().supportFragmentManager.popBackStack()
             }
-            requireActivity().supportFragmentManager.popBackStack()
-
         }
 
         binding.ibMic.setOnClickListener {
@@ -138,16 +138,10 @@ class AddDiaryFragment(
             if (content.isNotEmpty()) {
                 if (isEdit) {
                     // 일기 수정일 때
-                    emotionLoadingDialog.show(
-                        requireActivity().supportFragmentManager, "EmotionLoadingDialog"
-                    )
-                    viewModel.updateDiary(diaryId!!, content, diaryEntryDate)
+                    viewModel.updateDiary(diaryId!!, content, diaryDate)
                 } else {
                     // 일기 작성일 때
-                    emotionLoadingDialog.show(
-                        requireActivity().supportFragmentManager, "EmotionLoadingDialog"
-                    )
-                    viewModel.addDiary(content, diaryEntryDate)
+                    viewModel.addDiary(content, diaryDate)
                 }
             } else {
                 // content가 empty일 때
@@ -168,7 +162,11 @@ class AddDiaryFragment(
 
                 is UiState.Success -> {
                     currentDiaryId = it.data.id
-                    viewModel.getDiaryEmotion(currentDiaryId!!)
+                    LoggerUtils.d("일기 추가 성공")
+                    (requireActivity() as MainActivity).replaceFragment(
+                        EmotionLoadingDialog(isEdit, currentDiaryId!!),
+                        false
+                    )
                 }
             }
         }
@@ -182,43 +180,39 @@ class AddDiaryFragment(
 
                 is UiState.Success -> {
                     currentDiaryId = it.data.diaryId
-                    viewModel.getDiaryEmotion(currentDiaryId!!)
+                    LoggerUtils.d("일기 수정 성공")
+                    (requireActivity() as MainActivity).replaceFragment(
+                        EmotionLoadingDialog(isEdit, currentDiaryId!!),
+                        false
+                    )
                 }
             }
         }
 
-        viewModel.getEmotionState.observe(viewLifecycleOwner) {
+        viewModel.addTempState.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Loading -> {}
                 is UiState.Failure -> {
-                    showToast("일기 감정분석 실패")
+                    showToast("일기 임시 저장 실패: ${it.message}")
                 }
 
                 is UiState.Success -> {
-                    val emotionState = it.data
-                    viewModel.addDiaryEmotion(currentDiaryId!!, emotionState)
+                    LoggerUtils.d("일기 임시 저장 성공")
+                    requireActivity().supportFragmentManager.popBackStack()
                 }
             }
         }
 
-        viewModel.addEmotionState.observe(viewLifecycleOwner) {
+        viewModel.updateTempState.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Loading -> {}
                 is UiState.Failure -> {
-                    showToast("일기에 감정 추가 실패")
-                    emotionLoadingDialog.dismiss()
+                    showToast("임시저장 일기 수정 실패: ${it.message}")
                 }
 
                 is UiState.Success -> {
-                    emotionLoadingDialog.dismiss()
-                    if (isEdit) {
-                        requireActivity().supportFragmentManager.popBackStack()
-                    } else {
-                        (requireActivity() as MainActivity).replaceFragment(
-                            DetailDiaryFragment(currentDiaryId!!),
-                            false
-                        )
-                    }
+                    LoggerUtils.d("임시저장 일기 수정 성공")
+                    requireActivity().supportFragmentManager.popBackStack()
                 }
             }
         }

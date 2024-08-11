@@ -9,6 +9,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.nabi.nabi.custom.CustomToast
@@ -49,7 +50,6 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes private val layoutId
     protected abstract fun initView()
     protected open fun initListener() {}
     protected open fun setObserver() {}
-
 
     // Permission
     fun checkPermissions(permissions: Array<String>): Boolean {
@@ -126,6 +126,13 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes private val layoutId
             } else {
                 permissionLauncher.launch(permissionsToRequest)
             }
+        }
+    }
+
+    fun setStatusBarColor(colorId: Int, isLightIcon: Boolean){
+        window.statusBarColor = ContextCompat.getColor(this, colorId)
+        WindowCompat.getInsetsController(window, window.decorView).apply {
+            isAppearanceLightStatusBars = !isLightIcon
         }
     }
 }

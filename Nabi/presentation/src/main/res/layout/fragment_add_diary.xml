@@ -9,7 +9,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <ImageButton
             android:id="@+id/ib_back"
@@ -28,12 +29,12 @@
             style="@style/pretendard_semi_bold_18px"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:visibility="gone"
-
             android:layout_marginEnd="8dp"
+
             android:background="@color/transparent"
             android:text="@string/text_add_diary_save"
             android:textColor="@color/black"
+            android:visibility="gone"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/ib_back" />
@@ -44,10 +45,10 @@
             android:layout_height="48dp"
             android:background="@color/transparent"
             android:src="@drawable/ic_mic"
-            app:layout_goneMarginEnd="8dp"
-
             app:layout_constraintEnd_toStartOf="@id/btn_save"
+
             app:layout_constraintTop_toTopOf="@id/ib_back"
+            app:layout_goneMarginEnd="8dp"
             tools:ignore="ContentDescription" />
 
         <TextView
@@ -76,6 +77,7 @@
             android:background="@color/transparent"
             android:gravity="center|top"
             android:hint="@string/text_add_diary_hint"
+            android:textColorHint="@color/gray1"
             android:inputType="textMultiLine"
             android:textColor="@color/black"
 

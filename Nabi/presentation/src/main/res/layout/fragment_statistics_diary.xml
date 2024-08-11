@@ -104,7 +104,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginVertical="20dp">
+                android:background="@color/white"
+                android:paddingVertical="20dp">
 
                 <com.nabi.nabi.custom.CustomChartView
                     android:id="@+id/barChart"
