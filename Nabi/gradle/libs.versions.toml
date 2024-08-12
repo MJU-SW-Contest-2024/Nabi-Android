@@ -26,6 +26,7 @@ googleGmsGoogleServices = "4.4.2"
 firebaseMessaging = "24.0.0"
 viewpager2 = "1.1.0"
 workRuntimeKtx = "2.9.0"
+oauth = "5.9.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -54,6 +55,7 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 v2-user = { module = "com.kakao.sdk:v2-user", version.ref = "v2User" }
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
 androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workRuntimeKtx" }
+oauth = { module = "com.navercorp.nid:oauth", version.ref = "oauth" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.View
 import androidx.fragment.app.viewModels
 import com.nabi.data.service.KakaoAuthService
+import com.nabi.data.service.NaverAuthService
 import com.nabi.domain.enums.AuthProvider
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
@@ -13,13 +14,18 @@ import com.nabi.nabi.utils.UiState
 import com.nabi.nabi.views.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import kotlin.math.sign
 
 @AndroidEntryPoint
-class SignInProviderFragment: BaseFragment<FragmentSignProviderBinding>(R.layout.fragment_sign_provider) {
+class SignInProviderFragment :
+    BaseFragment<FragmentSignProviderBinding>(R.layout.fragment_sign_provider) {
     private val signViewModel: SignInViewModel by viewModels()
 
     @Inject
     lateinit var kakaoAuthService: KakaoAuthService
+
+    @Inject
+    lateinit var naverAuthService: NaverAuthService
 
     override fun initView() {
         signViewModel.getRecentAuthProvider()
@@ -34,7 +40,9 @@ class SignInProviderFragment: BaseFragment<FragmentSignProviderBinding>(R.layout
         binding.btnRecentKakao.setOnClickListener {
             kakaoAuthService.signInKakao(signViewModel::signIn)
         }
-        binding.btnNaver.setOnClickListener { showToast("해당 기능은 추후 제공될 예정입니다\n조금만 기다려 주세요!") }
+        binding.btnNaver.setOnClickListener {
+            showToast("해당 기능은 추후 제공될 예정입니다\n조금만 기다려 주세요!")
+        }
         binding.btnRecentNaver.setOnClickListener { showToast("해당 기능은 추후 제공될 예정입니다\n조금만 기다려 주세요!") }
         binding.btnGoogle.setOnClickListener { showToast("해당 기능은 추후 제공될 예정입니다\n조금만 기다려 주세요!") }
         binding.btnRecentGoogle.setOnClickListener { showToast("해당 기능은 추후 제공될 예정입니다\n조금만 기다려 주세요!") }
@@ -66,9 +74,10 @@ class SignInProviderFragment: BaseFragment<FragmentSignProviderBinding>(R.layout
 
                 is UiState.Loading -> {}
                 is UiState.Success -> {
-                    if(it.data){
+                    if (it.data) {
                         val intent = Intent(requireContext(), MainActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        intent.flags =
+                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
                         requireActivity().finish()
                     } else {
@@ -88,17 +97,19 @@ class SignInProviderFragment: BaseFragment<FragmentSignProviderBinding>(R.layout
 
                 is UiState.Loading -> {}
                 is UiState.Success -> {
-                    when(it.data){
+                    when (it.data) {
                         AuthProvider.NAVER -> {
                             binding.groupRecentNaver.visibility = View.VISIBLE
                             binding.groupRecentKakao.visibility = View.GONE
                             binding.groupRecentGoogle.visibility = View.GONE
                         }
+
                         AuthProvider.KAKAO -> {
                             binding.groupRecentNaver.visibility = View.GONE
                             binding.groupRecentKakao.visibility = View.VISIBLE
                             binding.groupRecentGoogle.visibility = View.GONE
                         }
+
                         AuthProvider.GOOGLE -> {
                             binding.groupRecentNaver.visibility = View.GONE
                             binding.groupRecentKakao.visibility = View.GONE

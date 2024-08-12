@@ -34,6 +34,9 @@ android {
         manifestPlaceholders["KAKAO_NATIVE_KEY"] = properties.getProperty("KAKAO_NATIVE_KEY")
 
         buildConfigField("String", "BASE_URL", "\"${properties.getProperty("BASE_URL")}\"")
+
+        buildConfigField("String", "NAVER_CLIENT_ID", "\"${properties.getProperty("NAVER_CLIENT_ID")}\"")
+        buildConfigField("String", "NAVER_CLIENT_SECRET", "\"${properties.getProperty("NAVER_CLIENT_SECRET")}\"")
     }
 
     applicationVariants.all {
@@ -139,4 +142,7 @@ dependencies {
     // RoomDB
     implementation("androidx.room:room-ktx:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
+
+    // naver Login
+    implementation(libs.oauth)
 }

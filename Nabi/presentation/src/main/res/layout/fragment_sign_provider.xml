@@ -12,74 +12,68 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
+        android:fitsSystemWindows="true"
         tools:context=".views.sign.SignActivity">
 
         <ImageView
-            android:id="@+id/iv_sign_provider_title"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginStart="20dp"
-
-            android:layout_marginEnd="162dp"
-            android:contentDescription="@string/sign_provider_title"
-            android:src="@drawable/img_sign_title"
-            app:layout_constraintDimensionRatio="1:0.303"
-
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/iv_signin_background"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_signin_background"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
 
-            app:layout_constraintVertical_bias="0.2" />
 
         <ImageButton
             android:id="@+id/btn_naver"
             android:layout_width="80dp"
             android:layout_height="80dp"
+
+            android:alpha="0.3"
             android:background="#00000000"
             android:contentDescription="@string/sign_provider_btn_kakao_login"
             android:scaleType="centerInside"
-
             android:src="@drawable/img_naver_btn"
+            app:layout_constraintVertical_bias="0.7"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btn_kakao"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-
-            android:alpha="0.3"
-
-            app:layout_constraintTop_toBottomOf="@id/iv_sign_provider_title" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/btn_kakao"
             android:layout_width="80dp"
             android:layout_height="80dp"
+
             android:background="#00000000"
             android:contentDescription="@string/sign_provider_btn_kakao_login"
             android:scaleType="centerInside"
-
             android:src="@drawable/img_kakao_btn"
-            app:layout_constraintBottom_toBottomOf="parent"
+
+            app:layout_constraintBottom_toBottomOf="@id/btn_naver"
             app:layout_constraintEnd_toStartOf="@id/btn_google"
             app:layout_constraintStart_toEndOf="@id/btn_naver"
-
-            app:layout_constraintTop_toBottomOf="@id/iv_sign_provider_title" />
+            app:layout_constraintTop_toTopOf="@id/btn_naver" />
 
         <ImageButton
             android:id="@+id/btn_google"
             android:layout_width="80dp"
             android:layout_height="80dp"
+
+            android:alpha="0.3"
             android:background="#00000000"
             android:contentDescription="@string/sign_provider_btn_kakao_login"
             android:scaleType="centerInside"
-
             android:src="@drawable/img_google_btn"
-            app:layout_constraintBottom_toBottomOf="parent"
+
+            app:layout_constraintBottom_toBottomOf="@id/btn_naver"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/btn_kakao"
-
-            android:alpha="0.3"
-
-            app:layout_constraintTop_toBottomOf="@id/iv_sign_provider_title" />
+            app:layout_constraintTop_toTopOf="@id/btn_naver" />
 
         <View
             android:id="@+id/divider_1"
@@ -88,7 +82,7 @@
 
             android:layout_marginStart="20dp"
             android:layout_marginEnd="4dp"
-            android:background="#A4A4A4"
+            android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="@id/tv_recent_provider"
             app:layout_constraintEnd_toStartOf="@id/tv_recent_provider"
             app:layout_constraintStart_toStartOf="parent"
@@ -102,8 +96,8 @@
 
             android:layout_marginTop="32dp"
             android:fontFamily="@font/pretendard_medium"
-            android:text="최근에 이용했어요!"
-            android:textColor="#A4A4A4"
+            android:text="@string/text_recent_login"
+            android:textColor="@color/white"
 
             android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@id/divider_2"
@@ -117,7 +111,7 @@
 
             android:layout_marginStart="4dp"
             android:layout_marginEnd="20dp"
-            android:background="#A4A4A4"
+            android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="@id/tv_recent_provider"
 
             app:layout_constraintEnd_toEndOf="parent"
@@ -126,139 +120,136 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_recent_naver"
+            style="@style/button_bold_16px"
             android:layout_width="0dp"
-            android:layout_height="50dp"
 
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_recent_provider"
-            android:layout_marginTop="8dp"
+            android:layout_height="50dp"
             android:layout_marginHorizontal="20dp"
-            
+            android:layout_marginTop="8dp"
             android:background="@drawable/shape_radius_5"
             android:backgroundTint="#03CA5B"
 
             android:text="네이버로 로그인"
-            style="@style/button_bold_16px"
             android:textColor="@color/white"
-            />
-        
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_recent_provider" />
+
         <ImageView
             android:id="@+id/iv_recent_naver"
             android:layout_width="18dp"
             android:layout_height="19dp"
 
-            app:layout_constraintTop_toTopOf="@id/btn_recent_naver"
+            android:layout_marginStart="16dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_logo_provider_naver"
+            android:translationZ="10dp"
+
             app:layout_constraintBottom_toBottomOf="@id/btn_recent_naver"
             app:layout_constraintStart_toStartOf="@id/btn_recent_naver"
-            android:layout_marginStart="16dp"
 
-            android:src="@drawable/ic_logo_provider_naver"
-            android:scaleType="fitXY"
-
-            android:translationZ="10dp"/>
+            app:layout_constraintTop_toTopOf="@id/btn_recent_naver" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/group_recent_naver"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="btn_recent_naver, iv_recent_naver"/>
+            app:constraint_referenced_ids="btn_recent_naver, iv_recent_naver" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_recent_google"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_recent_provider"
-            android:layout_marginTop="8dp"
-            android:layout_marginHorizontal="20dp"
-
-            android:background="@drawable/shape_radius_5_with_stroke"
-
-            android:text="구글로 로그인"
             style="@style/button_bold_16px"
+            android:layout_width="0dp"
+
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/shape_radius_5_with_stroke"
+            android:text="구글로 로그인"
+
             android:textColor="@color/black"
-            />
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_recent_provider" />
 
         <ImageView
             android:id="@+id/iv_recent_google"
             android:layout_width="24dp"
             android:layout_height="24dp"
 
-            app:layout_constraintTop_toTopOf="@id/btn_recent_google"
+            android:layout_marginStart="16dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_logo_provider_google"
+            android:translationZ="10dp"
+
             app:layout_constraintBottom_toBottomOf="@id/btn_recent_google"
             app:layout_constraintStart_toStartOf="@id/btn_recent_google"
-            android:layout_marginStart="16dp"
 
-            android:src="@drawable/ic_logo_provider_google"
-            android:scaleType="fitXY"
-
-            android:translationZ="10dp"/>
+            app:layout_constraintTop_toTopOf="@id/btn_recent_google" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/group_recent_google"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="btn_recent_google, iv_recent_google"/>
+            app:constraint_referenced_ids="btn_recent_google, iv_recent_google" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_recent_kakao"
+            style="@style/button_bold_16px"
             android:layout_width="0dp"
+
             android:layout_height="50dp"
-
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_recent_provider"
-            android:layout_marginTop="8dp"
             android:layout_marginHorizontal="20dp"
-
+            android:layout_marginTop="8dp"
             android:background="@drawable/shape_radius_5_with_stroke"
             android:backgroundTint="#FAE100"
 
             android:text="카카오로 로그인"
-            style="@style/button_bold_16px"
             android:textColor="@color/black"
-            />
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_recent_provider" />
 
         <ImageView
             android:id="@+id/iv_recent_kakao"
             android:layout_width="32dp"
             android:layout_height="32dp"
 
-            app:layout_constraintTop_toTopOf="@id/btn_recent_kakao"
+            android:layout_marginStart="16dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_logo_provider_kakao"
+            android:translationZ="10dp"
+
             app:layout_constraintBottom_toBottomOf="@id/btn_recent_kakao"
             app:layout_constraintStart_toStartOf="@id/btn_recent_kakao"
-            android:layout_marginStart="16dp"
 
-            android:src="@drawable/ic_logo_provider_kakao"
-            android:scaleType="fitXY"
-
-            android:translationZ="10dp"/>
+            app:layout_constraintTop_toTopOf="@id/btn_recent_kakao" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/group_recent_kakao"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="btn_recent_kakao, iv_recent_kakao"/>
+            app:constraint_referenced_ids="btn_recent_kakao, iv_recent_kakao" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            app:layout_constraintTop_toBottomOf="@id/btn_recent_kakao"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_bias="0.9"
-
-            android:text="Team. 나비"
             android:fontFamily="@font/pretendard_regular"
+            android:text="Team. 나비"
+            android:textColor="#BBBBBB"
             android:textSize="12sp"
-            android:textColor="#BBBBBB"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_recent_kakao"
+            app:layout_constraintVertical_bias="0.9" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

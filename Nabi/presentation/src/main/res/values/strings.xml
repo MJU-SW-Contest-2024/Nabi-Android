@@ -9,6 +9,9 @@
 
     <string name="text_select_date">날짜 선택</string>
 
+    <!-- 로그인 페이지 -->
+    <string name="text_recent_login">최근에 이용했어요!</string>
+
     <!-- 달력 -->
     <string name="text_week_monday">M</string>
     <string name="text_week_tuesday">T</string>
