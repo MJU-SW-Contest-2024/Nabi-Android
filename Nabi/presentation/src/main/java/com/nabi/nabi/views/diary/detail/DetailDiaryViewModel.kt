@@ -6,13 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabi.domain.model.diary.DeleteDiaryMsg
 import com.nabi.domain.model.diary.DiaryInfo
-import com.nabi.domain.repository.DataStoreRepository
 import com.nabi.domain.usecase.bookmark.AddBookmarkUseCase
 import com.nabi.domain.usecase.bookmark.DeleteBookmarkUseCase
 import com.nabi.domain.usecase.datastore.GetAccessTokenUseCase
 import com.nabi.domain.usecase.diary.DeleteDiaryUseCase
 import com.nabi.domain.usecase.diary.GetDiaryDetailUseCase
-import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -25,10 +23,9 @@ class DetailDiaryViewModel @Inject constructor(
     private val deleteBookmarkUseCase: DeleteBookmarkUseCase,
     private val deleteDiaryUseCase: DeleteDiaryUseCase,
     private val getAccessTokenUseCase: GetAccessTokenUseCase,
-    private val dataStoreRepository: DataStoreRepository
 ) : ViewModel() {
 
-    private val _isBookmarked = MutableLiveData<Boolean>(false)
+    private val _isBookmarked = MutableLiveData(false)
     val isBookmarked: LiveData<Boolean> get() = _isBookmarked
 
     private val _diaryState = MutableLiveData<UiState<DiaryInfo>>(UiState.Loading)
@@ -95,7 +92,7 @@ class DetailDiaryViewModel @Inject constructor(
         _deleteDiaryState.value = UiState.Loading
 
         viewModelScope.launch {
-            val accessToken = dataStoreRepository.getAccessToken().getOrNull().orEmpty()
+            val accessToken = getAccessTokenUseCase.invoke().getOrNull().orEmpty()
 
             deleteDiaryUseCase(accessToken, diaryId)
                 .onSuccess {
