@@ -31,6 +31,8 @@ class SelectDiaryFragment : BaseFragment<FragmentSelectDiaryBinding>(R.layout.fr
     private val minYear = 1950
     private val maxYear = Calendar.getInstance().get(Calendar.YEAR)
 
+    private var lastVisibleDate: Calendar? = null
+
     override fun initView() {
         calendarAdapter = SelectDiaryMonthCalendarStateAdapter(requireActivity())
         binding.vpCalendarMonth.adapter = calendarAdapter
@@ -44,7 +46,32 @@ class SelectDiaryFragment : BaseFragment<FragmentSelectDiaryBinding>(R.layout.fr
     override fun onResume() {
         super.onResume()
 
-        updateCurrentMonthText(binding.vpCalendarMonth.currentItem)
+        lastVisibleDate = getCurrentVisibleDate()
+
+        lastVisibleDate?.let { date ->
+            val position = calculatePositionFromDate(date)
+            calendarAdapter = SelectDiaryMonthCalendarStateAdapter(requireActivity()) // Reinitialize adapter
+            binding.vpCalendarMonth.adapter = calendarAdapter
+            binding.vpCalendarMonth.setCurrentItem(position, false)
+            updateCurrentMonthText(position)
+        } ?: run {
+            updateCurrentMonthText(binding.vpCalendarMonth.currentItem)
+        }
+    }
+
+    private fun getCurrentVisibleDate(): Calendar {
+        val calendar = Calendar.getInstance().apply {
+            add(Calendar.MONTH, binding.vpCalendarMonth.currentItem - (Int.MAX_VALUE / 2))
+        }
+        return calendar
+    }
+
+    private fun calculatePositionFromDate(date: Calendar): Int {
+        val today = Calendar.getInstance()
+        val currentMonthPosition = Int.MAX_VALUE / 2
+        val differenceInMonths = (date.get(Calendar.YEAR) - today.get(Calendar.YEAR)) * 12 +
+                (date.get(Calendar.MONTH) - today.get(Calendar.MONTH))
+        return currentMonthPosition + differenceInMonths
     }
 
     override fun initListener() {
@@ -102,24 +129,18 @@ class SelectDiaryFragment : BaseFragment<FragmentSelectDiaryBinding>(R.layout.fr
         return createBalloon(context = requireContext()) {
             setHeight(42)
             setWidth(BalloonSizeSpec.WRAP)
-
             setText(text)
             setTextSize(12f)
             setTextColorResource(R.color.white)
             setTextTypeface(ResourcesCompat.getFont(requireContext(), R.font.pretendard_semi_bold)!!)
-
             setArrowPositionRules(ArrowPositionRules.ALIGN_BALLOON)
             setArrowSize(10)
             setArrowPosition(0.5f)
-
             setPaddingHorizontal(8)
-
             setCornerRadius(5f)
             setBackgroundColorResource(R.color.black)
             setBalloonAnimation(BalloonAnimation.FADE)
-
             setBalloonHighlightAnimation(BalloonHighlightAnimation.SHAKE)
-
             setLifecycleOwner(viewLifecycleOwner)
             build()
         }
