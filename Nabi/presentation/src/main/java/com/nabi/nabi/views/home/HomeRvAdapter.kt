@@ -39,6 +39,13 @@ class HomeRvAdapter : RecyclerView.Adapter<HomeRvAdapter.ActivityViewHolder>() {
             binding.tvDiaryDate.text = formatDateString(diary.diaryEntryDate)
             binding.tvDiary.text = diary.content
 
+            binding.root.setOnClickListener {
+                rvItemClickListener.onClick(diary.diaryId)
+            }
+            binding.tvDiary.setOnClickListener {
+                rvItemClickListener.onClick(diary.diaryId)
+            }
+
             adjustText(binding.tvDiary, diary.diaryId)
         }
 
@@ -112,7 +119,6 @@ class HomeRvAdapter : RecyclerView.Adapter<HomeRvAdapter.ActivityViewHolder>() {
 
                         builder.setSpan(object : ClickableSpan() {
                             override fun onClick(widget: View) {
-                                rvItemClickListener.onClick(diaryId)
                             }
 
                             override fun updateDrawState(ds: TextPaint) {
@@ -129,8 +135,6 @@ class HomeRvAdapter : RecyclerView.Adapter<HomeRvAdapter.ActivityViewHolder>() {
             }
         }
     }
-
-
 
     fun formatDateString(inputDate: String): String {
         val originalFormat = SimpleDateFormat("yyyy-MM-dd", Locale.KOREAN)
