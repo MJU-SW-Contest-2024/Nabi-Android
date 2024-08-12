@@ -55,7 +55,6 @@ class AddDiarySelectDateFragment :
         }
 
         selectedDate = DiarySelectInfo(false, sharedViewModel.selectedDate.value!!, true)
-        LoggerUtils.d(selectedDate.toString())
 
         calendarAdapter = AddDiaryMonthCalendarStateAdapter(requireActivity()).apply {
             setOnDateSelectedListener(object :
