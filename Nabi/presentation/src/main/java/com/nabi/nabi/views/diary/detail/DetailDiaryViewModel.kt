@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabi.domain.model.diary.DeleteDiaryMsg
 import com.nabi.domain.model.diary.DiaryInfo
-import com.nabi.domain.repository.DataStoreRepository
 import com.nabi.domain.usecase.bookmark.AddBookmarkUseCase
 import com.nabi.domain.usecase.bookmark.DeleteBookmarkUseCase
 import com.nabi.domain.usecase.datastore.GetAccessTokenUseCase
@@ -23,10 +22,10 @@ class DetailDiaryViewModel @Inject constructor(
     private val addBookmarkUseCase: AddBookmarkUseCase,
     private val deleteBookmarkUseCase: DeleteBookmarkUseCase,
     private val deleteDiaryUseCase: DeleteDiaryUseCase,
-    private val getAccessTokenUseCase: GetAccessTokenUseCase
+    private val getAccessTokenUseCase: GetAccessTokenUseCase,
 ) : ViewModel() {
 
-    private val _isBookmarked = MutableLiveData<Boolean>(false)
+    private val _isBookmarked = MutableLiveData(false)
     val isBookmarked: LiveData<Boolean> get() = _isBookmarked
 
     private val _diaryState = MutableLiveData<UiState<DiaryInfo>>(UiState.Loading)

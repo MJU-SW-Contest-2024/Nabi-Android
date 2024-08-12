@@ -9,6 +9,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.nabi.nabi.R
 import com.nabi.nabi.databinding.DialogAddDiaryDoneBinding
+import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import com.nabi.nabi.views.MainActivity
 import com.nabi.nabi.views.diary.detail.DetailDiaryFragment
@@ -46,6 +47,10 @@ class EmotionLoadingDialog(private val isEdit: Boolean, private val diaryId: Int
                 is UiState.Loading -> {}
                 is UiState.Failure -> {
                     showToast("일기 감정분석 실패")
+                    (requireActivity() as MainActivity).replaceFragment(
+                        DetailDiaryFragment(diaryId),
+                        false
+                    )
                 }
 
                 is UiState.Success -> {
@@ -64,7 +69,6 @@ class EmotionLoadingDialog(private val isEdit: Boolean, private val diaryId: Int
                 }
 
                 is UiState.Success -> {
-//                    emotionLoadingDialog.dismiss()
                     if (isEdit) {
                         requireActivity().supportFragmentManager.popBackStack()
                     } else {

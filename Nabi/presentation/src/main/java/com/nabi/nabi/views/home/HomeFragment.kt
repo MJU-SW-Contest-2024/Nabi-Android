@@ -2,6 +2,8 @@ package com.nabi.nabi.views.home
 
 import android.annotation.SuppressLint
 import android.view.View
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nabi.domain.model.home.HomeInfo
@@ -27,6 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private lateinit var homeRvAdapter: HomeRvAdapter
     private val viewModel: HomeViewModel by viewModels()
+    private var backPressedTime: Long = 0
 
     override fun initView() {
         (requireActivity() as MainActivity).setStatusBarColor(R.color.white, false)
@@ -34,6 +37,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         binding.tvNickname.text = "$nickname 님"
         viewModel.registerFcmToken()
         viewModel.fetchData()
+        addOnBackPressedCallback()
         setDiaryRv()
     }
 
@@ -162,5 +166,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         } else {
             null
         }
+    }
+
+    private fun addOnBackPressedCallback() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (System.currentTimeMillis() - backPressedTime >= 2000) {
+                    backPressedTime = System.currentTimeMillis()
+                    Toast.makeText(requireContext(), "한번 더 누르면 앱을 종료합니다.", Toast.LENGTH_SHORT)
+                        .show()
+                } else if (System.currentTimeMillis() - backPressedTime < 2000) {
+                    requireActivity().finish()
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 }

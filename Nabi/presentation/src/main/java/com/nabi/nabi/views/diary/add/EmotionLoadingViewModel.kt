@@ -1,5 +1,6 @@
 package com.nabi.nabi.views.diary.add
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,7 +10,8 @@ import com.nabi.domain.repository.DataStoreRepository
 import com.nabi.domain.usecase.datastore.GetAccessTokenUseCase
 import com.nabi.domain.usecase.emotion.AddDiaryEmotionUseCase
 import com.nabi.domain.usecase.emotion.GetDiaryEmotionUseCase
-import com.nabi.domain.utils.EmotionStateUtils
+import com.nabi.domain.extension.parseEmotionState
+import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -19,7 +21,8 @@ import javax.inject.Inject
 class EmotionLoadingViewModel @Inject constructor(
     private val getDiaryEmotionUseCase: GetDiaryEmotionUseCase,
     private val addDiaryEmotionUseCase: AddDiaryEmotionUseCase,
-    private val getAccessTokenUseCase: GetAccessTokenUseCase
+    private val getAccessTokenUseCase: GetAccessTokenUseCase,
+    private val dataStoreRepository: DataStoreRepository
 ) : ViewModel() {
 
     private val _getEmotionState = MutableLiveData<UiState<String>>(UiState.Loading)
@@ -47,10 +50,9 @@ class EmotionLoadingViewModel @Inject constructor(
         _addEmotionState.value = UiState.Loading
 
         viewModelScope.launch {
-            val accessToken = getAccessTokenUseCase.invoke().getOrNull().orEmpty()
-            val emotion = EmotionStateUtils.parseEmotionState(emotionState)
+            val accessToken = dataStoreRepository.getAccessToken().getOrNull().orEmpty()
 
-            addDiaryEmotionUseCase(accessToken, diaryId, emotion)
+            addDiaryEmotionUseCase(accessToken, diaryId, emotionState)
                 .onSuccess {
                     _addEmotionState.value = UiState.Success(it)
                 }.onFailure { e ->

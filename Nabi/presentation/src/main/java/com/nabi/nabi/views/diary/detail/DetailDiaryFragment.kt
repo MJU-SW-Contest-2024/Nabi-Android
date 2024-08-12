@@ -1,5 +1,6 @@
 package com.nabi.nabi.views.diary.detail
 
+import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import com.nabi.nabi.R
@@ -26,7 +27,7 @@ class DetailDiaryFragment(
         super.initListener()
 
         binding.ibBack.setOnClickListener {
-            requireActivity().supportFragmentManager.popBackStack()
+            popBackStack(true)
         }
 
         binding.btnEdit.setOnClickListener {
@@ -51,7 +52,6 @@ class DetailDiaryFragment(
             deleteDialog.setButtonClickListener(object : CustomDialog.OnButtonClickListener {
                 override fun onButton1Clicked() {
                     viewModel.deleteDiary(diaryId)
-                    requireActivity().supportFragmentManager.popBackStack()
                 }
 
                 override fun onButton2Clicked() {
@@ -130,6 +130,7 @@ class DetailDiaryFragment(
 
                 is UiState.Success -> {
                     LoggerUtils.d(it.data.message)
+                    popBackStack(true)
                 }
             }
         }
@@ -142,5 +143,17 @@ class DetailDiaryFragment(
         val day = parts[2].toInt()
 
         return "${year}년 ${month}월 ${day}일"
+    }
+
+    private fun popBackStack(isUpdateFlag: Boolean = false) {
+        val fm = requireActivity().supportFragmentManager
+        if (isUpdateFlag) {
+            val result = Bundle().apply {
+                putBoolean("isUpdateFlag", true)
+                putString("date", binding.tvDiaryDate.text.toString())
+            }
+            fm.setFragmentResult("isUpdateFlag", result)
+        }
+        fm.popBackStack()
     }
 }

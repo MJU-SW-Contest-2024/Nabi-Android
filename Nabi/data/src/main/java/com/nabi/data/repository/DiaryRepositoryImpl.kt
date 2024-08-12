@@ -181,23 +181,27 @@ class DiaryRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteDiary(accessToken: String, id: Int): Result<DeleteDiaryMsg> {
-        val result = diaryRemoteDataSource.deleteDiary(accessToken, id)
+        return try {
+            val result = diaryRemoteDataSource.deleteDiary(accessToken, id)
 
-        return if (result.isSuccess) {
-            val res = result.getOrNull()
-            if (res != null) {
-                val data = res.data
-                if (data != null) {
-                    val msg = DeleteDiaryMsg(data.message)
-                    Result.success(msg)
+            if (result.isSuccess) {
+                val res = result.getOrNull()
+                if (res != null) {
+                    val data = res.data
+                    if (data != null) {
+                        val msg = DeleteDiaryMsg(data.message)
+                        Result.success(msg)
+                    } else {
+                        Result.failure(Exception("Delete Diary Failed: data is null"))
+                    }
                 } else {
-                    Result.failure(Exception("Delete Diary Failed: data is null"))
+                    Result.failure(Exception("Delete Diary Failed: response body is null"))
                 }
             } else {
-                Result.failure(Exception("Delete Diary Failed: response body is null"))
+                Result.failure(result.exceptionOrNull() ?: Exception("Unknown error"))
             }
-        } else {
-            Result.failure(result.exceptionOrNull() ?: Exception("Unknown error"))
+        } catch (e: Exception) {
+            Result.failure(e)
         }
     }
 }

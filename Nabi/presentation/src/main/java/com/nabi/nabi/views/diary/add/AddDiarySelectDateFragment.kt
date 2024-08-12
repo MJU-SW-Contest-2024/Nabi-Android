@@ -33,6 +33,7 @@ class AddDiarySelectDateFragment :
 
     private lateinit var calendarAdapter: AddDiaryMonthCalendarStateAdapter
 
+    private var lastVisibleDate: Calendar? = null
     private var diaryDates: Set<String> = emptySet()
     private lateinit var selectedDate: DiarySelectInfo
     private var tempDiary: DiaryDbEntity? = null
@@ -43,6 +44,19 @@ class AddDiarySelectDateFragment :
     override fun onResume() {
         super.onResume()
         updateDisplayedDate()
+
+        lastVisibleDate = getCurrentVisibleDate()
+        lastVisibleDate?.let { date ->
+            val position = calculatePositionFromDate(date)
+            calendarAdapter = AddDiaryMonthCalendarStateAdapter(requireActivity())
+            binding.vpCalendarMonth.adapter = calendarAdapter
+            binding.vpCalendarMonth.setCurrentItem(position, false)
+            updateCurrentMonthText(position)
+        } ?: run {
+            updateCurrentMonthText(binding.vpCalendarMonth.currentItem)
+        }
+
+        updateSelectedDate(selectedDate.diaryEntryDate)
     }
 
     override fun initView() {
@@ -55,18 +69,7 @@ class AddDiarySelectDateFragment :
         }
 
         selectedDate = DiarySelectInfo(false, sharedViewModel.selectedDate.value!!, true)
-        LoggerUtils.d(selectedDate.toString())
-
-        calendarAdapter = AddDiaryMonthCalendarStateAdapter(requireActivity()).apply {
-            setOnDateSelectedListener(object :
-                AddDiaryMonthCalendarStateAdapter.OnDateSelectedListener {
-                override fun onDateSelected(item: DiarySelectInfo) {
-                    selectedDate = item
-                    updateSelectedDate(item.diaryEntryDate)
-                }
-            })
-        }
-
+        calendarAdapter = AddDiaryMonthCalendarStateAdapter(requireActivity())
         binding.apply {
             vpCalendarMonth.adapter = calendarAdapter
             vpCalendarMonth.setCurrentItem(Int.MAX_VALUE / 2, false)
@@ -97,6 +100,13 @@ class AddDiarySelectDateFragment :
                 }
 
                 else -> Unit
+            }
+        }
+
+        sharedViewModel.date.observe(viewLifecycleOwner) {
+            if (it != null) {
+                selectedDate = it
+                updateSelectedDate(it.diaryEntryDate)
             }
         }
     }
@@ -236,5 +246,20 @@ class AddDiarySelectDateFragment :
         val calendar = getCalendarForPosition(newPosition)
         binding.tvSelectYear.text = calendar.get(Calendar.YEAR).toString()
         binding.tvSelectMonth.text = dateEnglishOnlyMonthFormat.format(calendar.time)
+    }
+
+    private fun getCurrentVisibleDate(): Calendar {
+        val calendar = Calendar.getInstance().apply {
+            add(Calendar.MONTH, binding.vpCalendarMonth.currentItem - (Int.MAX_VALUE / 2))
+        }
+        return calendar
+    }
+
+    private fun calculatePositionFromDate(date: Calendar): Int {
+        val today = Calendar.getInstance()
+        val currentMonthPosition = Int.MAX_VALUE / 2
+        val differenceInMonths = (date.get(Calendar.YEAR) - today.get(Calendar.YEAR)) * 12 +
+                (date.get(Calendar.MONTH) - today.get(Calendar.MONTH))
+        return currentMonthPosition + differenceInMonths
     }
 }
