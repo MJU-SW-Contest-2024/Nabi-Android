@@ -65,7 +65,7 @@ class EmotionSearchFragment(
                 if (lastVisibleItemPos >= itemTotalCount - 6) {
                     if(!isLoading){
                         isLoading = true
-                        viewModel.fetchData(emotion)
+                        viewModel.fetchData(viewModel.searchEmotion.value ?: emotion)
                     }
                 }
             }
