@@ -13,10 +13,11 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
 
+        android:contentDescription="@null"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
 
-        android:background="@drawable/shape_chat_other_profile"/>
+        android:background="@drawable/img_default_nabi" />
 
     <TextView
         android:id="@+id/tv_chat_other_name"
