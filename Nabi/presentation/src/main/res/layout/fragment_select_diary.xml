@@ -107,6 +107,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     style="@style/weekdays_bold_10px"
+                    android:textColor="@color/gray2"
                     android:text="@string/text_week_sunday"
                     android:gravity="center"/>
                 <TextView
@@ -114,6 +115,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     style="@style/weekdays_bold_10px"
+                    android:textColor="@color/gray2"
                     android:text="@string/text_week_monday"
                     android:gravity="center"/>
                 <TextView
@@ -121,6 +123,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     style="@style/weekdays_bold_10px"
+                    android:textColor="@color/gray2"
                     android:text="@string/text_week_tuesday"
                     android:gravity="center"/>
                 <TextView
@@ -128,6 +131,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     style="@style/weekdays_bold_10px"
+                    android:textColor="@color/gray2"
                     android:text="@string/text_week_wednesday"
                     android:gravity="center"/>
                 <TextView
@@ -135,6 +139,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     style="@style/weekdays_bold_10px"
+                    android:textColor="@color/gray2"
                     android:text="@string/text_week_thursday"
                     android:gravity="center"/>
                 <TextView
@@ -142,6 +147,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     style="@style/weekdays_bold_10px"
+                    android:textColor="@color/gray2"
                     android:text="@string/text_week_friday"
                     android:gravity="center"/>
                 <TextView
@@ -149,6 +155,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     style="@style/weekdays_bold_10px"
+                    android:textColor="@color/gray2"
                     android:text="@string/text_week_saturday"
                     android:gravity="center"/>
             </LinearLayout>
