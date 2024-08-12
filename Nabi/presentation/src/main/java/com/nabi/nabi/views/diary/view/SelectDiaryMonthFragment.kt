@@ -7,23 +7,21 @@ import com.nabi.domain.model.diary.DiaryInfo
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.databinding.FragmentSelectDiaryMonthBinding
+import com.nabi.nabi.utils.Constants.dateEnglishOnlyYearFormat
+import com.nabi.nabi.utils.Constants.dateNumberOnlyMonthFormat
 import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import com.nabi.nabi.views.MainActivity
 import com.nabi.nabi.views.OnRvItemClickListener
 import com.nabi.nabi.views.diary.detail.DetailDiaryFragment
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
-import java.util.Locale
 
 @AndroidEntryPoint
 class SelectDiaryMonthFragment: BaseFragment<FragmentSelectDiaryMonthBinding>(R.layout.fragment_select_diary_month) {
     private val viewModel: SelectDiaryViewModel by viewModels()
     private lateinit var dayAdapter: SelectDiaryDayCalendarAdapter
-    private val dateMonthFormat = SimpleDateFormat("M", Locale.ENGLISH)
-    private val dateYearFormat = SimpleDateFormat("yyyy", Locale.ENGLISH)
     private lateinit var date: Date
 
     companion object {
@@ -45,6 +43,8 @@ class SelectDiaryMonthFragment: BaseFragment<FragmentSelectDiaryMonthBinding>(R.
         dayAdapter = SelectDiaryDayCalendarAdapter().apply {
             setRvItemClickListener(object : OnRvItemClickListener<Int> {
                 override fun onClick(item: Int) {
+                    LoggerUtils.i("click: $item")
+                    viewModel.isUpdateFlag = true
                     (requireActivity() as MainActivity).replaceFragment(DetailDiaryFragment(item), true)
                 }
             })
@@ -55,7 +55,14 @@ class SelectDiaryMonthFragment: BaseFragment<FragmentSelectDiaryMonthBinding>(R.
         binding.rvCalendarDays.adapter = dayAdapter
         binding.rvCalendarDays.itemAnimator = null
 
-        viewModel.fetchData(month = dateMonthFormat.format(date.time).toInt(), year = dateYearFormat.format(date.time).toInt())
+        fetchDataForMonth()
+    }
+
+    private fun fetchDataForMonth() {
+        viewModel.fetchData(
+            month = dateNumberOnlyMonthFormat.format(date.time).toInt(),
+            year = dateEnglishOnlyYearFormat.format(date.time).toInt()
+        )
     }
 
     private fun getDaysInMonth(date: Date): List<String> {
@@ -85,7 +92,7 @@ class SelectDiaryMonthFragment: BaseFragment<FragmentSelectDiaryMonthBinding>(R.
             if (day == "previous" || day == "next") {
                 result.add(day to null)
             } else {
-                val dayWithLeadingZero = day.padStart(2, '0')  // day 앞에 0을 붙여 두 자리로 맞춤
+                val dayWithLeadingZero = day.padStart(2, '0')
                 val matchedDiaryInfo = diaryInfos.find { diaryInfo ->
                     val entryDate = diaryInfo?.diaryEntryDate
                     entryDate?.let { datePattern.find(it)?.groupValues?.get(1) == dayWithLeadingZero } ?: false
@@ -97,12 +104,10 @@ class SelectDiaryMonthFragment: BaseFragment<FragmentSelectDiaryMonthBinding>(R.
         return result
     }
 
-
-
     override fun setObserver() {
         super.setObserver()
 
-        viewModel.diaryState.observe(viewLifecycleOwner){ state ->
+        viewModel.diaryState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Loading -> {}
                 is UiState.Failure -> {
