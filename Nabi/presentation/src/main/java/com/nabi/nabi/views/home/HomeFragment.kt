@@ -1,8 +1,10 @@
 package com.nabi.nabi.views.home
 
 import android.annotation.SuppressLint
+import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.nabi.domain.model.home.HomeInfo
 import com.nabi.domain.model.home.RecentFiveDiary
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
@@ -39,7 +41,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         homeRvAdapter = HomeRvAdapter().apply {
             setRvItemClickListener(object : OnRvItemClickListener<Int> {
                 override fun onClick(item: Int) {
-                    (requireActivity() as MainActivity).replaceFragment(DetailDiaryFragment(item), true)
+                    (requireActivity() as MainActivity).replaceFragment(
+                        DetailDiaryFragment(item),
+                        true
+                    )
                 }
             })
             setRvItemBookmarkClickListener(object : OnRvItemClickListener<RecentFiveDiary> {
@@ -100,15 +105,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 is UiState.Failure -> {
                     showToast(it.message)
                     LoggerUtils.e("메인페이지 데이터 불러오기 실패: ${it.message}")
+                    binding.rvDiary.visibility = View.GONE
                 }
 
                 is UiState.Success -> {
                     val diaryList = it.data.recentFiveDiaries
-                    homeRvAdapter.setData(diaryList)
-                    consecutiveDay = it.data.consecutiveWritingDays
-                    binding.tvDiaryDay.text = "일기 작성 ${consecutiveDay}일 째"
-                    nickname = it.data.nickname
-                    binding.tvNickname.text = "${it.data.nickname} 님"
+                    if (diaryList.isEmpty()) {
+                        binding.rvDiary.visibility = View.GONE
+                    } else {
+                        homeRvAdapter.setData(diaryList)
+                        consecutiveDay = it.data.consecutiveWritingDays
+                        binding.tvDiaryDay.text = "일기 작성 ${consecutiveDay}일 째"
+                        nickname = it.data.nickname
+                        binding.tvNickname.text = "${it.data.nickname} 님"
+                    }
                 }
             }
         }
