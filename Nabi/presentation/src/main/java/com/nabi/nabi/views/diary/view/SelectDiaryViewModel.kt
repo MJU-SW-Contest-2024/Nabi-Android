@@ -18,6 +18,8 @@ class SelectDiaryViewModel @Inject constructor(
     private val getMonthlyDiaryUseCase: GetMonthlyDiaryUseCase,
     private val getAccessTokenUseCase: GetAccessTokenUseCase
 ) : ViewModel() {
+    var isUpdateFlag = false
+
     private val _diaryState = MutableLiveData<UiState<List<DiaryInfo>>>(UiState.Loading)
     val diaryState: LiveData<UiState<List<DiaryInfo>>> get() = _diaryState
 

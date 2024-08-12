@@ -17,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class EmotionSearchFragment(
     private val emotion: String
-): BaseFragment<FragmentEmotionSearchBinding>(R.layout.fragment_emotion_search) {
+) : BaseFragment<FragmentEmotionSearchBinding>(R.layout.fragment_emotion_search) {
     private val viewModel: EmotionSearchViewModel by viewModels()
     private lateinit var emotionSearchAdapter: EmotionSearchAdapter
     private var isLoading = false
@@ -34,16 +34,24 @@ class EmotionSearchFragment(
         emotionSearchAdapter.submitList(viewModel.diaryItems.value)
     }
 
-    private fun setSearchDiaryAdapter(){
+    private fun setSearchDiaryAdapter() {
         emotionSearchAdapter = EmotionSearchAdapter().apply {
             setRvItemClickListener(object : OnRvItemClickListener<Int> {
                 override fun onClick(item: Int) {
-                    (requireActivity() as MainActivity).replaceFragment(DetailDiaryFragment(item), true)
+                    (requireActivity() as MainActivity).replaceFragment(
+                        DetailDiaryFragment(item),
+                        true
+                    )
                 }
             })
         }
         binding.rvEmotionDiaryResult.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvEmotionDiaryResult.addItemDecoration(CustomDecoration(0.5f, ContextCompat.getColor(requireContext(), R.color.gray2)))
+        binding.rvEmotionDiaryResult.addItemDecoration(
+            CustomDecoration(
+                0.5f,
+                ContextCompat.getColor(requireContext(), R.color.gray2)
+            )
+        )
         binding.rvEmotionDiaryResult.adapter = emotionSearchAdapter
     }
 
@@ -63,7 +71,7 @@ class EmotionSearchFragment(
                 val itemTotalCount = recyclerView.adapter?.itemCount ?: 0
 
                 if (lastVisibleItemPos >= itemTotalCount - 6) {
-                    if(!isLoading){
+                    if (!isLoading) {
                         isLoading = true
                         viewModel.fetchData(viewModel.searchEmotion.value ?: emotion)
                     }
@@ -94,16 +102,78 @@ class EmotionSearchFragment(
         }
     }
 
-    private fun setCurrentEmotion(){
+    private fun setCurrentEmotion() {
         val resourceIds = mutableListOf<Int>()
-        val condition = if(viewModel.searchEmotion.value.isNullOrEmpty()) emotion else viewModel.searchEmotion.value
+        val condition =
+            if (viewModel.searchEmotion.value.isNullOrEmpty()) emotion else viewModel.searchEmotion.value
 
-        when(condition){
-            "화남" -> resourceIds.addAll(listOf(R.drawable.img_anger, R.drawable.img_happiness_gray, R.drawable.img_boredom_gray, R.drawable.img_sadness_gray, R.drawable.img_anxiety_gray))
-            "행복" -> resourceIds.addAll(listOf(R.drawable.img_anger_gray, R.drawable.img_happiness, R.drawable.img_boredom_gray, R.drawable.img_sadness_gray, R.drawable.img_anxiety_gray))
-            "지루함" -> resourceIds.addAll(listOf(R.drawable.img_anger_gray, R.drawable.img_happiness_gray, R.drawable.img_boredom, R.drawable.img_sadness_gray, R.drawable.img_anxiety_gray))
-            "우울" -> resourceIds.addAll(listOf(R.drawable.img_anger_gray, R.drawable.img_happiness_gray, R.drawable.img_boredom_gray, R.drawable.img_sadness, R.drawable.img_anxiety_gray))
-            "불안" -> resourceIds.addAll(listOf(R.drawable.img_anger_gray, R.drawable.img_happiness_gray, R.drawable.img_boredom_gray, R.drawable.img_sadness_gray, R.drawable.img_anxiety))
+        var titleText = ""
+
+        when (condition) {
+            "화남" -> {
+                titleText = "화난 감정의 일기들"
+                resourceIds.addAll(
+                    listOf(
+                        R.drawable.img_anger,
+                        R.drawable.img_happiness_gray,
+                        R.drawable.img_boredom_gray,
+                        R.drawable.img_sadness_gray,
+                        R.drawable.img_anxiety_gray
+                    )
+                )
+            }
+
+            "행복" -> {
+                titleText = "행복한 감정의 일기들"
+                resourceIds.addAll(
+                    listOf(
+                        R.drawable.img_anger_gray,
+                        R.drawable.img_happiness,
+                        R.drawable.img_boredom_gray,
+                        R.drawable.img_sadness_gray,
+                        R.drawable.img_anxiety_gray
+                    )
+                )
+            }
+
+            "지루함" -> {
+                titleText = "지루한 감정의 일기들"
+                resourceIds.addAll(
+                    listOf(
+                        R.drawable.img_anger_gray,
+                        R.drawable.img_happiness_gray,
+                        R.drawable.img_boredom,
+                        R.drawable.img_sadness_gray,
+                        R.drawable.img_anxiety_gray
+                    )
+                )
+            }
+
+            "우울" -> {
+                titleText = "우울한 감정의 일기들"
+                resourceIds.addAll(
+                    listOf(
+                        R.drawable.img_anger_gray,
+                        R.drawable.img_happiness_gray,
+                        R.drawable.img_boredom_gray,
+                        R.drawable.img_sadness,
+                        R.drawable.img_anxiety_gray
+                    )
+                )
+            }
+
+            "불안" -> {
+                titleText = "불안한 감정의 일기들"
+                resourceIds.addAll(
+                    listOf(
+                        R.drawable.img_anger_gray,
+                        R.drawable.img_happiness_gray,
+                        R.drawable.img_boredom_gray,
+                        R.drawable.img_sadness_gray,
+                        R.drawable.img_anxiety
+                    )
+                )
+            }
         }
 
         resourceIds.run {
@@ -113,27 +183,30 @@ class EmotionSearchFragment(
             binding.ivEmotionSadness.setImageResource(this[3])
             binding.ivEmotionAnxiety.setImageResource(this[4])
         }
+
+        binding.tvTitle.text = titleText
     }
 
     override fun setObserver() {
         super.setObserver()
 
-        viewModel.searchEmotion.observe(viewLifecycleOwner){
-            if(it.isNotEmpty()){
+        viewModel.searchEmotion.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
                 emotionSearchAdapter.submitList(emptyList())
             }
         }
 
-        viewModel.uiState.observe(viewLifecycleOwner){
-            when(it){
+        viewModel.uiState.observe(viewLifecycleOwner) {
+            when (it) {
                 is UiState.Loading -> {}
                 is UiState.Failure -> {
                     showToast("검색 실패: ${it.message}")
                 }
+
                 is UiState.Success -> {
                     isLoading = false
 
-                    if(it.data.isEmpty()) emotionSearchAdapter.submitList(emptyList())
+                    if (it.data.isEmpty()) emotionSearchAdapter.submitList(emptyList())
                     else {
                         val temp = emotionSearchAdapter.currentList.toMutableList()
                         temp.addAll(it.data)

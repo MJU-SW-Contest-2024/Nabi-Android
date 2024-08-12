@@ -3,6 +3,7 @@ package com.nabi.nabi.views.diary.view
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -40,19 +41,21 @@ class SelectDiaryDayCalendarAdapter() : ListAdapter<Pair<String, DiaryInfo?>, Se
 
         fun bind(diaryInfo: Pair<String, DiaryInfo?>) {
             binding.tvDay.text = diaryInfo.first
+            binding.tvDay.setTextColor(ContextCompat.getColor(itemView.context, R.color.black))
             binding.root.isClickable = true
             binding.root.visibility = View.VISIBLE
 
             diaryInfo.second?.let {
                 val resourceId = when(it.emotion){
-                    "행복" -> R.drawable.img_happiness
-                    "우울" -> R.drawable.img_sadness
-                    "화남" -> R.drawable.img_anger
-                    "불안" -> R.drawable.img_anxiety
-                    "지루함" -> R.drawable.img_boredom
-                    else -> R.color.transparent
+                    "행복" -> R.drawable.img_happiness_empty
+                    "우울" -> R.drawable.img_sadness_empty
+                    "화남" -> R.drawable.img_anger_empty
+                    "불안" -> R.drawable.img_anxiety_empty
+                    "지루함" -> R.drawable.img_boredom_empty
+                    else -> R.drawable.img_boredom_empty_gray
                 }
                 binding.ivDiaryCheck.setImageResource(resourceId)
+                binding.tvDay.setTextColor(ContextCompat.getColor(itemView.context, R.color.white))
             }
 
             itemView.setOnClickListener {

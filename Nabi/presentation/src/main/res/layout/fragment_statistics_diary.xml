@@ -239,5 +239,21 @@
                     android:textColor="#000000"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintTop_toBottomOf="@id/card_chart"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="20dp"
+
+            android:gravity="center"
+
+            android:text="감정 고양이들을 선택해 해당 감정의 일기들을 확인해보세요!"
+            android:fontFamily="@font/pretendard_medium"
+            android:textSize="14sp"
+            android:textColor="@color/black"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

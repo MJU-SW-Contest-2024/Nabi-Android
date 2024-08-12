@@ -13,17 +13,12 @@ import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import com.nabi.nabi.views.OnRvItemClickListener
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.util.Locale
 
 @AndroidEntryPoint
 class ChatFragment: BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), OnRvItemClickListener<Int> {
-    private val dateFormat = SimpleDateFormat("yyyy년 MM월 dd일(E)", Locale.KOREA)
-    private val timeFormat = SimpleDateFormat("a hh:mm", Locale.KOREA)
-
     private val viewModel: ChatViewModel by viewModels()
     private lateinit var chatAdapter : ChatRvAdapter
     private var isLoading = false
@@ -116,8 +111,12 @@ class ChatFragment: BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), O
         viewModel.uiState.observe(viewLifecycleOwner){
             when(it){
                 is UiState.Loading -> {}
-                is UiState.Failure -> {}
+                is UiState.Failure -> {
+                    isLoading = false
+                }
                 is UiState.Success -> {
+                    isLoading = false
+
                     if(it.data.isNotEmpty()){
                         submitCustom(processChatItems(it.data))
                     }
@@ -218,7 +217,4 @@ class ChatFragment: BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), O
             binding.rvChat.scrollToPosition(filteredList.size - 1)
         }
     }
-
-
-
 }
