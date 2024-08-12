@@ -14,7 +14,7 @@
 
     <style name="Theme.Nabi" parent="Base.Theme.Nabi" />
 
-    <style name="CustomDatePickerDialog" parent="Theme.AppCompat.Dialog">
+    <style name="CustomDatePickerDialog" parent="Theme.AppCompat.Light.Dialog">
         <item name="colorAccent">@color/primary</item>
     </style>
 
