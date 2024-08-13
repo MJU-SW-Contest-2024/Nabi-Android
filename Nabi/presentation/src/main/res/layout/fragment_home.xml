@@ -34,9 +34,10 @@
             android:background="@color/transparent"
             android:contentDescription="@null"
             android:src="@drawable/ic_mypage"
+            android:layout_marginEnd="4dp"
 
             app:layout_constraintBottom_toBottomOf="@id/ib_notification"
-            app:layout_constraintStart_toEndOf="@id/ib_notification"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/ib_notification" />
 
         <TextView

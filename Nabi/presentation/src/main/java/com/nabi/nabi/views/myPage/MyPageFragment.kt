@@ -1,8 +1,15 @@
 package com.nabi.nabi.views.myPage
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
-import androidx.datastore.dataStore
+import android.net.Uri
+import android.os.Build
+import android.provider.OpenableColumns
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
@@ -16,15 +23,39 @@ import com.nabi.nabi.views.MainActivity
 import com.nabi.nabi.views.sign.SignActivity
 import com.nabi.nabi.views.sign.SignInNicknameFragment
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 @AndroidEntryPoint
 class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_mypage) {
     private val myPageViewModel: MyPageViewModel by viewModels()
 
+    private lateinit var pdfPickerLauncher: ActivityResultLauncher<Intent>
+
+    private val requiredGalleryPermissions =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arrayOf(Manifest.permission.READ_MEDIA_IMAGES)
+        } else {
+            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+        }
+
     @SuppressLint("SetTextI18n")
     override fun initView() {
         binding.tvNickname.text = "$nickname 님"
         binding.tvConsecutiveDay.text = "일기 작성 ${consecutiveDay}일 째"
+
+        pdfPickerLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val uri = result.data?.data
+                uri?.let {
+                    LoggerUtils.d(it.toString())
+                    readPdfFile(it)
+                }
+            }
+        }
     }
 
     override fun initListener() {
@@ -38,6 +69,11 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
 
         binding.btnLoadDiary.setOnClickListener {
 
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                type = "application/pdf"
+                addCategory(Intent.CATEGORY_OPENABLE)
+            }
+            pdfPickerLauncher.launch(intent)
         }
 
         binding.btnWithdraw.setOnClickListener {
@@ -59,6 +95,20 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
 
     override fun setObserver() {
         super.setObserver()
+
+        myPageViewModel.loadState.observe(viewLifecycleOwner) {
+            when (it) {
+                is UiState.Loading -> {}
+                is UiState.Failure -> {
+                    showToast("일기 가져오기 실패")
+                }
+
+                is UiState.Success -> {
+                    showToast("일기 가져오기 성공!")
+                }
+            }
+        }
+
         myPageViewModel.withdrawState.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Loading -> {}
@@ -88,5 +138,50 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
                 }
             }
         }
+    }
+
+    private fun readPdfFile(uri: Uri) {
+        val realPath = getRealPathFromPdfUri(requireContext(), uri)
+        if (realPath != null) {
+            LoggerUtils.d("Real Path: $realPath")
+            myPageViewModel.loadDiary(realPath)
+        } else {
+            LoggerUtils.e("Failed to get real path from URI")
+            showToast("PDF 파일 경로를 가져오는데 실패했습니다.")
+        }
+    }
+
+    private fun getRealPathFromPdfUri(context: Context, uri: Uri): String? {
+        // ContentProvider를 통해 파일 정보 가져오기
+        context.contentResolver.query(uri, null, null, null, null)?.use { cursor ->
+            if (cursor.moveToFirst()) {
+                val displayNameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                val displayName = if (displayNameIndex != -1) {
+                    cursor.getString(displayNameIndex)
+                } else {
+                    // 파일 이름을 가져올 수 없는 경우 임의의 이름 생성
+                    "temp_pdf_${System.currentTimeMillis()}.pdf"
+                }
+
+                // 임시 파일 생성
+                val file = File(context.cacheDir, displayName)
+
+                try {
+                    // URI에서 입력 스트림 열기
+                    context.contentResolver.openInputStream(uri)?.use { input ->
+                        // 파일에 출력 스트림 열기
+                        FileOutputStream(file).use { output ->
+                            // 입력 스트림에서 출력 스트림으로 데이터 복사
+                            input.copyTo(output)
+                        }
+                    }
+                    // 임시 파일의 절대 경로 반환
+                    return file.absolutePath
+                } catch (e: IOException) {
+                    LoggerUtils.e("Error copying file: ${e.message}")
+                }
+            }
+        }
+        return null
     }
 }
