@@ -55,11 +55,11 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="48dp"
             android:background="@drawable/shape_radius_50"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="@color/primary"
 
             android:fontFamily="@font/pretendard_medium"
             android:text="@string/text_change_nickname"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
 
@@ -74,11 +74,11 @@
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/shape_radius_50"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="@color/primary"
 
             android:fontFamily="@font/pretendard_medium"
             android:text="@string/text_load_diary"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
 

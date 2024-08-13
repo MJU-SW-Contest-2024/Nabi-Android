@@ -149,7 +149,8 @@
             app:layout_constraintBottom_toBottomOf="@id/btn_recent_naver"
             app:layout_constraintStart_toStartOf="@id/btn_recent_naver"
 
-            app:layout_constraintTop_toTopOf="@id/btn_recent_naver" />
+            app:layout_constraintTop_toTopOf="@id/btn_recent_naver"
+            tools:ignore="ContentDescription" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/group_recent_naver"
@@ -242,8 +243,8 @@
             android:layout_height="wrap_content"
 
             android:fontFamily="@font/pretendard_regular"
-            android:text="Team. 나비"
-            android:textColor="#BBBBBB"
+            android:text="@string/text_team_name"
+            android:textColor="@color/white"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
 

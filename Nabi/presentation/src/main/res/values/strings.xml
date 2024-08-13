@@ -11,6 +11,7 @@
 
     <!-- 로그인 페이지 -->
     <string name="text_recent_login">최근에 이용했어요!</string>
+    <string name="text_team_name">Team 나비</string>
 
     <!-- 달력 -->
     <string name="text_week_monday">M</string>
