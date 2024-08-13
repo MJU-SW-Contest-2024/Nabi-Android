@@ -1,5 +1,6 @@
 package com.nabi.nabi.views.splash
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -25,6 +26,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
+@SuppressLint("CustomSplashScreen")
 class StartActivity : BaseActivity<ActivityStartBinding>(R.layout.activity_start) {
     private val viewModel: StartViewModel by viewModels()
 
@@ -36,8 +38,6 @@ class StartActivity : BaseActivity<ActivityStartBinding>(R.layout.activity_start
 
     override fun initView() {
         viewModel.fetchMyInfo()
-
-        setContentView(R.layout.fragment_splash)
     }
 
     override fun setObserver() {
@@ -105,13 +105,8 @@ class StartActivity : BaseActivity<ActivityStartBinding>(R.layout.activity_start
         }
 
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//        startActivity(intent)
-//        finish()
-        GlobalScope.launch(Dispatchers.Main) {
-            delay(1000L)
-            startActivity(intent)
-            finish()
-        }
+        startActivity(intent)
+        finish()
     }
 
     private fun createIntent(destination: Class<*>): Intent {
