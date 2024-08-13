@@ -142,6 +142,7 @@ class SelectDiaryFragment : BaseFragment<FragmentSelectDiaryBinding>(R.layout.fr
             setBalloonAnimation(BalloonAnimation.FADE)
             setBalloonHighlightAnimation(BalloonHighlightAnimation.SHAKE)
             setLifecycleOwner(viewLifecycleOwner)
+            setAutoDismissDuration(1500L)
             build()
         }
     }
