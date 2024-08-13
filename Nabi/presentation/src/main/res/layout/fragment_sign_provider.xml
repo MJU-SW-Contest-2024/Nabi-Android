@@ -25,7 +25,6 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="ContentDescription" />
 
-
         <ImageButton
             android:id="@+id/btn_naver"
             android:layout_width="80dp"

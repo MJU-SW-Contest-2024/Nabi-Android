@@ -17,33 +17,40 @@ import com.nabi.nabi.utils.UiState
 import com.nabi.nabi.views.MainActivity
 import com.nabi.nabi.views.sign.SignActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start) {
+class StartActivity : BaseActivity<ActivityStartBinding>(R.layout.activity_start) {
     private val viewModel: StartViewModel by viewModels()
 
     @Inject
     lateinit var kakaoAuthService: KakaoAuthService
 
-    @Inject lateinit var dataStoreRepository: DataStoreRepository
+    @Inject
+    lateinit var dataStoreRepository: DataStoreRepository
 
     override fun initView() {
         viewModel.fetchMyInfo()
+
+        setContentView(R.layout.fragment_splash)
     }
 
     override fun setObserver() {
         super.setObserver()
 
-        viewModel.uiState.observe(this){
-            when(it){
+        viewModel.uiState.observe(this) {
+            when (it) {
                 is UiState.Loading -> {}
                 is UiState.Failure -> {
                     LoggerUtils.e("서버 토큰 유효하지 않음:\n${it.message}")
                     moveActivity(false)
                 }
+
                 is UiState.Success -> {
                     nickname = it.data
                     handleLoginSuccess()
@@ -83,6 +90,7 @@ class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start)
         }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private fun moveActivity(isValid: Boolean) {
         val destination = if (isValid) {
             if (viewModel.isRegister) MainActivity::class.java else SignActivity::class.java
@@ -92,17 +100,21 @@ class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start)
 
         val intent = createIntent(destination)
 
-        if(isValid && !viewModel.isRegister){
+        if (isValid && !viewModel.isRegister) {
             intent.putExtra("isLoginSuccess", true)
         }
 
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        finish()
+//        startActivity(intent)
+//        finish()
+        GlobalScope.launch(Dispatchers.Main) {
+            delay(1000L)
+            startActivity(intent)
+            finish()
+        }
     }
 
-    private fun createIntent(destination: Class<*>) : Intent {
-        val intent = Intent(this, destination)
-        return intent
+    private fun createIntent(destination: Class<*>): Intent {
+        return Intent(this, destination)
     }
 }
