@@ -1,6 +1,7 @@
 package com.nabi.nabi.di
 
 import com.nabi.domain.repository.DataStoreRepository
+import com.nabi.domain.usecase.datastore.ClearUserDataUseCase
 import com.nabi.domain.usecase.datastore.GetAccessTokenUseCase
 import com.nabi.domain.usecase.datastore.GetAuthProviderUseCase
 import com.nabi.domain.usecase.datastore.GetRecentAuthProviderUseCase
@@ -45,5 +46,13 @@ object DataStoreUseCaseModule {
         repository: DataStoreRepository
     ): SaveSignInInfoUseCase {
         return SaveSignInInfoUseCase(repository = repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideClearUserDataUseCase(
+        repository: DataStoreRepository
+    ): ClearUserDataUseCase {
+        return ClearUserDataUseCase(repository = repository)
     }
 }

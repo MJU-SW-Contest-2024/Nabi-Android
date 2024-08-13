@@ -2,6 +2,7 @@ package com.nabi.nabi.views.myPage
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import androidx.datastore.dataStore
 import androidx.fragment.app.viewModels
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
@@ -9,6 +10,7 @@ import com.nabi.nabi.base.NabiApplication.Companion.consecutiveDay
 import com.nabi.nabi.base.NabiApplication.Companion.nickname
 import com.nabi.nabi.custom.CustomDialog
 import com.nabi.nabi.databinding.FragmentMypageBinding
+import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import com.nabi.nabi.views.MainActivity
 import com.nabi.nabi.views.sign.SignActivity
@@ -62,6 +64,20 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
                 is UiState.Loading -> {}
                 is UiState.Failure -> {
                     showToast("회원 탈퇴 실패")
+                }
+
+                is UiState.Success -> {
+                    myPageViewModel.clearData()
+                }
+            }
+        }
+
+        myPageViewModel.clearState.observe(viewLifecycleOwner)
+        {
+            when (it) {
+                is UiState.Loading -> {}
+                is UiState.Failure -> {
+                    showToast("회원 정보 삭제 실패")
                 }
 
                 is UiState.Success -> {
