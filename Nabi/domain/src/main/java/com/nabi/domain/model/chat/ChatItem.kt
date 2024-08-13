@@ -8,5 +8,5 @@ data class ChatItem(
     val content: String,
     val isMine: Boolean,
     val isDateHeader: Boolean = false,
-    val showRefreshIcon: Boolean = false
+    var showRefreshIcon: Boolean = false
 )

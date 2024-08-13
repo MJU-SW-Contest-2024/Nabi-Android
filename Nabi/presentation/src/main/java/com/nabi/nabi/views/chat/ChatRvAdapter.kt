@@ -13,6 +13,7 @@ import com.nabi.domain.model.chat.ChatItem
 import com.nabi.nabi.databinding.ItemChatDateBinding
 import com.nabi.nabi.databinding.ItemChatMyBinding
 import com.nabi.nabi.databinding.ItemChatOtherBinding
+import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.views.OnRvItemClickListener
 
 class ChatRvAdapter(
@@ -82,6 +83,10 @@ class ChatRvAdapter(
         } else {
             holder.binding.ibRefresh.visibility = View.GONE
         }
+
+        if(itemCount == 2){
+            holder.binding.ibRefresh.visibility = View.GONE
+        }
     }
 
     class DateViewHolder private constructor(private val binding: ItemChatDateBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -130,7 +135,7 @@ class ChatRvAdapter(
         fun bind(item: ChatItem, retryClickListener: OnRvItemClickListener<Int>) {
             binding.messageText.text = item.content
             binding.tvTime.text = item.time
-            binding.ibRefresh.visibility = if (item.showRefreshIcon) View.VISIBLE else View.GONE
+            binding.ibRefresh.visibility = if(item.showRefreshIcon) View.VISIBLE else View.GONE
             setMaxWidth(binding.messageText, itemView.context)
 
             binding.ibRefresh.setOnClickListener {
@@ -143,7 +148,7 @@ class ChatRvAdapter(
             val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as android.view.WindowManager
             windowManager.defaultDisplay.getMetrics(displayMetrics)
             val screenWidth = displayMetrics.widthPixels
-            val maxWidth = (screenWidth * 0.6).toInt()
+            val maxWidth = (screenWidth * 0.5).toInt()
             textView.maxWidth = maxWidth
         }
 
