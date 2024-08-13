@@ -7,18 +7,24 @@ import androidx.lifecycle.viewModelScope
 import com.nabi.domain.usecase.auth.WithdrawUseCase
 import com.nabi.domain.usecase.datastore.ClearUserDataUseCase
 import com.nabi.domain.usecase.datastore.GetAccessTokenUseCase
+import com.nabi.domain.usecase.user.LoadDiaryUseCase
 import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.io.InputStream
 import javax.inject.Inject
 
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
+    private val loadDiaryUseCase: LoadDiaryUseCase,
     private val withdrawUseCase: WithdrawUseCase,
     private val clearUserDataUseCase: ClearUserDataUseCase,
     private val getAccessTokenUseCase: GetAccessTokenUseCase
 ) : ViewModel() {
+
+    private var _loadState = MutableLiveData<UiState<String>>(UiState.Loading)
+    val loadState get() = _loadState
 
     private val _withdrawState = MutableLiveData<UiState<String>>(UiState.Loading)
     val withdrawState: LiveData<UiState<String>> get() = _withdrawState
@@ -26,6 +32,27 @@ class MyPageViewModel @Inject constructor(
     private val _clearState = MutableLiveData<UiState<Boolean>>(UiState.Loading)
     val clearState: LiveData<UiState<Boolean>> get() = _clearState
 
+    fun loadDiary(realPath: String) {
+        _loadState.value = UiState.Loading
+
+        viewModelScope.launch {
+            val accessToken = getAccessTokenUseCase.invoke().getOrNull().orEmpty()
+
+            try {
+                loadDiaryUseCase(accessToken, realPath)
+                    .onSuccess {
+                        _loadState.value = UiState.Success(it)
+                    }
+                    .onFailure { e ->
+                        LoggerUtils.e("Load Diary failed: ${e.message}")
+                        _loadState.value = UiState.Failure(message = e.message.toString())
+                    }
+            } catch (e: Exception) {
+                LoggerUtils.e("Load Diary exception: ${e.message}")
+                _loadState.value = UiState.Failure(message = e.message.toString())
+            }
+        }
+    }
 
     fun withdraw() {
         _withdrawState.value = UiState.Loading
