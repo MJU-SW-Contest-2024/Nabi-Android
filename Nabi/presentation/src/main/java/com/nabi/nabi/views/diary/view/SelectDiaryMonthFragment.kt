@@ -43,7 +43,6 @@ class SelectDiaryMonthFragment: BaseFragment<FragmentSelectDiaryMonthBinding>(R.
         dayAdapter = SelectDiaryDayCalendarAdapter().apply {
             setRvItemClickListener(object : OnRvItemClickListener<Int> {
                 override fun onClick(item: Int) {
-                    LoggerUtils.i("click: $item")
                     viewModel.isUpdateFlag = true
                     (requireActivity() as MainActivity).replaceFragment(DetailDiaryFragment(item), true)
                 }
