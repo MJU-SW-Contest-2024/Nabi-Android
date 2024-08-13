@@ -3,6 +3,7 @@ package com.nabi.nabi.di
 import com.nabi.domain.repository.AuthRepository
 import com.nabi.domain.usecase.auth.SetNicknameUseCase
 import com.nabi.domain.usecase.auth.SignInUseCase
+import com.nabi.domain.usecase.auth.WithdrawUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,5 +28,13 @@ object AuthUseCaseModule {
         repository: AuthRepository
     ): SetNicknameUseCase {
         return SetNicknameUseCase(repository = repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideWithdrawUseCase(
+        repository: AuthRepository
+    ): WithdrawUseCase {
+        return WithdrawUseCase(repository = repository)
     }
 }

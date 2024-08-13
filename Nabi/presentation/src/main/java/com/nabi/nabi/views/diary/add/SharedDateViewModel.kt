@@ -10,8 +10,8 @@ class SharedDateViewModel : ViewModel() {
     private val _selectedDate = MutableLiveData("")
     val selectedDate: LiveData<String> get() = _selectedDate
 
-    private val _date = MutableLiveData<DiarySelectInfo>()
-    val date: LiveData<DiarySelectInfo> get() = _date
+    private val _date = MutableLiveData<DiarySelectInfo?>()
+    val date: LiveData<DiarySelectInfo?> get() = _date
 
     fun changeSelectedDate(date: String) {
         _selectedDate.value = date
@@ -23,5 +23,6 @@ class SharedDateViewModel : ViewModel() {
 
     fun clearData() {
         _selectedDate.value = ""
+        _date.value = null
     }
 }

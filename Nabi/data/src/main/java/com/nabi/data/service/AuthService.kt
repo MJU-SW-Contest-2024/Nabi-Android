@@ -4,8 +4,10 @@ import com.nabi.data.model.BaseResponse
 import com.nabi.data.model.auth.NicknameResponseDTO
 import com.nabi.data.model.auth.SignInRequestDTO
 import com.nabi.data.model.auth.SignInResponseDTO
+import com.nabi.data.model.auth.WithdrawResponseDTO
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -22,4 +24,9 @@ interface AuthService {
         @Header("Authorization") accessToken: String,
         @Query("nickname") nickname: String
     ): Response<BaseResponse<NicknameResponseDTO>>
+
+    @DELETE("/auth")
+    suspend fun withdraw(
+        @Header("Authorization") accessToken: String
+    ): Response<BaseResponse<WithdrawResponseDTO>>
 }

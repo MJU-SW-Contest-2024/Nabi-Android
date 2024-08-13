@@ -110,12 +110,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     showToast(it.message)
                     LoggerUtils.e("메인페이지 데이터 불러오기 실패: ${it.message}")
                     binding.rvDiary.visibility = View.GONE
+                    binding.tvEmptyDiary.visibility = View.VISIBLE
                 }
 
                 is UiState.Success -> {
                     val diaryList = it.data.recentFiveDiaries
                     if (diaryList.isEmpty()) {
                         binding.rvDiary.visibility = View.GONE
+                        binding.tvEmptyDiary.visibility = View.VISIBLE
                     } else {
                         homeRvAdapter.setData(diaryList)
                         consecutiveDay = it.data.consecutiveWritingDays

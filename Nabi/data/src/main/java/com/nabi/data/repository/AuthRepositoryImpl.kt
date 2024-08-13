@@ -53,4 +53,24 @@ class AuthRepositoryImpl @Inject constructor(
             Result.failure(result.exceptionOrNull() ?: Exception("Unknown error"))
         }
     }
+
+    override suspend fun withdraw(accessToken: String): Result<String> {
+        val result = authRemoteDataSource.withdraw(accessToken)
+
+        return if (result.isSuccess) {
+            val res = result.getOrNull()
+            if(res != null){
+                val data = res.data
+                if(data != null){
+                    Result.success(data.message)
+                } else {
+                    Result.failure(Exception("Withdraw Failed: data is null"))
+                }
+            } else {
+                Result.failure(Exception("Withdraw Failed: response body is null"))
+            }
+        } else {
+            Result.failure(result.exceptionOrNull() ?: Exception("Unknown error"))
+        }
+    }
 }

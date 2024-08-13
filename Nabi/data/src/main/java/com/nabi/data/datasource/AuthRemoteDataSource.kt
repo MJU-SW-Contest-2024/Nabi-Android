@@ -4,6 +4,7 @@ import com.nabi.data.model.BaseResponse
 import com.nabi.data.model.auth.NicknameResponseDTO
 import com.nabi.data.model.auth.SignInRequestDTO
 import com.nabi.data.model.auth.SignInResponseDTO
+import com.nabi.data.model.auth.WithdrawResponseDTO
 
 interface AuthRemoteDataSource {
     suspend fun signIn(
@@ -14,4 +15,8 @@ interface AuthRemoteDataSource {
         accessToken: String,
         nickname: String
     ): Result<BaseResponse<NicknameResponseDTO>>
+
+    suspend fun withdraw(
+        accessToken: String
+    ): Result<BaseResponse<WithdrawResponseDTO>>
 }
