@@ -56,7 +56,7 @@ class EmotionSearchViewModel @Inject constructor(
         }
     }
 
-    private fun resetPageable(content: String){
+    fun resetPageable(content: String){
         _diaryItems.value?.clear()
         _searchEmotion.value = content
         page = 0

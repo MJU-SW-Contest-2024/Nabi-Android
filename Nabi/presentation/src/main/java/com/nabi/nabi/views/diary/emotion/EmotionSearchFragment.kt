@@ -30,8 +30,8 @@ class EmotionSearchFragment(
 
     override fun onResume() {
         super.onResume()
-
-        emotionSearchAdapter.submitList(viewModel.diaryItems.value)
+        viewModel.resetPageable(viewModel.searchEmotion.value!!)
+        viewModel.fetchData(viewModel.searchEmotion.value!!)
     }
 
     private fun setSearchDiaryAdapter() {
@@ -39,7 +39,7 @@ class EmotionSearchFragment(
             setRvItemClickListener(object : OnRvItemClickListener<Int> {
                 override fun onClick(item: Int) {
                     (requireActivity() as MainActivity).replaceFragment(
-                        DetailDiaryFragment(item),
+                        DetailDiaryFragment(item, "EmotionSearchFragment") ,
                         true
                     )
                 }

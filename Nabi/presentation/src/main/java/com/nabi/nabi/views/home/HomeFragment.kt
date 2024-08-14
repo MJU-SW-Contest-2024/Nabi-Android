@@ -46,7 +46,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             setRvItemClickListener(object : OnRvItemClickListener<Int> {
                 override fun onClick(item: Int) {
                     (requireActivity() as MainActivity).replaceFragment(
-                        DetailDiaryFragment(item),
+                        DetailDiaryFragment(item, "HomeFragment"),
                         true
                     )
                 }

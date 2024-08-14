@@ -48,9 +48,10 @@ class EmotionLoadingDialog(private val isEdit: Boolean, private val diaryId: Int
                 is UiState.Failure -> {
                     showToast("일기 감정분석 실패")
                     (requireActivity() as MainActivity).replaceFragment(
-                        DetailDiaryFragment(diaryId),
+                        DetailDiaryFragment(diaryId, "EmotionLoadingDialog"),
                         false
                     )
+                    dismiss()
                 }
 
                 is UiState.Success -> {
@@ -73,9 +74,10 @@ class EmotionLoadingDialog(private val isEdit: Boolean, private val diaryId: Int
                         requireActivity().supportFragmentManager.popBackStack()
                     } else {
                         (requireActivity() as MainActivity).replaceFragment(
-                            DetailDiaryFragment(diaryId),
+                            DetailDiaryFragment(diaryId, "EmotionLoadingDialog"),
                             false
                         )
+                        dismiss()
                     }
                 }
             }
