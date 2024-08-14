@@ -15,6 +15,10 @@
     <string name="text_recent_login">최근에 이용했어요!</string>
     <string name="text_team_name">Team 너의비밀친구</string>
 
+    <!-- 닉네임 설정 페이지 -->
+    <string name="text_set_nickname">닉네임 설정</string>
+    <string name="hint_set_nickname">닉네임을 입력해주세요</string>
+
     <!-- 달력 -->
     <string name="text_week_monday">M</string>
     <string name="text_week_tuesday">T</string>
