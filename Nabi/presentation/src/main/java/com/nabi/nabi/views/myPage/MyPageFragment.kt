@@ -64,7 +64,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
         }
 
         binding.btnChangeNickname.setOnClickListener {
-            (requireActivity() as MainActivity).replaceFragment(SignInNicknameFragment(), true)
+            (requireActivity() as MainActivity).replaceFragment(SignInNicknameFragment(false), true)
         }
 
         binding.btnLoadDiary.setOnClickListener {

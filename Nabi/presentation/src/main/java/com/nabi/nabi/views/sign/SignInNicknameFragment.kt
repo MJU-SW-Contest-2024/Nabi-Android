@@ -9,6 +9,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import com.nabi.nabi.R
+import com.nabi.nabi.base.BaseActivity
 import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.base.NabiApplication.Companion.nickname
 import com.nabi.nabi.databinding.FragmentSignNicknameBinding
@@ -25,7 +26,11 @@ class SignInNicknameFragment(
     private val viewModel: SignNicknameViewModel by viewModels()
 
     override fun initView() {
-        (requireActivity() as SignActivity).setStatusBarColor(R.color.white, false)
+        if(isSignUp) {
+            (requireActivity() as SignActivity).setStatusBarColor(R.color.white, false)
+        } else {
+            (requireActivity() as MainActivity).setStatusBarColor(R.color.white, false)
+        }
 
         binding.etNick.filters = arrayOf(InputFilter { source, _, _, _, _, _ ->
             val ps: Pattern = Pattern.compile("^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ\\u318D\\u119E\\u11A2\\u2022\\u2025a\\u00B7\\uFE55]+$")
