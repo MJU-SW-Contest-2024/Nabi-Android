@@ -13,7 +13,7 @@
 
     <!-- 로그인 페이지 -->
     <string name="text_recent_login">최근에 이용했어요!</string>
-    <string name="text_team_name">Team 나비</string>
+    <string name="text_team_name">Team 너의비밀친구</string>
 
     <!-- 달력 -->
     <string name="text_week_monday">M</string>
@@ -23,6 +23,14 @@
     <string name="text_week_friday">F</string>
     <string name="text_week_saturday">S</string>
     <string name="text_week_sunday">S</string>
+
+    <!-- 일기 보기 - 일기 상세 페이지 -->
+    <string name="text_modify">수정</string>
+    <string name="text_delete">삭제</string>
+    <string name="text_emotion_reload">일기 감정 분석하기</string>
+
+    <!-- 일기 보기 - 일기 검색 페이지 -->
+    <string name="hint_search_diary">검색어를 입력해주세요</string>
 
     <!-- 일기 보기 - 날짜 선택 페이지 -->
     <string name="text_move_statistics">내 감정 통계 보러가기</string>
@@ -35,7 +43,15 @@
     <string name="text_warning1">앱을 종료하면 문제가 생길 수 있습니다.</string>
     <string name="text_warning2">조금만 기다려주세요!</string>
 
-    <!-- 일기 작성 - 일기 작성 페이지 -->
+    <!-- 일기 보기 - 감정 통계 페이지 -->
+    <string name="text_emotion_statistic_title">감정 통계</string>
+    <string name="text_select_cat">감정 고양이들을 선택해 해당 감정의 일기들을 확인해보세요!</string>
+
+    <!-- 대화하기 - 채팅 페이지 -->
+    <string name="text_chat_title">대화하기</string>
+    <string name="hint_chat">내용을 입력하세요</string>
+
+    <!-- 마이페이지 -->
     <string name="text_change_nickname">닉네임 변경하기</string>
     <string name="text_load_diary">일기 가져오기</string>
     <string name="text_withdraw">회원 탈퇴</string>
