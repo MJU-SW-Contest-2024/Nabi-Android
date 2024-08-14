@@ -50,7 +50,7 @@
 
                     android:layout_gravity="end"
                     android:background="@color/transparent"
-                    android:text="수정"
+                    android:text="@string/text_modify"
                     android:textColor="@color/black" />
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -62,7 +62,7 @@
 
                     android:layout_gravity="end"
                     android:background="@color/transparent"
-                    android:text="삭제"
+                    android:text="@string/text_delete"
                     android:textColor="@color/red" />
             </Toolbar>
 

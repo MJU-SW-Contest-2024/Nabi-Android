@@ -44,7 +44,7 @@
             style="@style/search_keyword_regular_16px"
             android:textColor="@color/black"
             android:textColorHint="@color/gray2"
-            android:hint="검색어를 입력해주세요"
+            android:hint="@string/hint_search_diary"
 
             android:importantForAutofill="no"
             android:inputType="text"
