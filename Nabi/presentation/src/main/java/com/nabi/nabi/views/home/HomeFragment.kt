@@ -71,7 +71,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         super.initListener()
 
         binding.ibNotification.setOnClickListener {
-
+            val ft = requireActivity().supportFragmentManager.beginTransaction()
+            ft.replace(R.id.fl_main, NotifyFragment())
+            ft.addToBackStack("notify")
+            ft.commit()
         }
 
         binding.ibMypage.setOnClickListener {
