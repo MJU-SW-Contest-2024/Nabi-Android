@@ -25,6 +25,8 @@ class SignInNicknameFragment(
     private val viewModel: SignNicknameViewModel by viewModels()
 
     override fun initView() {
+        (requireActivity() as SignActivity).setStatusBarColor(R.color.white, false)
+
         binding.etNick.filters = arrayOf(InputFilter { source, _, _, _, _, _ ->
             val ps: Pattern = Pattern.compile("^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ\\u318D\\u119E\\u11A2\\u2022\\u2025a\\u00B7\\uFE55]+$")
             if (source == "" || ps.matcher(source).matches()) return@InputFilter source
