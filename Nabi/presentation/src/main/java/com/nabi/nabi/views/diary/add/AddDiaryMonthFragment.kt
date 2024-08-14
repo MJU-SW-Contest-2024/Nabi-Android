@@ -2,23 +2,18 @@ package com.nabi.nabi.views.diary.add
 
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.nabi.domain.model.diary.DiarySelectInfo
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.databinding.FragmentAddDiaryMonthBinding
 import com.nabi.nabi.utils.Constants.dateEnglishOnlyYearFormat
-import com.nabi.nabi.utils.Constants.dateKoreanFormat
 import com.nabi.nabi.utils.Constants.dateNumberOnlyMonthFormat
 import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import com.nabi.nabi.views.OnRvItemClickListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date

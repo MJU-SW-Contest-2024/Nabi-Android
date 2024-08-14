@@ -1,7 +1,6 @@
 package com.nabi.domain.repository
 
 import com.nabi.domain.model.user.UserInfo
-import java.io.InputStream
 
 
 interface UserRepository {

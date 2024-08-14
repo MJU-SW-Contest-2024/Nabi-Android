@@ -13,7 +13,6 @@ import com.nabi.domain.model.chat.ChatItem
 import com.nabi.nabi.databinding.ItemChatDateBinding
 import com.nabi.nabi.databinding.ItemChatMyBinding
 import com.nabi.nabi.databinding.ItemChatOtherBinding
-import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.views.OnRvItemClickListener
 
 class ChatRvAdapter(

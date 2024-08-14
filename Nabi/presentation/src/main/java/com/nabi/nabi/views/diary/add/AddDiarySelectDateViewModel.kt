@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabi.domain.model.diary.DiaryDbEntity
 import com.nabi.domain.model.diary.DiarySelectInfo
-import com.nabi.domain.repository.DataStoreRepository
 import com.nabi.domain.usecase.datastore.GetAccessTokenUseCase
 import com.nabi.domain.usecase.diary.GetMonthlyDiaryUseCase
 import com.nabi.domain.usecase.diary.GetTempDiaryUseCase

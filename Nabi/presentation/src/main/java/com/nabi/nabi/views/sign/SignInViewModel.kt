@@ -6,17 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabi.domain.enums.AuthProvider
 import com.nabi.domain.model.auth.SignInInfo
-import com.nabi.domain.repository.DataStoreRepository
-import com.nabi.domain.usecase.datastore.GetRecentAuthProviderUseCase
 import com.nabi.domain.usecase.auth.SignInUseCase
-import com.nabi.domain.usecase.datastore.GetAccessTokenUseCase
+import com.nabi.domain.usecase.datastore.GetRecentAuthProviderUseCase
 import com.nabi.domain.usecase.datastore.SaveSignInInfoUseCase
 import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel

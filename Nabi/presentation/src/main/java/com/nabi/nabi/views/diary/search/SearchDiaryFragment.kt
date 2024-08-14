@@ -37,7 +37,7 @@ class SearchDiaryFragment: BaseFragment<FragmentSearchDiaryBinding>(R.layout.fra
         searchDiaryAdapter = SearchDiaryAdapter().apply {
             setRvItemClickListener(object : OnRvItemClickListener<Int>{
                 override fun onClick(item: Int) {
-                    (requireActivity() as MainActivity).replaceFragment(DetailDiaryFragment(item), true)
+                    (requireActivity() as MainActivity).replaceFragment(DetailDiaryFragment(item, "SearchDiaryFragment"), true)
                 }
             })
         }
