@@ -3,7 +3,6 @@ package com.nabi.data.repository
 import com.nabi.data.datasource.UserRemoteDataSource
 import com.nabi.domain.model.user.UserInfo
 import com.nabi.domain.repository.UserRepository
-import java.io.InputStream
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(

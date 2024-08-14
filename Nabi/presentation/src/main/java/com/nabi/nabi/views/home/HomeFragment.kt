@@ -2,11 +2,9 @@ package com.nabi.nabi.views.home
 
 import android.annotation.SuppressLint
 import android.view.View
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.nabi.domain.model.home.HomeInfo
 import com.nabi.domain.model.home.RecentFiveDiary
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment

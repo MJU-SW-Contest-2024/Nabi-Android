@@ -1,6 +1,5 @@
 package com.nabi.domain.usecase.diary
 
-import com.nabi.domain.model.diary.DiaryDbEntity
 import com.nabi.domain.repository.DiaryDbRepository
 
 class UpdateTempDiaryUseCase(private val repository: DiaryDbRepository) {

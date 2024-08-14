@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabi.domain.model.chat.ChatItem
-import com.nabi.domain.repository.DataStoreRepository
 import com.nabi.domain.usecase.chat.EmbeddingDiaryUseCase
 import com.nabi.domain.usecase.chat.GetChatHistoryUseCase
 import com.nabi.domain.usecase.chat.RetryChatResUseCase

@@ -3,7 +3,6 @@ package com.nabi.nabi.views.diary.add
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.nabi.domain.model.diary.DiarySelectInfo
 import java.util.Calendar
 
 class AddDiaryMonthCalendarStateAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {

@@ -2,7 +2,6 @@ package com.nabi.nabi.views.diary.detail
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
@@ -13,11 +12,8 @@ import com.nabi.nabi.utils.UiState
 import com.nabi.nabi.views.MainActivity
 import com.nabi.nabi.views.diary.add.AddDiaryFragment
 import com.nabi.nabi.views.diary.add.EmotionLoadingDialog
-import com.nabi.nabi.views.diary.emotion.EmotionSearchFragment
 import com.nabi.nabi.views.diary.search.SearchDiaryFragment
 import com.nabi.nabi.views.diary.view.SelectDiaryFragment
-import com.nabi.nabi.views.diary.view.SelectDiaryMonthFragment
-import com.nabi.nabi.views.home.HomeFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

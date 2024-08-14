@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabi.domain.model.home.HomeInfo
-import com.nabi.domain.repository.DataStoreRepository
 import com.nabi.domain.usecase.bookmark.AddBookmarkUseCase
 import com.nabi.domain.usecase.bookmark.DeleteBookmarkUseCase
 import com.nabi.domain.usecase.datastore.GetAccessTokenUseCase
