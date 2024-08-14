@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.view.LayoutInflater
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.viewpager2.widget.ViewPager2
 import com.nabi.domain.model.diary.DiaryDbEntity
 import com.nabi.domain.model.diary.DiarySelectInfo
 import com.nabi.nabi.R
@@ -74,8 +75,16 @@ class AddDiarySelectDateFragment :
             vpCalendarMonth.adapter = calendarAdapter
             vpCalendarMonth.setCurrentItem(Int.MAX_VALUE / 2, false)
             vpCalendarMonth.offscreenPageLimit = 1
-        }
 
+            vpCalendarMonth.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+
+                    val calendar = getCalendarForPosition(position)
+                    binding.tvSelectMonth.text = dateEnglishOnlyMonthFormat.format(calendar.time)
+                }
+            })
+        }
         updateCurrentMonthText(binding.vpCalendarMonth.currentItem)
     }
 
@@ -153,7 +162,7 @@ class AddDiarySelectDateFragment :
             tempDiary?.diaryTempContent,
             selectedDate.diaryEntryDate
         )
-        (requireActivity() as MainActivity).replaceFragment(fragment, false)
+        (requireActivity() as MainActivity).replaceFragment(fragment, true)
     }
 
     private fun updateCalendarMonth(monthDifference: Int) {
