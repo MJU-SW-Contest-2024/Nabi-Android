@@ -14,7 +14,6 @@ import com.nabi.nabi.utils.UiState
 import com.nabi.nabi.views.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import kotlin.math.sign
 
 @AndroidEntryPoint
 class SignInProviderFragment :

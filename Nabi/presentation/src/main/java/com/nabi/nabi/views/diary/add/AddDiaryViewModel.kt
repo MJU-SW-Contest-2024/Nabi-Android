@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.nabi.domain.model.diary.AddDiaryInfo
 import com.nabi.domain.model.diary.DiaryDbEntity
 import com.nabi.domain.model.diary.UpdateDiaryInfo
-import com.nabi.domain.repository.DataStoreRepository
 import com.nabi.domain.usecase.datastore.GetAccessTokenUseCase
 import com.nabi.domain.usecase.diary.AddDiaryUseCase
 import com.nabi.domain.usecase.diary.AddTempDiaryUseCase

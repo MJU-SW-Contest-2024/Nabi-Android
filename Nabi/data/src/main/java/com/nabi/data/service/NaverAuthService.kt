@@ -3,14 +3,12 @@ package com.nabi.data.service
 import android.app.Activity
 import android.content.Context
 import android.util.Log
-import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
 import com.nabi.domain.enums.AuthProvider
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.OAuthLoginCallback
 import dagger.hilt.android.qualifiers.ActivityContext
 import javax.inject.Inject
-import kotlin.reflect.KFunction2
 
 class NaverAuthService @Inject constructor(
     @ActivityContext private val context: Context,

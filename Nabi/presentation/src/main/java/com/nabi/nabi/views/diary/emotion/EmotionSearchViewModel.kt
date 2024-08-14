@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabi.domain.model.diary.SearchDiary
-import com.nabi.domain.repository.DataStoreRepository
 import com.nabi.domain.usecase.datastore.GetAccessTokenUseCase
 import com.nabi.domain.usecase.emotion.SearchEmotionUseCase
 import com.nabi.nabi.utils.UiState
@@ -56,7 +55,7 @@ class EmotionSearchViewModel @Inject constructor(
         }
     }
 
-    private fun resetPageable(content: String){
+    fun resetPageable(content: String){
         _diaryItems.value?.clear()
         _searchEmotion.value = content
         page = 0

@@ -12,7 +12,6 @@ import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.io.InputStream
 import javax.inject.Inject
 
 @HiltViewModel

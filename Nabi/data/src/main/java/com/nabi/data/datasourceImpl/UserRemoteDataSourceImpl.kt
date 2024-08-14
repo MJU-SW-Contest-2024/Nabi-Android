@@ -6,10 +6,8 @@ import com.nabi.data.model.BaseResponse
 import com.nabi.data.model.MessageResponseDTO
 import com.nabi.data.model.user.UserInfoResponseDTO
 import com.nabi.data.service.UserService
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import org.json.JSONObject
 import java.io.File
