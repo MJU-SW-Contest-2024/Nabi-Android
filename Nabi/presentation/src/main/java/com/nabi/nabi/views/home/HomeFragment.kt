@@ -175,8 +175,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             override fun handleOnBackPressed() {
                 if (System.currentTimeMillis() - backPressedTime >= 2000) {
                     backPressedTime = System.currentTimeMillis()
-                    Toast.makeText(requireContext(), "한번 더 누르면 앱을 종료합니다.", Toast.LENGTH_SHORT)
-                        .show()
+                    showToast("한번 더 누르면 앱을 종료합니다")
                 } else if (System.currentTimeMillis() - backPressedTime < 2000) {
                     requireActivity().finish()
                 }

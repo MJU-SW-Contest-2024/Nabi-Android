@@ -11,6 +11,7 @@ import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import com.nabi.nabi.views.MainActivity
 import com.nabi.nabi.views.diary.add.AddDiaryFragment
+import com.nabi.nabi.views.diary.view.SelectDiaryFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,7 +28,7 @@ class DetailDiaryFragment(
         super.initListener()
 
         binding.ibBack.setOnClickListener {
-            popBackStack(true)
+            popBackStack()
         }
 
         binding.btnEdit.setOnClickListener {
@@ -130,7 +131,7 @@ class DetailDiaryFragment(
 
                 is UiState.Success -> {
                     LoggerUtils.d(it.data.message)
-                    popBackStack(true)
+                    requireActivity().supportFragmentManager.popBackStack()
                 }
             }
         }
@@ -145,15 +146,15 @@ class DetailDiaryFragment(
         return "${year}년 ${month}월 ${day}일"
     }
 
-    private fun popBackStack(isUpdateFlag: Boolean = false) {
-        val fm = requireActivity().supportFragmentManager
-        if (isUpdateFlag) {
-            val result = Bundle().apply {
-                putBoolean("isUpdateFlag", true)
-                putString("date", binding.tvDiaryDate.text.toString())
-            }
-            fm.setFragmentResult("isUpdateFlag", result)
+    private fun popBackStack() {
+        val result = Bundle().apply {
+            putString("date", binding.tvDiaryDate.text.toString())
         }
-        fm.popBackStack()
+
+        val fragment = SelectDiaryFragment().apply {
+            arguments = result
+        }
+
+        (requireActivity() as MainActivity).replaceFragment(fragment, false)
     }
 }
