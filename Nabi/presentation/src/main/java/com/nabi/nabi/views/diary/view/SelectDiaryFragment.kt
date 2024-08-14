@@ -25,7 +25,8 @@ import java.util.Date
 import java.util.Locale
 
 @AndroidEntryPoint
-class SelectDiaryFragment : BaseFragment<FragmentSelectDiaryBinding>(R.layout.fragment_select_diary) {
+class SelectDiaryFragment :
+    BaseFragment<FragmentSelectDiaryBinding>(R.layout.fragment_select_diary) {
     private lateinit var calendarAdapter: SelectDiaryMonthCalendarStateAdapter
 
     private val minYear = 1950
@@ -34,13 +35,31 @@ class SelectDiaryFragment : BaseFragment<FragmentSelectDiaryBinding>(R.layout.fr
     private var lastVisibleDate: Calendar? = null
 
     override fun initView() {
-        calendarAdapter = SelectDiaryMonthCalendarStateAdapter(requireActivity())
-        binding.vpCalendarMonth.adapter = calendarAdapter
-        binding.vpCalendarMonth.setCurrentItem(Int.MAX_VALUE / 2, false)
-        binding.vpCalendarMonth.offscreenPageLimit = 1
+        if (arguments?.getString("date") != null) {
 
-        val currentMonth = SimpleDateFormat("MMMM yyyy", Locale.ENGLISH).format(Date())
-        binding.tvCurrentMonth.text = currentMonth
+            arguments?.let { bundle ->
+                val date = bundle.getString("date")
+                val dateParts = date!!.split("년", "월", "일")
+                val currentCalendar = Calendar.getInstance()
+                currentCalendar.set(dateParts[0].trim().toInt(), dateParts[1].trim().toInt() - 1, 1)
+
+                val position = calculatePositionFromDate(currentCalendar)
+                calendarAdapter =
+                    SelectDiaryMonthCalendarStateAdapter(requireActivity()) // Reinitialize adapter
+                binding.vpCalendarMonth.adapter = calendarAdapter
+                binding.vpCalendarMonth.setCurrentItem(position, false)
+                updateCurrentMonthText(position)
+            }
+        } else {
+
+            calendarAdapter = SelectDiaryMonthCalendarStateAdapter(requireActivity())
+            binding.vpCalendarMonth.adapter = calendarAdapter
+            binding.vpCalendarMonth.setCurrentItem(Int.MAX_VALUE / 2, false)
+            binding.vpCalendarMonth.offscreenPageLimit = 1
+
+            val currentMonth = SimpleDateFormat("MMMM yyyy", Locale.ENGLISH).format(Date())
+            binding.tvCurrentMonth.text = currentMonth
+        }
     }
 
     override fun onResume() {
@@ -50,7 +69,8 @@ class SelectDiaryFragment : BaseFragment<FragmentSelectDiaryBinding>(R.layout.fr
 
         lastVisibleDate?.let { date ->
             val position = calculatePositionFromDate(date)
-            calendarAdapter = SelectDiaryMonthCalendarStateAdapter(requireActivity()) // Reinitialize adapter
+            calendarAdapter =
+                SelectDiaryMonthCalendarStateAdapter(requireActivity()) // Reinitialize adapter
             binding.vpCalendarMonth.adapter = calendarAdapter
             binding.vpCalendarMonth.setCurrentItem(position, false)
             updateCurrentMonthText(position)
@@ -77,7 +97,8 @@ class SelectDiaryFragment : BaseFragment<FragmentSelectDiaryBinding>(R.layout.fr
     override fun initListener() {
         super.initListener()
 
-        binding.vpCalendarMonth.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        binding.vpCalendarMonth.registerOnPageChangeCallback(object :
+            ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 updateCurrentMonthText(position)
@@ -107,10 +128,26 @@ class SelectDiaryFragment : BaseFragment<FragmentSelectDiaryBinding>(R.layout.fr
         }
 
         binding.ivEmotionAnger.setOnClickListener { createEmotionTooltip("화나").showAlignTop(binding.ivEmotionAnger) }
-        binding.ivEmotionHappiness.setOnClickListener { createEmotionTooltip("행복해").showAlignTop(binding.ivEmotionHappiness) }
-        binding.ivEmotionBoredom.setOnClickListener { createEmotionTooltip("지루해").showAlignTop(binding.ivEmotionBoredom) }
-        binding.ivEmotionSadness.setOnClickListener { createEmotionTooltip("슬퍼").showAlignTop(binding.ivEmotionSadness) }
-        binding.ivEmotionAnxiety.setOnClickListener { createEmotionTooltip("불안해").showAlignTop(binding.ivEmotionAnxiety) }
+        binding.ivEmotionHappiness.setOnClickListener {
+            createEmotionTooltip("행복해").showAlignTop(
+                binding.ivEmotionHappiness
+            )
+        }
+        binding.ivEmotionBoredom.setOnClickListener {
+            createEmotionTooltip("지루해").showAlignTop(
+                binding.ivEmotionBoredom
+            )
+        }
+        binding.ivEmotionSadness.setOnClickListener {
+            createEmotionTooltip("슬퍼").showAlignTop(
+                binding.ivEmotionSadness
+            )
+        }
+        binding.ivEmotionAnxiety.setOnClickListener {
+            createEmotionTooltip("불안해").showAlignTop(
+                binding.ivEmotionAnxiety
+            )
+        }
 
         binding.tvCurrentMonth.setOnClickListener {
             showNumberPickerDialog()
@@ -132,7 +169,12 @@ class SelectDiaryFragment : BaseFragment<FragmentSelectDiaryBinding>(R.layout.fr
             setText(text)
             setTextSize(12f)
             setTextColorResource(R.color.white)
-            setTextTypeface(ResourcesCompat.getFont(requireContext(), R.font.pretendard_semi_bold)!!)
+            setTextTypeface(
+                ResourcesCompat.getFont(
+                    requireContext(),
+                    R.font.pretendard_semi_bold
+                )!!
+            )
             setArrowPositionRules(ArrowPositionRules.ALIGN_BALLOON)
             setArrowSize(10)
             setArrowPosition(0.5f)
@@ -157,7 +199,8 @@ class SelectDiaryFragment : BaseFragment<FragmentSelectDiaryBinding>(R.layout.fr
         val year = currentCalendar.get(Calendar.YEAR)
         val month = currentCalendar.get(Calendar.MONTH)
 
-        val dialogBinding = DialogNonDayDatePickerBinding.inflate(LayoutInflater.from(requireContext()))
+        val dialogBinding =
+            DialogNonDayDatePickerBinding.inflate(LayoutInflater.from(requireContext()))
 
         dialogBinding.npYear.minValue = minYear
         dialogBinding.npYear.maxValue = maxYear
@@ -182,7 +225,8 @@ class SelectDiaryFragment : BaseFragment<FragmentSelectDiaryBinding>(R.layout.fr
                 binding.vpCalendarMonth.setCurrentItem(newPosition, false)
 
                 currentCalendar.set(selectedYear, selectedMonth, 1)
-                binding.tvCurrentMonth.text = SimpleDateFormat("MMMM yyyy", Locale.ENGLISH).format(currentCalendar.time)
+                binding.tvCurrentMonth.text =
+                    SimpleDateFormat("MMMM yyyy", Locale.ENGLISH).format(currentCalendar.time)
             }
             .setNegativeButton("취소") { _, _ -> }
             .create()

@@ -44,7 +44,7 @@ class SelectDiaryMonthFragment: BaseFragment<FragmentSelectDiaryMonthBinding>(R.
             setRvItemClickListener(object : OnRvItemClickListener<Int> {
                 override fun onClick(item: Int) {
                     viewModel.isUpdateFlag = true
-                    (requireActivity() as MainActivity).replaceFragment(DetailDiaryFragment(item), true)
+                    (requireActivity() as MainActivity).replaceFragment(DetailDiaryFragment(item), false)
                 }
             })
         }

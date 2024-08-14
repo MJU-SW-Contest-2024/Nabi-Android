@@ -153,7 +153,7 @@ class AddDiarySelectDateFragment :
             tempDiary?.diaryTempContent,
             selectedDate.diaryEntryDate
         )
-        (requireActivity() as MainActivity).replaceFragment(fragment, true)
+        (requireActivity() as MainActivity).replaceFragment(fragment, false)
     }
 
     private fun updateCalendarMonth(monthDifference: Int) {
