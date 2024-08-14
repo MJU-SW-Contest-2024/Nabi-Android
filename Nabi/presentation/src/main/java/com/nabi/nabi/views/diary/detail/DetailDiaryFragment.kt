@@ -11,6 +11,7 @@ import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
 import com.nabi.nabi.views.MainActivity
 import com.nabi.nabi.views.diary.add.AddDiaryFragment
+import com.nabi.nabi.views.diary.add.EmotionLoadingDialog
 import com.nabi.nabi.views.diary.view.SelectDiaryFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -109,11 +110,21 @@ class DetailDiaryFragment(
                         "화남" -> R.drawable.img_anger
                         "불안" -> R.drawable.img_anxiety
                         "지루함" -> R.drawable.img_boredom
-                        else -> R.drawable.shape_circle
+                        else -> {
+                            binding.btnEmotionReload.visibility = View.VISIBLE
+                            R.drawable.img_no_emotion
+                        }
                     }
+
+                    binding.btnEmotionReload.setOnClickListener {
+                        (requireActivity() as MainActivity).replaceFragment(
+                            EmotionLoadingDialog(false, diaryId),
+                            false
+                        )
+                    }
+
                     binding.ivEmotion.setImageResource(resourceId)
-                    if (resourceId == R.drawable.shape_circle) binding.ivEmotion.visibility =
-                        View.GONE
+                    if (resourceId == R.drawable.shape_circle) binding.ivEmotion.visibility = View.GONE
 
                     binding.ibBookmark.setImageResource(
                         if (it.data.isBookmarked) R.drawable.ic_heart_filled else R.drawable.ic_heart
@@ -131,7 +142,7 @@ class DetailDiaryFragment(
 
                 is UiState.Success -> {
                     LoggerUtils.d(it.data.message)
-                    requireActivity().supportFragmentManager.popBackStack()
+                    popBackStack()
                 }
             }
         }
