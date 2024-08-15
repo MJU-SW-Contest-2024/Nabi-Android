@@ -116,10 +116,9 @@ class AddDiaryFragment(
                     }
                 }
             } else {
-//                requireActivity().supportFragmentManager.popBackStack()
-//                (requireActivity() as MainActivity).replaceFragment(AddDiarySelectDateFragment(), false)
-                if (isEdit){ requireActivity().supportFragmentManager.popBackStack() }
-                else {(requireActivity() as MainActivity).replaceFragment(AddDiarySelectDateFragment(), false) }
+                requireActivity().supportFragmentManager.popBackStack()
+//                if (isEdit){ requireActivity().supportFragmentManager.popBackStack() }
+//                else {(requireActivity() as MainActivity).replaceFragment(AddDiarySelectDateFragment(), false) }
             }
         }
 

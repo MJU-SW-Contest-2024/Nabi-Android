@@ -15,6 +15,7 @@ import com.nabi.nabi.views.MainActivity
 import com.nabi.nabi.views.diary.add.SharedDateViewModel
 import com.nabi.nabi.views.diary.search.SearchDiaryFragment
 import com.nabi.nabi.views.diary.statistics.DiaryStatisticsFragment
+import com.nabi.nabi.views.home.HomeFragment
 import com.skydoves.balloon.ArrowPositionRules
 import com.skydoves.balloon.Balloon
 import com.skydoves.balloon.BalloonAnimation
@@ -120,7 +121,8 @@ class SelectDiaryFragment :
 
         binding.ibBack.setOnClickListener {
             sharedViewModel.clearData()
-            requireActivity().supportFragmentManager.popBackStack()
+//            requireActivity().supportFragmentManager.popBackStack()
+            (requireActivity() as MainActivity).replaceFragment(HomeFragment(),false)
         }
 
         binding.ibPreviousMonth.setOnClickListener {
