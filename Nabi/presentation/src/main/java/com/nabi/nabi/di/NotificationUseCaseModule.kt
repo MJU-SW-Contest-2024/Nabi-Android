@@ -1,6 +1,7 @@
 package com.nabi.nabi.di
 
 import com.nabi.domain.repository.NotificationRepository
+import com.nabi.domain.usecase.notification.GetNotificationUseCase
 import com.nabi.domain.usecase.notification.RegisterFcmTokenUseCase
 import dagger.Module
 import dagger.Provides
@@ -11,6 +12,14 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NotificationUseCaseModule {
+
+    @Provides
+    @Singleton
+    fun provideGetNotificationUseCase(
+        repository: NotificationRepository
+    ): GetNotificationUseCase {
+        return GetNotificationUseCase(repository = repository)
+    }
 
     @Provides
     @Singleton
