@@ -64,6 +64,16 @@ class DetailDiaryFragment(
 
             deleteDialog.show(parentFragmentManager, "DeleteDiaryDialog")
         }
+
+        binding.ivEmotion.setOnClickListener{
+            UpdateEmotionDialog(viewModel.currentEmotion).apply {
+                setButtonClickListener(object : UpdateEmotionDialog.OnDoneButtonClickListener{
+                    override fun onClick(emotion: String) {
+                        viewModel.patchDiaryEmotion(diaryId, emotion)
+                    }
+                })
+            }.show(requireActivity().supportFragmentManager, "")
+        }
     }
 
     override fun setObserver() {
@@ -145,6 +155,31 @@ class DetailDiaryFragment(
                 is UiState.Success -> {
                     LoggerUtils.d(it.data.message)
                     popBackStack()
+                }
+            }
+        }
+
+        viewModel.patchState.observe(viewLifecycleOwner){
+            when (it) {
+                is UiState.Loading -> {}
+                is UiState.Failure -> {
+                    showToast("감정 수정 실패")
+                }
+
+                is UiState.Success -> {
+                    val resourceId = when (it.data) {
+                        "행복" -> R.drawable.img_happiness
+                        "우울" -> R.drawable.img_sadness
+                        "화남" -> R.drawable.img_anger
+                        "불안" -> R.drawable.img_anxiety
+                        "지루함" -> R.drawable.img_boredom
+                        else -> {
+                            binding.btnEmotionReload.visibility = View.VISIBLE
+                            R.drawable.img_no_emotion
+                        }
+                    }
+
+                    binding.ivEmotion.setImageResource(resourceId)
                 }
             }
         }
