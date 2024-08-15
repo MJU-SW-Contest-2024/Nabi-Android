@@ -40,6 +40,14 @@ class NotifyFragment : BaseFragment<FragmentNotifyBinding>(R.layout.fragment_not
         }
     }
 
+    override fun initListener() {
+        super.initListener()
+
+        binding.ibBack.setOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+    }
+
     override fun setObserver() {
         super.setObserver()
 
