@@ -161,6 +161,7 @@ class DetailDiaryFragment(
 
     private fun popBackStack() {
         val bundle = Bundle()
+        LoggerUtils.d(entryPoint.toString())
 
         when (entryPoint) {
             "SelectDiaryMonthFragment" -> {
@@ -171,7 +172,10 @@ class DetailDiaryFragment(
                 (requireActivity() as MainActivity).replaceFragment(SelectDiaryFragment().apply { arguments = bundle }, false)
             }
             "EmotionLoadingDialog" -> {
-                (requireActivity() as MainActivity).replaceFragment(SelectDiaryFragment(), false)
+                bundle.apply {
+                    putString("date", binding.tvDiaryDate.text.toString())
+                }
+                (requireActivity() as MainActivity).replaceFragment(SelectDiaryFragment().apply { arguments = bundle }, false)
             }
             "SearchDiaryFragment" -> {
                 (requireActivity() as MainActivity).replaceFragment(SearchDiaryFragment(), false)
