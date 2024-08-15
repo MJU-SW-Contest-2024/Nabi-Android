@@ -8,6 +8,30 @@ import javax.inject.Inject
 class NotificationRepositoryImpl @Inject constructor(
     private val notificationRemoteDataSource: NotificationRemoteDataSource
 ) : NotificationRepository {
+    override suspend fun getNotification(accessToken: String): Result<List<String>> {
+        val result = notificationRemoteDataSource.getNotification(accessToken)
+
+        return if (result.isSuccess) {
+            val res = result.getOrNull()
+            if (res != null) {
+                val data = res.data
+                if (data != null) {
+                    val notifyList = mutableListOf<String>()
+                    for (item in data) {
+                        notifyList.add(item.body)
+                    }
+                    Result.success(notifyList)
+                } else {
+                    Result.failure(Exception("Get Notification failed: data is null"))
+                }
+            } else {
+                Result.failure(Exception("Get Notification failed: response body is null"))
+            }
+        } else {
+            Result.failure(result.exceptionOrNull() ?: Exception("Unknown error"))
+        }
+    }
+
     override suspend fun registerFcmToken(accessToken: String, fcmToken: String): Result<String> {
         val result = notificationRemoteDataSource.registerFcmToken(accessToken, FcmRequestDTO(fcmToken))
 

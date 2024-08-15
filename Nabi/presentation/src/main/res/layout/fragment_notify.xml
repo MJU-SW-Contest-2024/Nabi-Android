@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <ImageButton
+            android:id="@+id/ib_back"
+            android:layout_width="48dp"
+            android:layout_height="52dp"
+
+            android:background="@color/transparent"
+            android:contentDescription="@null"
+
+            android:src="@drawable/ic_arrow"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_fcm_title"
+            style="@style/fcm_title_bold_18px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_fcm_title"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/ib_back"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ib_back" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_fcm_notify"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+
+            android:layout_marginTop="36dp"
+            android:paddingHorizontal="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_fcm_title"
+            tools:listitem="@layout/item_fcm_notify" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
