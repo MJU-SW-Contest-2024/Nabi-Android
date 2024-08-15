@@ -135,4 +135,28 @@ class EmotionRepositoryImpl @Inject constructor(
             Result.failure(result.exceptionOrNull() ?: Exception("Unknown error"))
         }
     }
+
+    override suspend fun patchDiaryEmotion(
+        accessToken: String,
+        diaryId: Int,
+        emotion: String
+    ): Result<String> {
+        val result = emotionRemoteDataSource.patchDiaryEmotion(accessToken, diaryId, emotion)
+
+        return if (result.isSuccess) {
+            val res = result.getOrNull()
+            if (res != null) {
+                val data = res.data
+                if (data != null) {
+                    Result.success(data.emotion)
+                } else {
+                    Result.failure(Exception("Patch Diary Emotion Failed: data is null"))
+                }
+            } else {
+                Result.failure(Exception("Patch Diary Emotion Failed: response body is null"))
+            }
+        } else {
+            Result.failure(result.exceptionOrNull() ?: Exception("Unknown error"))
+        }
+    }
 }

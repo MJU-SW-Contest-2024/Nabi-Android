@@ -31,4 +31,10 @@ interface EmotionRepository {
         diaryId: Int,
         emotionState: String
     ): Result<AddDiaryEmotionMsg>
+
+    suspend fun patchDiaryEmotion(
+        accessToken: String,
+        diaryId: Int,
+        emotion: String
+    ): Result<String>
 }

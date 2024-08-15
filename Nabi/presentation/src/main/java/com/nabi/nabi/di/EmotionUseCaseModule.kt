@@ -4,6 +4,7 @@ import com.nabi.domain.repository.EmotionRepository
 import com.nabi.domain.usecase.emotion.AddDiaryEmotionUseCase
 import com.nabi.domain.usecase.emotion.GetDiaryEmotionUseCase
 import com.nabi.domain.usecase.emotion.GetEmotionStatisticsUseCase
+import com.nabi.domain.usecase.emotion.PatchDiaryEmotionUseCase
 import com.nabi.domain.usecase.emotion.SearchEmotionUseCase
 import dagger.Module
 import dagger.Provides
@@ -45,5 +46,13 @@ object EmotionUseCaseModule {
         repository: EmotionRepository
     ): AddDiaryEmotionUseCase {
         return AddDiaryEmotionUseCase(repository = repository)
+    }
+
+    @Provides
+    @Singleton
+    fun providePatchDiaryEmotionUseCase(
+        repository: EmotionRepository
+    ): PatchDiaryEmotionUseCase {
+        return PatchDiaryEmotionUseCase(repository = repository)
     }
 }

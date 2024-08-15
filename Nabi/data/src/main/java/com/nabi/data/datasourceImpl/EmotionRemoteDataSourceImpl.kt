@@ -5,6 +5,7 @@ import com.nabi.data.model.BaseResponse
 import com.nabi.data.model.PageableResponse
 import com.nabi.data.model.emotion.AddDiaryEmotionResponseDTO
 import com.nabi.data.model.emotion.DiaryStatisticsResponseDTO
+import com.nabi.data.model.emotion.PatchEmotionResDTO
 import com.nabi.data.model.emotion.SearchEmotionResponseDTO
 import com.nabi.data.service.EmotionService
 import javax.inject.Inject
@@ -96,6 +97,28 @@ class EmotionRemoteDataSourceImpl @Inject constructor(
                 }
             } else {
                 Result.failure(Exception("Add Diary Emotion failed: ${response.message()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun patchDiaryEmotion(
+        accessToken: String,
+        diaryId: Int,
+        emotion: String
+    ): Result<BaseResponse<PatchEmotionResDTO>> {
+        return try {
+            val response = emotionService.patchDiaryEmotion(accessToken, diaryId, emotion)
+            if (response.isSuccessful) {
+                val emotionResponse = response.body()
+                if (emotionResponse != null) {
+                    Result.success(emotionResponse)
+                } else {
+                    Result.failure(Exception("Patch Diary Emotion failed: response body is null"))
+                }
+            } else {
+                Result.failure(Exception("Patch Diary Emotion failed: ${response.message()}"))
             }
         } catch (e: Exception) {
             Result.failure(e)

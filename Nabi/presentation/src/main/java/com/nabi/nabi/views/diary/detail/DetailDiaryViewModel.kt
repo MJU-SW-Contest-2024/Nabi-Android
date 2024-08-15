@@ -11,6 +11,7 @@ import com.nabi.domain.usecase.bookmark.DeleteBookmarkUseCase
 import com.nabi.domain.usecase.datastore.GetAccessTokenUseCase
 import com.nabi.domain.usecase.diary.DeleteDiaryUseCase
 import com.nabi.domain.usecase.diary.GetDiaryDetailUseCase
+import com.nabi.domain.usecase.emotion.PatchDiaryEmotionUseCase
 import com.nabi.nabi.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -22,6 +23,7 @@ class DetailDiaryViewModel @Inject constructor(
     private val addBookmarkUseCase: AddBookmarkUseCase,
     private val deleteBookmarkUseCase: DeleteBookmarkUseCase,
     private val deleteDiaryUseCase: DeleteDiaryUseCase,
+    private val patchDiaryEmotionUseCase: PatchDiaryEmotionUseCase,
     private val getAccessTokenUseCase: GetAccessTokenUseCase,
 ) : ViewModel() {
 
@@ -40,6 +42,11 @@ class DetailDiaryViewModel @Inject constructor(
     private val _deleteDiaryState = MutableLiveData<UiState<DeleteDiaryMsg>>(UiState.Loading)
     val deleteDiaryState: LiveData<UiState<DeleteDiaryMsg>> get() = _deleteDiaryState
 
+    private val _patchState = MutableLiveData<UiState<String>>(UiState.Loading)
+    val patchState: LiveData<UiState<String>> get() = _patchState
+
+    var currentEmotion: String = ""
+
     fun fetchData(diaryId: Int) {
         _diaryState.value = UiState.Loading
 
@@ -48,6 +55,7 @@ class DetailDiaryViewModel @Inject constructor(
 
             getDiaryDetailUseCase(accessToken, diaryId)
                 .onSuccess {
+                    currentEmotion = it.emotion ?: ""
                     _isBookmarked.value = it.isBookmarked
                     _diaryState.value = UiState.Success(it)
                 }.onFailure { e ->
@@ -99,6 +107,21 @@ class DetailDiaryViewModel @Inject constructor(
                     _deleteDiaryState.value = UiState.Success(it)
                 }.onFailure { e ->
                     _deleteDiaryState.value = UiState.Failure(message = e.message.toString())
+                }
+        }
+    }
+
+    fun patchDiaryEmotion(diaryId: Int, emotion: String){
+        _patchState.value = UiState.Loading
+
+        viewModelScope.launch {
+            val accessToken = getAccessTokenUseCase.invoke().getOrNull().orEmpty()
+
+            patchDiaryEmotionUseCase(accessToken, diaryId, emotion)
+                .onSuccess {
+                    _patchState.value = UiState.Success(it)
+                }.onFailure { e ->
+                    _patchState.value = UiState.Failure(message = e.message.toString())
                 }
         }
     }

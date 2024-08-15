@@ -4,7 +4,10 @@ import com.nabi.data.model.BaseResponse
 import com.nabi.data.model.PageableResponse
 import com.nabi.data.model.emotion.AddDiaryEmotionResponseDTO
 import com.nabi.data.model.emotion.DiaryStatisticsResponseDTO
+import com.nabi.data.model.emotion.PatchEmotionResDTO
 import com.nabi.data.model.emotion.SearchEmotionResponseDTO
+import retrofit2.http.Header
+import retrofit2.http.Path
 
 interface EmotionRemoteDataSource {
 
@@ -28,4 +31,10 @@ interface EmotionRemoteDataSource {
         diaryId: Int,
         emotionState: String
     ): Result<BaseResponse<AddDiaryEmotionResponseDTO>>
+
+    suspend fun patchDiaryEmotion(
+        accessToken: String,
+        diaryId: Int,
+        emotion: String
+    ): Result<BaseResponse<PatchEmotionResDTO>>
 }

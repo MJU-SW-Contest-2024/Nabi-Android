@@ -122,7 +122,7 @@ class SelectDiaryFragment :
         binding.ibBack.setOnClickListener {
             sharedViewModel.clearData()
 //            requireActivity().supportFragmentManager.popBackStack()
-            (requireActivity() as MainActivity).replaceFragment(HomeFragment(),false)
+            (requireActivity() as MainActivity).replaceFragment(HomeFragment(), false)
         }
 
         binding.ibPreviousMonth.setOnClickListener {
@@ -135,7 +135,11 @@ class SelectDiaryFragment :
             binding.vpCalendarMonth.setCurrentItem(currentPos + 1, false)
         }
 
-        binding.ivEmotionAnger.setOnClickListener { createEmotionTooltip("화나").showAlignTop(binding.ivEmotionAnger) }
+        binding.ivEmotionAnger.setOnClickListener {
+            createEmotionTooltip("화나").showAlignTop(
+                binding.ivEmotionAnger
+            )
+        }
         binding.ivEmotionHappiness.setOnClickListener {
             createEmotionTooltip("행복해").showAlignTop(
                 binding.ivEmotionHappiness
