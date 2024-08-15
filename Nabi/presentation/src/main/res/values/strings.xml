@@ -58,6 +58,7 @@
     <!-- 마이페이지 -->
     <string name="text_change_nickname">닉네임 변경하기</string>
     <string name="text_load_diary">일기 가져오기</string>
+    <string name="text_app_guide">이용 가이드</string>
     <string name="text_withdraw">회원 탈퇴</string>
     <string name="text_email">제작자 이메일\nmjusw2024@gmail.com</string>
 
