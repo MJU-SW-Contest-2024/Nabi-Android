@@ -76,8 +76,8 @@ class EmotionLoadingDialog(private val isEdit: Boolean, private val diaryId: Int
                             DetailDiaryFragment(diaryId, "EmotionLoadingDialog"),
                             false
                         )
-                        dismiss()
                     }
+                    dismiss()
                 }
             }
         }

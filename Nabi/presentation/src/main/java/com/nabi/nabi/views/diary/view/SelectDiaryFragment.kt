@@ -3,15 +3,19 @@ package com.nabi.nabi.views.diary.view
 import android.app.AlertDialog
 import android.view.LayoutInflater
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.databinding.DialogNonDayDatePickerBinding
 import com.nabi.nabi.databinding.FragmentSelectDiaryBinding
 import com.nabi.nabi.extension.dialogResize
+import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.views.MainActivity
+import com.nabi.nabi.views.diary.add.SharedDateViewModel
 import com.nabi.nabi.views.diary.search.SearchDiaryFragment
 import com.nabi.nabi.views.diary.statistics.DiaryStatisticsFragment
+import com.nabi.nabi.views.home.HomeFragment
 import com.skydoves.balloon.ArrowPositionRules
 import com.skydoves.balloon.Balloon
 import com.skydoves.balloon.BalloonAnimation
@@ -27,6 +31,8 @@ import java.util.Locale
 @AndroidEntryPoint
 class SelectDiaryFragment :
     BaseFragment<FragmentSelectDiaryBinding>(R.layout.fragment_select_diary) {
+    private val sharedViewModel: SharedDateViewModel by activityViewModels()
+
     private lateinit var calendarAdapter: SelectDiaryMonthCalendarStateAdapter
 
     private val minYear = 1950
@@ -114,7 +120,9 @@ class SelectDiaryFragment :
         }
 
         binding.ibBack.setOnClickListener {
-            requireActivity().supportFragmentManager.popBackStack()
+            sharedViewModel.clearData()
+//            requireActivity().supportFragmentManager.popBackStack()
+            (requireActivity() as MainActivity).replaceFragment(HomeFragment(),false)
         }
 
         binding.ibPreviousMonth.setOnClickListener {

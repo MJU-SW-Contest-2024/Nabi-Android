@@ -117,6 +117,8 @@ class AddDiaryFragment(
                 }
             } else {
                 requireActivity().supportFragmentManager.popBackStack()
+//                if (isEdit){ requireActivity().supportFragmentManager.popBackStack() }
+//                else {(requireActivity() as MainActivity).replaceFragment(AddDiarySelectDateFragment(), false) }
             }
         }
 
@@ -185,9 +187,13 @@ class AddDiaryFragment(
                 is UiState.Success -> {
                     currentDiaryId = it.data.diaryId
                     LoggerUtils.d("일기 수정 성공")
-                    (requireActivity() as MainActivity).replaceFragment(
-                        EmotionLoadingDialog(isEdit, currentDiaryId!!),
-                        false
+//                    (requireActivity() as MainActivity).replaceFragment(
+//                        EmotionLoadingDialog(isEdit, currentDiaryId!!),
+//                        false
+//                    )
+
+                    EmotionLoadingDialog(isEdit, currentDiaryId!!).show(
+                        requireActivity().supportFragmentManager, "emotion loading"
                     )
                 }
             }
