@@ -76,6 +76,12 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
             pdfPickerLauncher.launch(intent)
         }
 
+        binding.btnAppGuide.setOnClickListener {
+            val url = "https://humane-bucket-09b.notion.site/92da63ef98a64d219100e299c4614908"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(intent)
+        }
+
         binding.btnWithdraw.setOnClickListener {
             val withdrawDialog = CustomDialog.getInstance(CustomDialog.DialogType.UNLINK, nickname)
 
