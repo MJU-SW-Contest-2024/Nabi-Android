@@ -175,4 +175,18 @@
         <item name="android:textSize">12sp</item>
         <item name="lineHeight">15sp</item>
     </style>
+
+    <style name="fcm_title_bold_18px">
+        <item name="fontFamily">@font/pretendard_bold</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">18sp</item>
+        <item name="lineHeight">22sp</item>
+    </style>
+
+    <style name="fcm_regular_14px">
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">14sp</item>
+        <item name="lineHeight">20sp</item>
+    </style>
 </resources>

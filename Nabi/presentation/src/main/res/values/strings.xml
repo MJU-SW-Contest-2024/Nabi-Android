@@ -62,4 +62,7 @@
     <string name="text_withdraw">회원 탈퇴</string>
     <string name="text_email">제작자 이메일\nmjusw2024@gmail.com</string>
 
+    <!-- fcm 알림 페이지 -->
+    <string name="text_fcm_title">알림</string>
+
 </resources>
