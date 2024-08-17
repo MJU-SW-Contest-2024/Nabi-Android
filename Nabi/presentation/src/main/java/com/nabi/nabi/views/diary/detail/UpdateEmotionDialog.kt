@@ -103,7 +103,7 @@ class UpdateEmotionDialog(
         val initialToggleButton = when (emotion) {
             "화남" -> binding.tbAnger
             "행복" -> binding.tbHappiness
-            "지루함" -> binding.tbBoredom
+            "평온" -> binding.tbBoredom
             "우울" -> binding.tbSadness
             "불안" -> binding.tbAnxiety
             else -> null
@@ -115,7 +115,7 @@ class UpdateEmotionDialog(
             val initialMessage = when (toggleButton) {
                 binding.tbAnger -> "화나"
                 binding.tbHappiness -> "행복해"
-                binding.tbBoredom -> "지루해"
+                binding.tbBoredom -> "평온해"
                 binding.tbSadness -> "슬퍼"
                 binding.tbAnxiety -> "불안해"
                 else -> ""
@@ -134,7 +134,7 @@ class UpdateEmotionDialog(
                     val msg = when (toggleButton) {
                         binding.tbAnger -> "화나"
                         binding.tbHappiness -> "행복해"
-                        binding.tbBoredom -> "지루해"
+                        binding.tbBoredom -> "평온해"
                         binding.tbSadness -> "슬퍼"
                         binding.tbAnxiety -> "불안해"
                         else -> ""
@@ -166,7 +166,7 @@ class UpdateEmotionDialog(
             val emotionString = when (lastCheckedButton) {
                 binding.tbAnger -> "화남"
                 binding.tbHappiness -> "행복"
-                binding.tbBoredom -> "지루함"
+                binding.tbBoredom -> "평온"
                 binding.tbSadness -> "우울"
                 binding.tbAnxiety -> "불안"
                 else -> ""

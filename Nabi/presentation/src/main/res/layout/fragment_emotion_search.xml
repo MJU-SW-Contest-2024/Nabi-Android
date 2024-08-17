@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                tools:text="지루한 감정의 일기들"
+                tools:text="평온한 감정의 일기들"
                 android:textColor="@color/black" />
         </Toolbar>
 

@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.nabi.nabi.R
@@ -23,7 +26,7 @@ class EmotionLoadingDialog(private val isEdit: Boolean, private val diaryId: Int
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NO_TITLE, R.style.dialog_fullscreen)
+        setStyle(STYLE_NORMAL, R.style.dialog_fullscreen)
         isCancelable = false
     }
 

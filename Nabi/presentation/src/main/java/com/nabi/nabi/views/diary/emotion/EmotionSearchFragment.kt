@@ -81,7 +81,7 @@ class EmotionSearchFragment(
             }
         })
 
-        // 행복, 우울, 화남, 불안, 지루함
+        // 행복, 우울, 화남, 불안, 평온
         binding.ivEmotionAnger.setOnClickListener {
             viewModel.fetchData("화남", true)
             setCurrentEmotion()
@@ -91,7 +91,7 @@ class EmotionSearchFragment(
             setCurrentEmotion()
         }
         binding.ivEmotionBoredom.setOnClickListener {
-            viewModel.fetchData("지루함", true)
+            viewModel.fetchData("평온", true)
             setCurrentEmotion()
         }
         binding.ivEmotionSadness.setOnClickListener {
@@ -138,8 +138,8 @@ class EmotionSearchFragment(
                 )
             }
 
-            "지루함" -> {
-                titleText = "지루한 감정의 일기들"
+            "평온" -> {
+                titleText = "평온한 감정의 일기들"
                 resourceIds.addAll(
                     listOf(
                         R.drawable.img_anger_gray,

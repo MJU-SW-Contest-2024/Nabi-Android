@@ -123,7 +123,7 @@ class DetailDiaryFragment(
                         "우울" -> R.drawable.img_sadness
                         "화남" -> R.drawable.img_anger
                         "불안" -> R.drawable.img_anxiety
-                        "지루함" -> R.drawable.img_boredom
+                        "평온" -> R.drawable.img_boredom
                         else -> {
                             binding.btnEmotionReload.visibility = View.VISIBLE
                             R.drawable.img_no_emotion
@@ -174,7 +174,7 @@ class DetailDiaryFragment(
                         "우울" -> R.drawable.img_sadness
                         "화남" -> R.drawable.img_anger
                         "불안" -> R.drawable.img_anxiety
-                        "지루함" -> R.drawable.img_boredom
+                        "평온" -> R.drawable.img_boredom
                         else -> {
                             binding.btnEmotionReload.visibility = View.VISIBLE
                             R.drawable.img_no_emotion
