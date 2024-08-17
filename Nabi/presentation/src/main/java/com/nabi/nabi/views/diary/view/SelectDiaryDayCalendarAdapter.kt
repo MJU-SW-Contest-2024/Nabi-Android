@@ -51,7 +51,7 @@ class SelectDiaryDayCalendarAdapter() : ListAdapter<Pair<String, DiaryInfo?>, Se
                     "우울" -> R.drawable.img_sadness_empty
                     "화남" -> R.drawable.img_anger_empty
                     "불안" -> R.drawable.img_anxiety_empty
-                    "지루함" -> R.drawable.img_boredom_empty
+                    "평온" -> R.drawable.img_boredom_empty
                     else -> R.drawable.img_boredom_empty_gray
                 }
                 binding.ivDiaryCheck.setImageResource(resourceId)

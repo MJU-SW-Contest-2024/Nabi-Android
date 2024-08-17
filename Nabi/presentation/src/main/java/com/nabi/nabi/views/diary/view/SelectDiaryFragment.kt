@@ -147,7 +147,7 @@ class SelectDiaryFragment :
             )
         }
         binding.ivEmotionBoredom.setOnClickListener {
-            createEmotionTooltip("지루해").showAlignTop(
+            createEmotionTooltip("평온해").showAlignTop(
                 binding.ivEmotionBoredom
             )
         }
