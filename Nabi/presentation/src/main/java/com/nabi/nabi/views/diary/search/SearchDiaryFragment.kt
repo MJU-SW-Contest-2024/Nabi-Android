@@ -23,6 +23,8 @@ class SearchDiaryFragment: BaseFragment<FragmentSearchDiaryBinding>(R.layout.fra
     private var isLoading = false
 
     override fun initView() {
+        (requireActivity() as MainActivity).setStatusBarColor(R.color.white, false)
+
         setEditTextFilter()
         setSearchDiaryAdapter()
     }

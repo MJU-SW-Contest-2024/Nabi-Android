@@ -41,6 +41,8 @@ class SelectDiaryFragment :
     private var lastVisibleDate: Calendar? = null
 
     override fun initView() {
+        (requireActivity() as MainActivity).setStatusBarColor(R.color.white, false)
+
         if (arguments?.getString("date") != null) {
 
             arguments?.let { bundle ->

@@ -42,6 +42,8 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
 
     @SuppressLint("SetTextI18n")
     override fun initView() {
+        (requireActivity() as MainActivity).setStatusBarColor(R.color.white, false)
+
         binding.tvNickname.text = "$nickname 님"
         binding.tvConsecutiveDay.text = "일기 작성 ${consecutiveDay}일 째"
 

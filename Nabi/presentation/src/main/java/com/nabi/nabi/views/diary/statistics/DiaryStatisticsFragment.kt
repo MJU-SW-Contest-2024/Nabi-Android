@@ -35,6 +35,8 @@ class DiaryStatisticsFragment: BaseFragment<FragmentStatisticsDiaryBinding>(R.la
     }
 
     override fun initView() {
+        (requireActivity() as MainActivity).setStatusBarColor(R.color.white, false)
+
         binding.tvEndDate.text = dateFormat.format(endDate.time)
         binding.tvStartDate.text = dateFormat.format(startDate.time)
 

@@ -11,6 +11,7 @@ import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.databinding.FragmentChatBinding
 import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.utils.UiState
+import com.nabi.nabi.views.MainActivity
 import com.nabi.nabi.views.OnRvItemClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDateTime
@@ -25,6 +26,8 @@ class ChatFragment: BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), O
     private var isRetrying = false
 
     override fun initView() {
+        (requireActivity() as MainActivity).setStatusBarColor(R.color.white, false)
+
         setRvAdapter()
         viewModel.embedDiary()
         viewModel.fetchChatHistory()
