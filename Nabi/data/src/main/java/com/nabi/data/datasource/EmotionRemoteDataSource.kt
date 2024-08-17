@@ -6,8 +6,6 @@ import com.nabi.data.model.emotion.AddDiaryEmotionResponseDTO
 import com.nabi.data.model.emotion.DiaryStatisticsResponseDTO
 import com.nabi.data.model.emotion.PatchEmotionResDTO
 import com.nabi.data.model.emotion.SearchEmotionResponseDTO
-import retrofit2.http.Header
-import retrofit2.http.Path
 
 interface EmotionRemoteDataSource {
 

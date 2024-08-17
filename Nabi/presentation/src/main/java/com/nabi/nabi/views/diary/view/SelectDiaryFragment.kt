@@ -10,7 +10,6 @@ import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.databinding.DialogNonDayDatePickerBinding
 import com.nabi.nabi.databinding.FragmentSelectDiaryBinding
 import com.nabi.nabi.extension.dialogResize
-import com.nabi.nabi.utils.LoggerUtils
 import com.nabi.nabi.views.MainActivity
 import com.nabi.nabi.views.diary.add.SharedDateViewModel
 import com.nabi.nabi.views.diary.search.SearchDiaryFragment
@@ -41,6 +40,8 @@ class SelectDiaryFragment :
     private var lastVisibleDate: Calendar? = null
 
     override fun initView() {
+        (requireActivity() as MainActivity).setStatusBarColor(R.color.white, false)
+
         if (arguments?.getString("date") != null) {
 
             arguments?.let { bundle ->

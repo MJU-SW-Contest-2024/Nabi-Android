@@ -1,6 +1,5 @@
 package com.nabi.domain.usecase.emotion
 
-import com.nabi.domain.model.emotion.AddDiaryEmotionMsg
 import com.nabi.domain.repository.EmotionRepository
 
 class PatchDiaryEmotionUseCase(private val repository: EmotionRepository) {

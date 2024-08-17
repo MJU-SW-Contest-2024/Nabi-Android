@@ -9,7 +9,6 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import com.nabi.nabi.R
-import com.nabi.nabi.base.BaseActivity
 import com.nabi.nabi.base.BaseFragment
 import com.nabi.nabi.base.NabiApplication.Companion.nickname
 import com.nabi.nabi.databinding.FragmentSignNicknameBinding

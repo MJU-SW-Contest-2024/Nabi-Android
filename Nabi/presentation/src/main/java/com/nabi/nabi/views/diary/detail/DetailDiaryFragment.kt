@@ -24,6 +24,8 @@ class DetailDiaryFragment(
     private val viewModel: DetailDiaryViewModel by viewModels()
 
     override fun initView() {
+        (requireActivity() as MainActivity).setStatusBarColor(R.color.white, false)
+
         viewModel.fetchData(diaryId)
     }
 

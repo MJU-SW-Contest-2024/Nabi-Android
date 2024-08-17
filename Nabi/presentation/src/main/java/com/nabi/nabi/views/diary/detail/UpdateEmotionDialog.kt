@@ -2,18 +2,14 @@ package com.nabi.nabi.views.diary.detail
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ToggleButton
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.graphics.translationMatrix
 import androidx.fragment.app.DialogFragment
 import com.nabi.nabi.R
-import com.nabi.nabi.custom.CustomDialog
 import com.nabi.nabi.databinding.DialogUpdateEmotionBinding
 import com.nabi.nabi.extension.dialogResize
 import com.nabi.nabi.utils.LoggerUtils

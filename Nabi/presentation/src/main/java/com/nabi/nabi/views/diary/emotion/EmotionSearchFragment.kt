@@ -23,6 +23,8 @@ class EmotionSearchFragment(
     private var isLoading = false
 
     override fun initView() {
+        (requireActivity() as MainActivity).setStatusBarColor(R.color.white, false)
+
         setSearchDiaryAdapter()
         setCurrentEmotion()
         viewModel.fetchData(emotion)

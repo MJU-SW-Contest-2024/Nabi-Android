@@ -19,8 +19,8 @@ import com.nabi.nabi.views.chat.ChatFragment
 import com.nabi.nabi.views.diary.add.AddDiarySelectDateFragment
 import com.nabi.nabi.views.diary.detail.DetailDiaryFragment
 import com.nabi.nabi.views.diary.view.SelectDiaryFragment
-import com.nabi.nabi.views.notification.NotifyFragment
 import com.nabi.nabi.views.myPage.MyPageFragment
+import com.nabi.nabi.views.notification.NotifyFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @SuppressLint("SetTextI18n")
