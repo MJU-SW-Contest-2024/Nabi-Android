@@ -29,7 +29,7 @@ class ChatFragment: BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), O
         (requireActivity() as MainActivity).setStatusBarColor(R.color.white, false)
 
         setRvAdapter()
-        viewModel.embedDiary()
+//        viewModel.embedDiary()
         viewModel.fetchChatHistory()
     }
 

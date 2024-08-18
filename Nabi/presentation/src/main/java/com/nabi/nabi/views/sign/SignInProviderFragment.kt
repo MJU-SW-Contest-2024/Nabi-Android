@@ -27,8 +27,6 @@ class SignInProviderFragment :
     lateinit var naverAuthService: NaverAuthService
 
     override fun initView() {
-        (requireActivity() as SignActivity).setStatusBarColor(R.color.white, false)
-
         signViewModel.getRecentAuthProvider()
     }
 

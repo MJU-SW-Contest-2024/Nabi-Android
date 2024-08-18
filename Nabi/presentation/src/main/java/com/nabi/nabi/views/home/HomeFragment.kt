@@ -33,7 +33,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     override fun initView() {
         (requireActivity() as MainActivity).setStatusBarColor(R.color.white, false)
 
-        binding.tvNickname.text = "$nickname 님"
+        if(!nickname.isNullOrEmpty()) binding.tvNickname.text = "$nickname 님"
         viewModel.registerFcmToken()
         viewModel.fetchData()
         addOnBackPressedCallback()
@@ -117,15 +117,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
                 is UiState.Success -> {
                     val diaryList = it.data.recentFiveDiaries
+
+                    consecutiveDay = it.data.consecutiveWritingDays
+                    binding.tvDiaryDay.text = "일기 작성 ${consecutiveDay}일 째"
+                    nickname = it.data.nickname
+                    binding.tvNickname.text = "${it.data.nickname} 님"
+
                     if (diaryList.isEmpty()) {
                         binding.rvDiary.visibility = View.GONE
                         binding.tvEmptyDiary.visibility = View.VISIBLE
                     } else {
                         homeRvAdapter.setData(diaryList)
-                        consecutiveDay = it.data.consecutiveWritingDays
-                        binding.tvDiaryDay.text = "일기 작성 ${consecutiveDay}일 째"
-                        nickname = it.data.nickname
-                        binding.tvNickname.text = "${it.data.nickname} 님"
                     }
                 }
             }

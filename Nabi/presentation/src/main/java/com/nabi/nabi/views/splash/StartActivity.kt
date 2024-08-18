@@ -88,7 +88,6 @@ class StartActivity : BaseActivity<ActivityStartBinding>(R.layout.activity_start
         }
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
     private fun moveActivity(isValid: Boolean) {
         val destination = if (isValid) {
             if (viewModel.isRegister) MainActivity::class.java else SignActivity::class.java
