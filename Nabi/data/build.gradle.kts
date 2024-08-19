@@ -63,8 +63,8 @@ dependencies {
     implementation(libs.v2.user)
 
     // RoomDB
-    implementation("androidx.room:room-ktx:2.6.1")
-    kapt("androidx.room:room-compiler:2.6.1")
+    implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
 
     // naver Login
     implementation(libs.oauth)
