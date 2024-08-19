@@ -36,7 +36,6 @@
         <item name="android:textColorPrimary">@color/black</item>
     </style>
 
-    <!-- Define a custom style for the buttons -->
     <style name="DialogButtonStyle">
         <item name="fontFamily">@font/pretendard_bold</item>
         <item name="android:textColor">@color/primary</item>

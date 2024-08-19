@@ -18,7 +18,6 @@ import com.nabi.nabi.utils.UiState
 import com.nabi.nabi.views.MainActivity
 import com.nabi.nabi.views.sign.SignActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject

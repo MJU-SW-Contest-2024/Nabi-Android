@@ -117,8 +117,6 @@ class AddDiaryFragment(
                 }
             } else {
                 requireActivity().supportFragmentManager.popBackStack()
-//                if (isEdit){ requireActivity().supportFragmentManager.popBackStack() }
-//                else {(requireActivity() as MainActivity).replaceFragment(AddDiarySelectDateFragment(), false) }
             }
         }
 
@@ -146,7 +144,6 @@ class AddDiaryFragment(
                     viewModel.addDiary(content, diaryDate)
                 }
             } else {
-                // content가 empty일 때
                 showToast("일기 내용을 입력해주세요")
             }
         }
@@ -165,10 +162,6 @@ class AddDiaryFragment(
                 is UiState.Success -> {
                     currentDiaryId = it.data.id
                     LoggerUtils.d("일기 추가 성공")
-//                    (requireActivity() as MainActivity).replaceFragment(
-//                        EmotionLoadingDialog(isEdit, currentDiaryId!!),
-//                        false
-//                    )
 
                     EmotionLoadingDialog(isEdit, currentDiaryId!!).show(
                         requireActivity().supportFragmentManager, "emotion loading"
@@ -187,10 +180,6 @@ class AddDiaryFragment(
                 is UiState.Success -> {
                     currentDiaryId = it.data.diaryId
                     LoggerUtils.d("일기 수정 성공")
-//                    (requireActivity() as MainActivity).replaceFragment(
-//                        EmotionLoadingDialog(isEdit, currentDiaryId!!),
-//                        false
-//                    )
 
                     EmotionLoadingDialog(isEdit, currentDiaryId!!).show(
                         requireActivity().supportFragmentManager, "emotion loading"

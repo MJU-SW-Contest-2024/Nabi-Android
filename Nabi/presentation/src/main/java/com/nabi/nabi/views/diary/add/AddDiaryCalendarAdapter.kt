@@ -39,7 +39,6 @@ class AddDiaryCalendarAdapter :
             }
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DateViewHolder {
         val binding =
             ItemDayBinding.inflate(LayoutInflater.from(parent.context), parent, false)
