@@ -99,7 +99,6 @@ class UpdateEmotionDialog(
 
         var activeBalloon: Balloon? = null
 
-        // Initially check the toggle button based on the emotion value
         val initialToggleButton = when (emotion) {
             "화남" -> binding.tbAnger
             "행복" -> binding.tbHappiness
@@ -111,7 +110,7 @@ class UpdateEmotionDialog(
 
         initialToggleButton?.let { toggleButton ->
             toggleButton.isChecked = true
-            lastCheckedButton = toggleButton // Save the initial button as the last checked button
+            lastCheckedButton = toggleButton
             val initialMessage = when (toggleButton) {
                 binding.tbAnger -> "화나"
                 binding.tbHappiness -> "행복해"
@@ -150,9 +149,8 @@ class UpdateEmotionDialog(
                         it.isChecked = false
                     }
 
-                    lastCheckedButton = toggleButton // Update the last checked button
+                    lastCheckedButton = toggleButton
                 } else {
-                    // Prevent unchecking the last active button
                     if (toggleButtons.none { it.isChecked }) {
                         toggleButton.isChecked = true
                     } else {

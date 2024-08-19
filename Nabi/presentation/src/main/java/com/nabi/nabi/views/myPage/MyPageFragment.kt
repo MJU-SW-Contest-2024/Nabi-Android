@@ -160,7 +160,6 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
     }
 
     private fun getRealPathFromPdfUri(context: Context, uri: Uri): String? {
-        // ContentProvider를 통해 파일 정보 가져오기
         context.contentResolver.query(uri, null, null, null, null)?.use { cursor ->
             if (cursor.moveToFirst()) {
                 val displayNameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
@@ -175,11 +174,8 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
                 val file = File(context.cacheDir, displayName)
 
                 try {
-                    // URI에서 입력 스트림 열기
                     context.contentResolver.openInputStream(uri)?.use { input ->
-                        // 파일에 출력 스트림 열기
                         FileOutputStream(file).use { output ->
-                            // 입력 스트림에서 출력 스트림으로 데이터 복사
                             input.copyTo(output)
                         }
                     }

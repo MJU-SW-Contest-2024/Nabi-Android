@@ -25,7 +25,6 @@ class DetailDiaryFragment(
 
     override fun initView() {
         (requireActivity() as MainActivity).setStatusBarColor(R.color.white, false)
-
         viewModel.fetchData(diaryId)
     }
 
@@ -198,7 +197,6 @@ class DetailDiaryFragment(
 
     private fun popBackStack() {
         val bundle = Bundle()
-        LoggerUtils.d(entryPoint.toString())
 
         when (entryPoint) {
             "SelectDiaryMonthFragment" -> {

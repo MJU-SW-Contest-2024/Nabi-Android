@@ -30,7 +30,6 @@ class NaverAuthService @Inject constructor(
 
         val oauthLoginCallback = object : OAuthLoginCallback {
             override fun onSuccess() {
-                // 네이버 로그인 인증이 성공했을 때 수행할 코드 추가
                 val accessToken = NaverIdLoginSDK.getAccessToken()
                 signInListener(accessToken ?: "", AuthProvider.NAVER)
 

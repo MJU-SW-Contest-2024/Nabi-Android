@@ -1,5 +1,6 @@
 package com.nabi.nabi.views
 
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.nabi.nabi.R
 import com.nabi.nabi.base.BaseActivity
@@ -17,6 +18,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         }
 
         replaceFragment(HomeFragment(), false)
+        addOnBackPressedCallback()
     }
 
     fun replaceFragment(fragment: Fragment, isAddToBackStack: Boolean){
@@ -24,5 +26,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         ft.replace(R.id.fl_main, fragment)
         if(isAddToBackStack) ft.addToBackStack(null)
         ft.commit()
+    }
+
+    private fun addOnBackPressedCallback() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+
+            }
+        }
+        this.onBackPressedDispatcher.addCallback(this, callback)
     }
 }
